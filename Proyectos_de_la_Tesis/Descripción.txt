@@ -1,0 +1,15 @@
+Aqui se realizará una descripción de los proyectos con los que se realiza la tesis
+
+1.- Front-End:
+	- Realizado con Ionic 4 y angular
+
+
+2.- Back-End:
+	- Realizado con CrudBooster
+	- BDD MySQL como motor
+	- Se instaló Composer
+	- Se creó un proyecto con composer
+	- Se siguió los pasos del siguiente link: https://github.com/crocodic-studio/crudbooster/blob/5.4.0/docs/en/installation.md
+	- Se debe configurar el .env
+	- Se debe crear manualmente la BDD
+	- Se sigue con los pasos del link
