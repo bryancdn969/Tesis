@@ -1,0 +1,4 @@
+Aqui se describirá que se usó en el proyecto de Tesis
+
+Pasos del menú
+	- https://ionicacademy.com/ionic-4-tabs-side-menu/
