@@ -1,0 +1,32 @@
+<ion-content>
+        <ion-card>
+            <ion-list>
+                <ion-item text-center class="fondo">
+                    <ion-img class="img" src="assets/imgs/fis.jpg"></ion-img>
+                </ion-item>
+                <br/>
+                <ion-item>
+                    <ion-icon name="mail" item-left></ion-icon>
+                    <ion-label stacked>Email: </ion-label>
+                    <ion-input type="text"  name="email" placeholder= "Email"  [(ngModel)]="userData.email"
+                               autocapitalize="off" required></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-icon name="key" item-left></ion-icon>
+                    <ion-label stacked>Password: </ion-label>
+                    <ion-input type="password"  name="password" placeholder="Password"  [(ngModel)]="userData.password" required></ion-input>
+                </ion-item>
+            </ion-list>
+            <div padding>
+                <ion-button block (click)="login()">Login</ion-button>
+            </div>
+        </ion-card>
+    <div text-center>
+        <a ion-button block clear (click)="Signup()">
+            New Account
+        </a>
+        <a ion-button block clear (click)="goToResetPassword()">
+            Forget my password
+        </a>
+    </div>
+</ion-content>

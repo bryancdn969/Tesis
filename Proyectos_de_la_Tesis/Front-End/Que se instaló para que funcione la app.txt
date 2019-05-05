@@ -2,3 +2,17 @@ Aqui se describirá que se usó en el proyecto de Tesis
 
 Pasos del menú
 	- https://ionicacademy.com/ionic-4-tabs-side-menu/
+	Si deseo generar Tabs
+	- https://ionicacademy.com/ionic-4-tabs-side-menu/
+
+
+Comandos de generation
+	- ionic generate page
+	- ionic generate page contact
+	- ionic generate component contact/form
+	- ionic generate component login-form --change-detection=OnPush
+	- ionic generate directive ripple --skip-import
+	- ionic generate service api/user
+
+Arreglar error de ionic-angular
+	- npm i ionic-angular

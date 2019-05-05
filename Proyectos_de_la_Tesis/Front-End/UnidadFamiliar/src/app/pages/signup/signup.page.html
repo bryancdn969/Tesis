@@ -1,0 +1,28 @@
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      Registration
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label stacked>Name: </ion-label>
+          <ion-input type="text" name="name" [(ngModel)]="userData.name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Email: </ion-label>
+          <ion-input type="text" name="email" [(ngModel)]="userData.email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Password: </ion-label>
+          <ion-input type="password" name="password" [(ngModel)]="userData.password"></ion-input>
+        </ion-item>
+
+        <ion-button full color="success" (click)="signup()">Sign up</ion-button>
+        <a href="#" (click)="login()">Login Page</a>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
