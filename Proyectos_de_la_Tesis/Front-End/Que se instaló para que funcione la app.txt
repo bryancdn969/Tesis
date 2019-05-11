@@ -16,3 +16,19 @@ Comandos de generation
 
 Arreglar error de ionic-angular
 	- npm i ionic-angular
+
+
+Link para genera apk
+	- https://blog.webnersolutions.com/how-to-generate-android-apk-for-ionic-project
+
+Generar mapas ionic 4
+	- https://www.techiediaries.com/ionic-geolocation-google-maps-places-api/
+	- https://www.nigmacode.com/ionic/Geolocalizacion-con-Ionic
+	- tips ionic 4: https://www.youtube.com/watch?v=kLhLVrOrwW8&list=PLCKuOXG0bPi2EGYmUq7eidFV8A95xTjEx&index=41
+
+Telemetry Cordova
+	- https://stackoverflow.com/questions/41225340/cordova-telemetry-what-is-it-and-why-use-it
+
+
+Ionic Cordova build
+	- https://ionicframework.com/docs/cli/commands/cordova-build

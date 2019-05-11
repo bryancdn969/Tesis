@@ -1,5 +1,7 @@
 {
   "name": "UnidadFamiliar",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

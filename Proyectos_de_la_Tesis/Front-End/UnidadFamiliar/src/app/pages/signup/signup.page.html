@@ -1,28 +1,52 @@
-<ion-content>
-  <ion-card>
-    <ion-card-header>
-      Registration
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item>
-          <ion-label stacked>Name: </ion-label>
-          <ion-input type="text" name="name" [(ngModel)]="userData.name"></ion-input>
-        </ion-item>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button (click)="regresar()"></button>
+      <ion-icon class="customIcon" name="arrow-back"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-        <ion-item>
-          <ion-label stacked>Email: </ion-label>
-          <ion-input type="text" name="email" [(ngModel)]="userData.email"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label stacked>Password: </ion-label>
-          <ion-input type="password" name="password" [(ngModel)]="userData.password"></ion-input>
-        </ion-item>
-
-        <ion-button full color="success" (click)="signup()">Sign up</ion-button>
-        <a href="#" (click)="login()">Login Page</a>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+<ion-content class="fondo">
+  <form (ngSubmit)="presentAlert()">
+    <ion-card>
+      <ion-card-header>
+        Registration
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+            <ion-item>
+              <ion-icon ios="ios-mail" md="md-mail" item-left></ion-icon>
+              <ion-label stacked>Email:</ion-label>
+              <ion-input type="text" name="email" [(ngModel)]="userData.email"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="person" item-left></ion-icon>
+              <ion-label stacked>Name:</ion-label>
+              <ion-input type="text" name="name" [(ngModel)]="userData.name"></ion-input>
+            </ion-item>
+            <ion-item [hidden]=boolean>
+              <ion-icon name="call" item-start></ion-icon>
+              <ion-label stacked>CellPhone:</ion-label>
+              <ion-input type="text" name="telefono" [(ngModel)]="userData.telefono"></ion-input>
+              <!--<ion-input formControlName="phone" type="number" placeholder="0998249810" disabled></ion-input>-->
+            </ion-item>
+            <ion-item [hidden]=activePassword>
+              <ion-icon name="key" item-left></ion-icon>
+              <ion-label stacked>Password:</ion-label>
+              <ion-input type="password" name="password" [(ngModel)]="userData.password"></ion-input>
+            </ion-item>
+          </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </form>
+  <div text-center>
+    <ion-button block type="submit" (click)="signup()" [hidden]=buttonRegister>Sign up</ion-button>
+    <ion-button block type="submit" [hidden]=buttonUpdate>Update</ion-button>
+  </div>
+  <div text-center>
+    <a ion-button block clear (click)="cancelar()">
+      Cancel
+    </a>
+  </div>
 </ion-content>

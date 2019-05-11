@@ -10,8 +10,15 @@ import { ToastController } from '@ionic/angular';
 })
 export class SignupPage implements OnInit {
 
-  userData = { "name" : '', "email" : '', "password" : '' };
+  userData = { "name" : '', "email" : '', "telefono" : '' , "password" : '', "status" : 'Active' };
   responseData: any;
+
+  boolean: any;
+  activePassword: any;
+  buttonRegister: any;
+  buttonUpdate: any;
+  titleSignup: any;
+  titleUpdate: any;
 
   constructor(
       private authService: UserService,
@@ -31,7 +38,7 @@ export class SignupPage implements OnInit {
   }
 
   signup() {
-    if (this.userData.name && this.userData.email && this.userData.password) {
+    if (this.userData.name && this.userData.email && this.userData.password && this.userData.telefono) {
       this.authService.postData(JSON.stringify(this.userData), 'signup').then((result) => {
         this.responseData = result;
         console.log(this.responseData);
@@ -46,6 +53,86 @@ export class SignupPage implements OnInit {
       });
     } else {
       this.presentToast('The data is required.');
+    }
+  }
+
+  regresar() {
+    console.log(localStorage.getItem('changePage') + ' == ' + 'Profile');
+    if (localStorage.getItem('changePage') === 'Profile') {
+      this.router.navigate([ '/menu/profile' ]); // remember to put this to add the back button behavior
+    } else {
+      this.router.navigate([ '/menu/login' ]);
+    }
+  }
+
+  cancelar() {
+    if (localStorage.getItem('changePage') === 'Profile') {
+      this.router.navigate([ '/menu/profile' ]);
+    } else {
+      this.router.navigate([ '/menu/login' ]);
+    }
+  }
+
+  /*async presentAlert() {
+    const alertController = document.querySelector('ion-alert-controller');
+    await alertController.componentOnReady();
+
+    const alert = await alertController.create({
+      header: 'Alert',
+      subHeader: 'Subtitle',
+      message: 'This is an alert message.',
+      buttons: ['OK']
+    });
+    return await alert.present();
+  }*/
+
+  async presentAlert() {
+    const alertController = document.querySelector('ion-alert-controller');
+    await alertController.componentOnReady();
+
+    console.log(this.buttonUpdate)  ;
+    if (this.buttonUpdate === false) {
+      const alert = await alertController.create({
+        header: 'Alert',
+        message: 'You are sure the update the information?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              // this.navCtrl.setRoot(SignupPage);
+            }
+          },
+          {
+            text: 'Yes',
+            handler: () => {
+              this.router.navigate([ '/menu/profile' ]);
+            }
+          }
+        ]
+      });
+      alert.present();
+    } else {
+      const alert = await alertController.create({
+        header: 'Alert',
+        message: 'You are sure the create this account?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              // this.navCtrl.setRoot(SignupPage);
+            }
+          },
+          {
+            text: 'Yes',
+            handler: () => {
+              this.router.navigate([ '/menu/login' ]);
+            }
+          }
+        ]
+      });
+      alert.present();
     }
   }
 }

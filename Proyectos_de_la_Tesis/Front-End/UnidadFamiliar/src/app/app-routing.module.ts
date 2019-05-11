@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'safe-site', loadChildren: './pages/safe-site/safe-site.module#SafeSitePageModule' },
   { path: 'share-location', loadChildren: './pages/share-location/share-location.module#ShareLocationPageModule' },
   { path: 'signup', loadChildren: './pages/signup/signup.module#SignupPageModule' },
+  { path: 'add-friends', loadChildren: './pages/add-friends/add-friends.module#AddFriendsPageModule' },
 ];
 
 @NgModule({

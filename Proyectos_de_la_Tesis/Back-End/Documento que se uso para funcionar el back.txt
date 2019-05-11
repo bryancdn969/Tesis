@@ -1,0 +1,2 @@
+URL de acceso a CRUDBooster
+	- http://localhost/Tesis/Proyectos_de_la_Tesis/Back-End/UnidadFamiliar/public/admin/api_generator

@@ -1,0 +1,25 @@
+page-login {
+    .img{
+      height: 192px;
+      width : 192px;
+    }
+ 
+    .fondo{
+      height: 100%;
+     //background: linear-gradient(rgb(55, 78, 162), rgb(97, 33, 34)) no-repeat;
+      background: linear-gradient(rgb(72, 117, 162), rgb(97, 61, 40)) no-repeat;
+    }
+ 
+   .btn{
+     background-color: rgb(104, 145, 162);
+   }
+ 
+   .border{
+     //border-color: rgb(104, 145, 162);
+     border-bottom-color: rgb(104, 145, 162);
+   }
+ 
+   .aligncenter{
+     text-align: center;
+   }
+ }

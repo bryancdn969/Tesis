@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>addFriends</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-card>
+    <ion-card-header>
+      Friend registration
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label stacked>Name: </ion-label>
+          <ion-input type="text" name="name" [(ngModel)]="userData.name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Phone: </ion-label>
+          <ion-input type="text" name="telefono" [(ngModel)]="userData.telefono"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Email: </ion-label>
+          <ion-input type="text" name="email" [(ngModel)]="userData.email"></ion-input>
+        </ion-item>
+
+        <ion-button full color="success" (click)="addFriend()">Add Friend</ion-button>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+<div id="count">
+  Number of friends added: <span>{{count}}</span>
+  Max 3
+</div>
+
+</ion-content>

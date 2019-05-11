@@ -23,6 +23,10 @@ const routes: Routes = [
       {
         path: 'login',
         loadChildren: '../login/login.module#LoginPageModule'
+      },
+      {
+        path: 'addFriends',
+        loadChildren: '../add-friends/add-friends.module#AddFriendPageModule'
       }
     ]
   }
