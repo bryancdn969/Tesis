@@ -24,7 +24,25 @@ export class SignupPage implements OnInit {
       private authService: UserService,
       private router: Router,
       private toastController: ToastController
-  ) { }
+  ) {
+    localStorage.getItem('update');
+    console.log('update', localStorage.getItem('update') + '==' + null);
+    if (localStorage.getItem('update') == null) {
+      this.boolean        = true;
+      this.activePassword = false;
+      this.buttonRegister = false;
+      this.buttonUpdate   = true;
+      this.titleSignup    = false;
+      this.titleUpdate    = true;
+    } else if (localStorage.getItem('update') === 'false') {
+      this.boolean        = false;
+      this.activePassword = true;
+      this.buttonRegister = true;
+      this.buttonUpdate   = false;
+      this.titleSignup    = true;
+      this.titleUpdate    = false;
+    }
+  }
 
   async presentToast( message: string ) {
     const toast = await this.toastController.create({

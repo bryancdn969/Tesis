@@ -32,3 +32,9 @@ Telemetry Cordova
 
 Ionic Cordova build
 	- https://ionicframework.com/docs/cli/commands/cordova-build
+
+Ionic navbar - actualizado
+	- https://github.com/ionic-team/ionic/blob/master/angular/BREAKING.md#navbar
+
+Modal controller
+	- https://forum.ionicframework.com/t/solved-ionic-4-need-to-know-how-to-work-the-modal-controller/136414

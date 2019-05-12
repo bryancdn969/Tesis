@@ -10,15 +10,22 @@ import { ToastController } from '@ionic/angular';
 })
 export class AddFriendsPage implements OnInit {
 
-  userData = { "name" : '', "telefono" : '',  "email" : '' };
   responseData: any;
-  count: number;
+  responseDataid: any;
+  count = 0;
+
+  userData = { "id_user" : this.responseDataid.id , "name_user" : this.responseDataid.name ,
+  "telefono_user" : this.responseDataid.telefono ,
+  "telefono_friend" : '', "nombre_friend" : '', "email_friend" : '' ,
+  "count_friend" : this.count, "status_friend" : 'Active' };
 
   constructor(
       private authService: UserService,
       private router: Router,
       private toastController: ToastController
-  ) { }
+  ) {
+    this.responseDataid = localStorage.getItem('userDataLogin');
+  }
 
   async presentToast( message: string ) {
     const toast = await this.toastController.create({
@@ -33,20 +40,25 @@ export class AddFriendsPage implements OnInit {
 
 
   addFriend() {
-    if (this.userData.name && this.userData.telefono && this.userData.email) {
-      this.authService.postData(JSON.stringify(this.userData), 'addFriend').then((result) => {
-        this.responseData = result;
-        console.log(this.responseData);
-        if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
-          localStorage.setItem('userData', JSON.stringify(this.responseData));
-          this.presentToast('Friend saved successful.');
-        }
-      }, (err) => {
-        console.log(err);
-        this.presentToast('The service is failed.');
-      });
+    this.count = this.count + 1;
+    if (this.count > 3) {
+      this.presentToast('You can only add 3 friends.');
     } else {
-      this.presentToast('The data is required.');
+      if (this.userData.nombre_friend && this.userData.telefono_friend) {
+        this.authService.postData(JSON.stringify(this.userData), 'addFriend').then((result) => {
+          this.responseData = result;
+          console.log(this.responseData);
+          if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
+            localStorage.setItem('userDataFriend', JSON.stringify(this.responseData));
+            this.presentToast('Friend saved successful.');
+          }
+        }, (err) => {
+          console.log(err);
+          this.presentToast('The service is failed.');
+        });
+      } else {
+        this.presentToast('The data is required.');
+      }
     }
-  }
+    }
 }

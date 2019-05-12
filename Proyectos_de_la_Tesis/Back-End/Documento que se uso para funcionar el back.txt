@@ -1,2 +1,42 @@
 URL de acceso a CRUDBooster
 	- http://localhost/Tesis/Proyectos_de_la_Tesis/Back-End/UnidadFamiliar/public/admin/api_generator
+
+
+Código de la creation de la tabla amigos
+	- URL = https://www.troyfawkes.com/solved-mysql-error-1005-cant-create-table-errno-150/
+	- CREATE TABLE IF NOT EXISTS unidadfamiliar.app_friend (
+
+	id_friend	INT NOT NULL AUTO_INCREMENT,
+    
+	id_user	INT UNSIGNED NOT NULL,
+    
+	name_user VARCHAR(30),
+    
+	telefono_user VARCHAR(15),
+    
+	telefono_friend VARCHAR(15),
+    
+	nombre_friend	VARCHAR(30),
+    
+	email_friend	VARCHAR(50),
+    
+	count_friend	INT,
+    
+	created_friend	DATETIME,
+    
+	status_friend	CHAR(1),
+    
+	INDEX idx_user (id_user ASC),
+	
+	PRIMARY KEY (id_friend),
+    
+	CONSTRAINT users_const
+    
+	FOREIGN KEY (id_user) 
+    REFERENCES unidadfamiliar.cms_users (id)
+    
+	ON DELETE NO ACTION
+    
+	ON UPDATE NO ACTION
+
+) ENGINE = InnoDB; 
