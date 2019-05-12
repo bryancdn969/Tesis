@@ -14,10 +14,8 @@ export class AddFriendsPage implements OnInit {
   responseDataid: any;
   count = 0;
 
-  userData = { "id_user" : this.responseDataid.id , "name_user" : this.responseDataid.name ,
-  "telefono_user" : this.responseDataid.telefono ,
-  "telefono_friend" : '', "nombre_friend" : '', "email_friend" : '' ,
-  "count_friend" : this.count, "status_friend" : 'Active' };
+  userData = { id_user : '' , name_user : '' ,  telefono_user : '' , telefono_friend : '', nombre_friend : '',
+  email_friend : '' , count_friend : this.count, status_friend : 'A' };
 
   constructor(
       private authService: UserService,
@@ -25,6 +23,10 @@ export class AddFriendsPage implements OnInit {
       private toastController: ToastController
   ) {
     this.responseDataid = localStorage.getItem('userDataLogin');
+    console.log(JSON.parse(this.responseDataid));
+    this.userData.id_user = JSON.parse(this.responseDataid).id;
+    this.userData.name_user = JSON.parse(this.responseDataid).name;
+    this.userData.telefono_user = JSON.parse(this.responseDataid).telefono;
   }
 
   async presentToast( message: string ) {
@@ -40,12 +42,13 @@ export class AddFriendsPage implements OnInit {
 
 
   addFriend() {
-    this.count = this.count + 1;
+
     if (this.count > 3) {
       this.presentToast('You can only add 3 friends.');
     } else {
       if (this.userData.nombre_friend && this.userData.telefono_friend) {
-        this.authService.postData(JSON.stringify(this.userData), 'addFriend').then((result) => {
+        this.count = this.count + 1;
+        this.authService.postData(JSON.stringify(this.userData), 'addfriend').then((result) => {
           this.responseData = result;
           console.log(this.responseData);
           if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
@@ -60,5 +63,9 @@ export class AddFriendsPage implements OnInit {
         this.presentToast('The data is required.');
       }
     }
-    }
+  }
+
+  regresar() {
+    this.router.navigate([ '/menu/shareLocation' ]);
+  }
 }

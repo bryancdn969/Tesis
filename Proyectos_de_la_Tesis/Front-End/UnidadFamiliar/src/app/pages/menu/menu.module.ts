@@ -26,7 +26,7 @@ const routes: Routes = [
       },
       {
         path: 'addFriends',
-        loadChildren: '../add-friends/add-friends.module#AddFriendPageModule'
+        loadChildren: '../add-friends/add-friends.module#AddFriendsPageModule'
       }
     ]
   }
