@@ -4,6 +4,7 @@ import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderOptions } fr
 import { UserService } from '../../api/user.service';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 
 declare var google;
 
@@ -18,12 +19,23 @@ export class ShareLocationPage implements OnInit {
   map: any;
   address: string;
   responseData: any;
-  responseDataid: any;
   responseDataTesting: any;
   responseDataRegisterFriend: any;
+  aux: any;
+  status = 'A';
+  lat: any;
+  lng: any;
+  // geoAddress: any;
 
-  userData = { id_user : '', id_friend : '', name_user : '', latitud_position : 0.00 ,
-  longitud_position : 0.00, direccion_position : '', nombre_friend : '' , status_position : 'Active' };
+  userData = { id_user : '', name_user : '', latitud_position : this.lat , longitud_position : this.lng,
+               direccion_position : '', nombre_friend : '' , status_position : this.status };
+
+  dataVerification = { id_user : ''};
+
+  /*geoencoderOptions: NativeGeocoderOptions = {
+    useLocale: true,
+    maxResults: 5
+  };*/
 
   constructor(
     private geolocation: Geolocation,
@@ -55,20 +67,49 @@ export class ShareLocationPage implements OnInit {
       };
 
       this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
-      this.userData.latitud_position = resp.coords.latitude;
-      this.userData.longitud_position = resp.coords.longitude;
+      this.lat = resp.coords.latitude; this.lng = resp.coords.longitude;
+      this.userData.latitud_position = this.lat;
+      this.userData.longitud_position = this.lng;
 
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
       this.map.addListener('tilesloaded', () => {
         console.log('accuracy', this.map);
         this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng());
+        // this.getGeoencoder(this.map.center.lat(), this.map.center.lng());
       });
 
     }).catch((error) => {
       console.log('Error getting location', error);
     });
   }
+
+ /* getGeoencoder(latitude, longitude) {
+    this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
+    .then((result: NativeGeocoderReverseResult[]) => {
+      this.geoAddress = this.generateAddress(result[0]);
+    })
+    .catch((error: any) => {
+      alert('Error getting location' + JSON.stringify(error));
+    });
+  }*/
+
+ /* generateAddress(addressObj) {
+    const obj = [];
+    let address = '';
+    for (const key of addressObj) {
+      obj.push(addressObj[key]);
+    }
+    obj.reverse();
+    for (const val in obj) {
+      if (obj[val].length) {
+      address += obj[val] + ', ';
+      }
+    }
+    this.address = address.slice(0, -2);
+    console.log(this.address);
+    this.userData.direccion_position = this.address;
+  }*/
 
   getAddressFromCoords(lattitude, longitude) {
     console.log('getAddressFromCoords ' + lattitude + ' ' + longitude);
@@ -91,25 +132,34 @@ export class ShareLocationPage implements OnInit {
           this.address += value + ', ';
         }
         this.address = this.address.slice(0, -2);
+        console.log(this.address);
         this.userData.direccion_position = this.address;
       })
       .catch((error: any) => {
+        this.userData.direccion_position = 'La Ferroviaria, no se puede probar en la web por ahora';
         this.address = 'Address Not Available!';
       });
-
   }
 
   shareLocation() {
     // primero consultamos si el usaurio tiene contactos agregados
-    this.responseDataid = localStorage.getItem('userDataLogin');
+    this.responseData = localStorage.getItem('userDataLogin');
     // tomo el id del usaurio logeuado
-    this.userData.id_user = JSON.parse(this.responseDataid).id;
-    console.log(this.userData.id_user);
-    this.authService.postFormData(JSON.parse(this.responseDataid).id, 'testing').then((result) => {
+    this.aux = JSON.parse(this.responseData);
+    this.dataVerification.id_user = this.aux.id;
+    // this.dataVerification.id_user = this.aux.id;
+    console.log(this.dataVerification);
+    this.authService.postData(JSON.stringify(this.dataVerification), 'testing').then((result) => {
+      // si la respuesta es 0 navega hacia la pagina de asignacion de amigos
       this.responseDataTesting = result;
       console.log(this.responseDataTesting);
       // si no existe datos
-      if (this.responseDataTesting.api_status === 0 && this.responseDataTesting.api_http === 401) {
+      if (this.responseDataTesting.api_status === 1 &&
+          this.responseDataTesting.api_http === 200 && this.responseDataTesting.data.length <= 0) {
+        this.presentToast('You do not have friends added, add one please.');
+        this.router.navigate([ '/menu/addFriends' ]);
+      } else if (this.responseDataTesting.api_status === 0 &&
+        this.responseDataTesting.api_http === 401) {
         this.presentToast('You do not have friends added, add one please.');
         this.router.navigate([ '/menu/addFriends' ]);
       } else {
@@ -118,10 +168,11 @@ export class ShareLocationPage implements OnInit {
 
         for (i = 0; i <= this.responseDataTesting.data.length - 1; i++) {
           // tomo los ids y nombres de mis amigos
-          this.userData.id_friend = this.responseDataTesting.data[i].id_friend;
+          this.userData.id_user = this.dataVerification.id_user;
+          this.userData.name_user = this.aux.name;
           this.userData.nombre_friend = this.responseDataTesting.data[i].nombre_friend;
 
-          this.authService.postData(JSON.stringify(this.userData), 'sendAddress').then((res) => {
+          this.authService.postData(JSON.stringify(this.userData), 'sendaddress').then((res) => {
             this.responseDataRegisterFriend = res;
             console.log(this.responseDataRegisterFriend);
             if (this.responseDataRegisterFriend.api_status === 1 && this.responseDataRegisterFriend.api_http === 200) {
