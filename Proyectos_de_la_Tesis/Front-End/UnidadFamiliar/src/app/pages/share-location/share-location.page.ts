@@ -28,7 +28,7 @@ export class ShareLocationPage implements OnInit {
   // geoAddress: any;
 
   userData = { id_user : '', name_user : '', latitud_position : this.lat , longitud_position : this.lng,
-               direccion_position : '', nombre_friend : '' , status_position : this.status };
+               direccion_position : '', nombre_friend : '' , telefono_friend : '', status_position : this.status };
 
   dataVerification = { id_user : ''};
 
@@ -171,6 +171,7 @@ export class ShareLocationPage implements OnInit {
           this.userData.id_user = this.dataVerification.id_user;
           this.userData.name_user = this.aux.name;
           this.userData.nombre_friend = this.responseDataTesting.data[i].nombre_friend;
+          this.userData.telefono_friend = this.responseDataTesting.data[i].telefono_friend;
 
           this.authService.postData(JSON.stringify(this.userData), 'sendaddress').then((res) => {
             this.responseDataRegisterFriend = res;

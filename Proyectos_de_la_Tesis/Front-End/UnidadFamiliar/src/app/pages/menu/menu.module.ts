@@ -27,6 +27,10 @@ const routes: Routes = [
       {
         path: 'addFriends',
         loadChildren: '../add-friends/add-friends.module#AddFriendsPageModule'
+      },
+      {
+        path: 'viewPositionFreinds',
+        loadChildren: '../view-position-friends/view-position-friends.module#ViewPositionFriendsPageModule'
       }
     ]
   }

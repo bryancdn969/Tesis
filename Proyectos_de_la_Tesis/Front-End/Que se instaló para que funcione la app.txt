@@ -38,3 +38,13 @@ Ionic navbar - actualizado
 
 Modal controller
 	- https://forum.ionicframework.com/t/solved-ionic-4-need-to-know-how-to-work-the-modal-controller/136414
+
+Google maps, creacion de un mapa para ver  
+	- https://blog.ng-classroom.com/blog/ionic2/google-maps-native/
+
+Mejorar la lista
+	- https://github.com/ionic-team/ionic/issues/15108
+
+
+GENERAR MAPAS CON LA BASE DE DATOS
+	- http://edupala.com/how-to-add-google-map-in-ionic-4/

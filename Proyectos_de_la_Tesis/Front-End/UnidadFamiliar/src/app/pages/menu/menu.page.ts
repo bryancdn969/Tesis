@@ -18,6 +18,14 @@ export class MenuPage implements OnInit {
     {
       title: 'Share current location',
       url: '/menu/shareLocation'
+    },
+    {
+      title: 'Add Friends',
+      url: '/menu/addFriends'
+    },
+    {
+      title: 'View Position Freinds',
+      url: '/menu/viewPositionFreinds'
     }
   ];
 

@@ -79,3 +79,6 @@ Código de la creacion de la tabla de posición
 	ON UPDATE NO ACTION
 
 ) ENGINE = InnoDB;
+
+Modification del campo de latitud y longitud
+	- https://www.i-ciencias.com/pregunta/17657/tipos-de-datos-para-el-almacenamiento-de-gnllat-en-mysql
