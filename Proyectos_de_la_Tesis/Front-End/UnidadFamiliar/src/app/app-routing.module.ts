@@ -10,7 +10,13 @@ const routes: Routes = [
   { path: 'share-location', loadChildren: './pages/share-location/share-location.module#ShareLocationPageModule' },
   { path: 'signup', loadChildren: './pages/signup/signup.module#SignupPageModule' },
   { path: 'add-friends', loadChildren: './pages/add-friends/add-friends.module#AddFriendsPageModule' },
-  { path: 'view-position-friends', loadChildren: './pages/view-position-friends/view-position-friends.module#ViewPositionFriendsPageModule' },
+  { path:
+    'view-position-friends', loadChildren: './pages/view-position-friends/view-position-friends.module#ViewPositionFriendsPageModule' },
+  { path: 'friends-detail', loadChildren: './pages/friends-detail/friends-detail.module#FriendsDetailPageModule' },
+  { path: 'all-friends', loadChildren: './pages/all-friends/all-friends.module#AllFriendsPageModule' },
+  { path: 'update-tab', loadChildren: './pages/update-tab/update-tab.module#UpdateTabPageModule' },
+  { path: 'register-tab', loadChildren: './pages/register-tab/register-tab.module#RegisterTabPageModule' },
+
 ];
 
 @NgModule({

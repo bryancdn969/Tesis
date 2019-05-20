@@ -4,13 +4,13 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-add-friends',
-  templateUrl: './add-friends.page.html',
-  styleUrls: ['./add-friends.page.scss'],
+  selector: 'app-register-tab',
+  templateUrl: './register-tab.page.html',
+  styleUrls: ['./register-tab.page.scss'],
 })
-export class AddFriendsPage implements OnInit {
+export class RegisterTabPage implements OnInit {
 
-/*   responseData: any;
+  responseData: any;
   responseDataid: any;
   responseDataFriend: any;
   count = 0;
@@ -20,28 +20,24 @@ export class AddFriendsPage implements OnInit {
   email_friend : '' , count_friend : this.count, status_friend : 'A' };
   selectFriend = { id_user : 0 , status_friend : 'A' };
 
-  dataVerification = { id_user : 0}; */
+  dataVerification = { id_user : 0};
 
-  buttonUpdate = false;
-  buttonAddFriends = false;
-  /* comboFriend: any;
-
-  friends: any[] = [ ]; */
+  friends: any[] = [ ];
 
   constructor(
-      private authService: UserService,
-      private router: Router,
-      private toastController: ToastController
+    private authService: UserService,
+    private router: Router,
+    private toastController: ToastController
   ) {
     // primero consultamos si el usaurio tiene contactos agregados
-    /* this.responseDataid = localStorage.getItem('userDataLogin');
+    this.responseDataid = localStorage.getItem('userDataLogin');
     this.aux = JSON.parse(this.responseDataid);
     this.userData.id_user = this.aux.id;
     this.userData.name_user = this.aux.name;
-    this.userData.telefono_user = this.aux.telefono; */
+    this.userData.telefono_user = this.aux.telefono;
 
     // tomo el id del usaurio logeuado
-    /* this.dataVerification.id_user = JSON.parse(this.responseDataid).id;
+    this.dataVerification.id_user = JSON.parse(this.responseDataid).id;
     this.selectFriend.id_user = this.dataVerification.id_user;
     // servicio para ver desde cuadno agregar
     this.authService.postData(JSON.stringify(this.dataVerification), 'testing').then((result) => {
@@ -52,33 +48,21 @@ export class AddFriendsPage implements OnInit {
       } else {
         this.count = this.responseData.data[0].count_friend;
       }
-    }); */
-
-   /*  this.authService.postData(JSON.stringify(this.selectFriend), 'selectfriend').then((res) => {
-      this.comboFriend = res;
-      for (let i = 0; i <= this.comboFriend.data.length - 1; i++) {
-        this.friends = this.comboFriend.data;
-      }
     });
-    if (this.buttonUpdate === false) {
-      this.buttonUpdate = true;
-      this.buttonAddFriends = false;
-    } */
   }
 
-  /* async presentToast( message: string ) {
+  async presentToast( message: string ) {
     const toast = await this.toastController.create({
       message,
       duration: 2000
     });
     toast.present();
-  } */
+  }
 
   ngOnInit() {
   }
 
-
-  /* addFriend() {
+  addFriend() {
     if (this.count > 3) {
       this.presentToast('You can only add 3 friends.');
     } else {
@@ -102,9 +86,6 @@ export class AddFriendsPage implements OnInit {
         this.presentToast('The data is required.');
       }
     }
-  } */
-
-  regresar() {
-    this.router.navigate([ '/menu/shareLocation' ]);
   }
+
 }

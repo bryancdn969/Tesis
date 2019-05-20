@@ -1,21 +1,42 @@
-<!---
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start"> <ion-menu-button></ion-menu-button> </ion-buttons>
+    <ion-buttons slot="start"> 
+      <ion-menu-button></ion-menu-button> 
+      <ion-button (click)="allMuseumMap()">
+        <ion-icon name="pin"></ion-icon>All Friends
+      </ion-button>
+      </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list padding *ngFor="let item of items">
-    <ion-item (click)="viewItem(item)">
-      {{item.title}}
-     <p>{{item.description}}</p>
-   </ion-item>
-  </ion-list>
+  <div class="ion-padding">
+    <ion-item>
+      <ion-label position="floating">Search Mapjs</ion-label>
+      <ion-input type="text" placeholder="Search friends..." (input)="searchMaps($event)"></ion-input>
+    </ion-item>
 
-  <div id="map"></div>
+    <ion-list *ngIf="!isfiltered">
+      <ion-item *ngFor="let museum of museumData" (click)="getMuseumDetails(museum)">
+        <ion-label>
+          <h2><b><ion-icon name="pin"></ion-icon>{{ museum.nombre_friend }}</b></h2>
+          <p>Direccion: {{ museum.direccion_position }}</p>
+      </ion-label> 
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="isfiltered">
+      <ion-item *ngFor="let museum of filteredMuseum" (click)="getMuseumDetails(museum)">
+        <ion-label>
+          <h2><b><ion-icon name="pin"></ion-icon>{{ museum.nombre_friend }}</b></h2>
+          <p>Direccion: {{ museum.direccion_position }}</p>
+      </ion-label> 
+      </ion-item>
+    </ion-list>
+  </div>  
 </ion-content>
--->
+
+<!---
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start"> <ion-menu-button></ion-menu-button> </ion-buttons>
@@ -36,3 +57,4 @@
 
   <div #map id="map"></div>
 </ion-content>
+-->

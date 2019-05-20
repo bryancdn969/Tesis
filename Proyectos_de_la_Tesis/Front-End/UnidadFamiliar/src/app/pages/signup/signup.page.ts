@@ -10,7 +10,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class SignupPage implements OnInit {
 
-  userData = { "name" : '', "email" : '', "telefono" : '' , "password" : '', "status" : 'Active' };
+  userData = { name : '', email : '', telefono : '' , password : '', status : 'Active' };
   responseData: any;
 
   boolean: any;

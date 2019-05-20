@@ -48,3 +48,9 @@ Mejorar la lista
 
 GENERAR MAPAS CON LA BASE DE DATOS
 	- http://edupala.com/how-to-add-google-map-in-ionic-4/
+
+Loop for
+	- https://stackoverflow.com/questions/49243048/tslintexpected-a-for-of-loop-instead-of-a-for-loop-with-this-simple-iterat
+
+Tabs
+	- https://ionicacademy.com/ionic-4-tabs-side-menu/

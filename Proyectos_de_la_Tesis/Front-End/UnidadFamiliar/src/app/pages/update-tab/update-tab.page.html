@@ -1,29 +1,31 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-buttons left>
-      <button ion-button (click)="regresar()"></button>
-      <ion-icon class="customIcon" name="arrow-back"></ion-icon>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
+    <ion-title>Update Friends Information</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
 <ion-list>
   <ion-list-header>Select one</ion-list-header>
 
   <ion-item>
     <ion-label>Friend: </ion-label>
     <ion-select>
-      <ion-select-option *ngFor="let friend of friends">{{friend.nombre_friend}}</ion-select-option>
+      <ion-select-option *ngFor="let friend of friends">
+      {{friend.nombre_friend}}
+      </ion-select-option>
     </ion-select>
   </ion-item>
 </ion-list>
 
-  <form (ngSubmit)="presentAlert()">
-    <ion-card>
-      <ion-card-header>
-        Add Friends
+<form (ngSubmit)="presentAlert()">
+<br />
+  <ion-card>
+    <ion-card-header>
+      Add Friends
       </ion-card-header>
       <ion-card-content>
         <ion-list>
@@ -41,43 +43,19 @@
               <ion-icon name="call" item-start></ion-icon>
               <ion-label stacked>CellPhone:</ion-label>
               <ion-input type="text" name="telefono" [(ngModel)]="userData.telefono_friend"></ion-input>
-              <ion-input formControlName="phone" type="number" placeholder="0998249810" disabled></ion-input>
             </ion-item>
           </ion-list>
       </ion-card-content>
     </ion-card>
   </form>
   <div text-center>
-    <ion-button block type="submit" (click)="update()" [hidden]=buttonUpdate>Update Friends</ion-button>
-    <ion-button block type="submit" (click)="addFriend()" [hidden]=buttonAddFriends>Add Friends</ion-button>
-  </div>
+  <br />
+    <ion-button block type="submit" (click)="updateFriend()" [hidden]=buttonUpdate>Update Friends</ion-button>
+   </div>
   <div text-center>
   <br />
     <a ion-button block clear (click)="cancelar()">
       Cancel
     </a>
   </div>
-
-<div id="count">
-<br />
-  Number of friends added: <span>{{count}}</span>
-  Max 3
-</div>
-
-</ion-content>-->
-<ion-tabs>
- 
-  <ion-tab-bar slot="bottom">
- 
-    <ion-tab-button tab="register">
-      <ion-icon name="sunny"></ion-icon>
-      <ion-label>Register Friends</ion-label>
-    </ion-tab-button>
- 
-    <ion-tab-button tab="update">
-      <ion-icon name="moon"></ion-icon>
-      <ion-label>Update Freinds</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
- 
-</ion-tabs>
+</ion-content>

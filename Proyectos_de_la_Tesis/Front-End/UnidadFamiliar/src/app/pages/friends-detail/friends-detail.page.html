@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button (click)="regresar()"></button>
+      <ion-icon class="customIcon" name="arrow-back"></ion-icon>
+      <ion-title slot="center">{{ responseData.nombre_friend }}</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card padding>
+    <h3>Friend name : {{ responseData.nombre_friend }}</h3>
+    <p>Location : {{ responseData.direccion_position }}</p>
+  </ion-card>
+  <div #map id="map"></div>
+</ion-content>

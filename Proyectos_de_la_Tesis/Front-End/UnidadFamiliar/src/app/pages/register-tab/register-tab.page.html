@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Register Friends</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="presentAlert()">
+    <ion-card>
+      <ion-card-header>
+        Add Friends
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+            <ion-item>
+              <ion-icon ios="ios-mail" md="md-mail" item-left></ion-icon>
+              <ion-label stacked>Email:</ion-label>
+              <ion-input type="text" name="email" [(ngModel)]="userData.email_friend"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="person" item-left></ion-icon>
+              <ion-label stacked>Name:</ion-label>
+              <ion-input type="text" name="name" [(ngModel)]="userData.nombre_friend"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="call" item-start></ion-icon>
+              <ion-label stacked>CellPhone:</ion-label>
+              <ion-input type="text" name="telefono" [(ngModel)]="userData.telefono_friend"></ion-input>
+            </ion-item>
+          </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </form>
+  <div text-center>
+  <br />
+    <ion-button block type="submit" (click)="addFriend()">Add Friends</ion-button>
+  </div>
+  <div text-center>
+  <br />
+    <a ion-button block clear (click)="cancelar()">
+      Cancel
+    </a>
+  </div>
+  <div id="count">
+    <br />
+    Number of friends added: <span>{{count}}</span>
+    <br />
+    Max 3
+  </div>
+</ion-content>

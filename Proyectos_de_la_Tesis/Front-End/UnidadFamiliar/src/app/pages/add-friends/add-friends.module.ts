@@ -9,8 +9,23 @@ import { AddFriendsPage } from './add-friends.page';
 
 const routes: Routes = [
   {
+    path: 'tabs',
+    component: AddFriendsPage,
+    children: [
+      {
+        path: 'register',
+        loadChildren: '../register-tab/register-tab.module#RegisterTabPageModule'
+      },
+      {
+        path: 'update',
+        loadChildren: '../update-tab/update-tab.module#UpdateTabPageModule'
+      }
+    ]
+  },
+  {
     path: '',
-    component: AddFriendsPage
+    redirectTo: 'tabs/register',
+    pathMatch: 'full'
   }
 ];
 

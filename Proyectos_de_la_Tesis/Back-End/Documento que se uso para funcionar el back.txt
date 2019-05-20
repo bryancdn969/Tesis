@@ -82,3 +82,68 @@ Código de la creacion de la tabla de posición
 
 Modification del campo de latitud y longitud
 	- https://www.i-ciencias.com/pregunta/17657/tipos-de-datos-para-el-almacenamiento-de-gnllat-en-mysql
+
+Còdigo de la creación de la tabal zona
+	- CREATE TABLE IF NOT EXISTS unidadfamiliar.app_zona (
+	
+		id_zona	INT NOT NULL AUTO_INCREMENT,
+	
+		nombre_zona VARCHAR(30) NOT NULL,
+	
+		latitud_zona DECIMAL(10,6) NOT NULL,
+	
+		longitud_zona DECIMAL(10,6) NOT NULL,
+	
+		direccion_zona	VARCHAR(250) NOT NULL,
+	
+		created_zona	TIMESTAMP,
+	
+		updated_zona    TIMESTAMP,
+	
+		status_zona CHAR(1),
+	
+		INDEX idx_zona (id_zona ASC),
+	
+		PRIMARY KEY (id_zona)
+
+) ENGINE = InnoDB;
+
+Insert para zonas
+	- INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Plaza Quitumbe','Av. Quitumbe s/n y Condor Ñan',-0.294424, -78.548260);
+
+	  INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Parque UTAQ','Leonidas Dubles E5B',-0.327682, -78.540515);
+
+	  INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Parque Nueva Aurora','Manuel Guamaní y Principal',-0.320656, -78.550140);
+
+	  INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Parque Ecológico Solanda','José Abarcas y J. Alemán',-0.268239, -78.540038);
+	  
+INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Parque Las Cuadras','Av. Rumichaca y Av. Morán Valverde',-0.287557, -78.547576);
+
+	  INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Parque Solanda S4','Calle Manuel Monteros y José Pontón',-0.332326, -78.518741);
+
+
+	  INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Liga Barrial Solanda','José Alemán y Ajaví',-0.264791, -78.536137);
+
+	  INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Parque Solanda S2','Calle Francisco Rueda y Simón Guerra',-0.264571, -78.539742);
+	  
+INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Parque Cardenal de la Torre','Av. Cardenal de la Torre, entre Ajaví y Teniente Ortiz',-0.320656, -78.550140);
+	  
+INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Parque Combatientes del 41','Angamarca y Río Cristal',-0.246828, -78.552729);
+	  
+INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Complejo de Pelota Nacional','Calle Ecuador y Chugchilán',-0.260530, -78.548951);	
+	  INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Parque Batallón Chimborazo','Calle Punta Arenas',-0.251312, -78.541516);
+
+	  INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
+VALUES ('Sur','Parque Metropolitano del Sur','Sector de El Troje, Av. Simón Bolívar',-0.332326, -78.518741);

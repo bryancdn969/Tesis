@@ -1,43 +1,36 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { UserService } from '../../api/user.service';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ToastController } from '@ionic/angular';
-// import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { UserService } from '../../api/user.service';
 import { Router } from '@angular/router';
 
-// declare var google;
+declare var google;
 
 @Component({
-  selector: 'app-view-position-friends',
-  templateUrl: './view-position-friends.page.html',
-  styleUrls: ['./view-position-friends.page.scss'],
+  selector: 'app-all-friends',
+  templateUrl: './all-friends.page.html',
+  styleUrls: ['./all-friends.page.scss'],
 })
-export class ViewPositionFriendsPage implements OnInit {
+export class AllFriendsPage implements OnInit {
 
-  museumData: any;
-  filteredMuseum = [];
-  isfiltered: boolean;
+  map: any;
+  @ViewChild('map') mapContainer: ElementRef;
 
-  public items: Array<any>;
   responseData: any;
   responseDataAux: any;
   responseDataViewFreindCoords: any;
   responseDataExito: any;
   telefonoCoords: any;
-  sendInformation: any;
-
-  // map: any;
-  coords: any = { lat: 0, lng: 0 };
-  // @ViewChild('map') mapContainer: ElementRef;
 
   responseDataViewFreindPosition = {id_user : '',   status_position : 'A', id_user_v : '', telefono_friend_v : ''};
   responseDataTelefonoCoords = {telefono : ''};
   userData = {id_user: '', status_friend: 'A'};
 
   constructor(
-    private authService: UserService,
+    private geolocation: Geolocation,
     private toastController: ToastController,
+    private authService: UserService,
     private router: Router,
-    // private geolocation: Geolocation,
   ) {
     this.responseData = JSON.parse(localStorage.getItem('userDataLogin'));
     this.userData.id_user = this.responseData.id;
@@ -64,13 +57,9 @@ export class ViewPositionFriendsPage implements OnInit {
                 this.presentToast('Check your messages!.');
               } else if (this.responseDataExito.api_status === 1 && this.responseDataExito.api_http === 200) {
                 // console.log(this.responseDataViewFreindCoords);
-                this.coords.lat = this.responseDataViewFreindCoords.data[i].latitud_position;
-                this.coords.lng = this.responseDataViewFreindCoords.data[i].longitud_position;
-
-                this.museumData = this.responseDataViewFreindCoords.data;
                 // console.log(this.coords);
-                // this.displayGoogleMap(this.responseDataViewFreindCoords.data);
-                // this.getMarkers(this.responseDataViewFreindCoords.data);
+                 this.displayGoogleMap(this.responseDataViewFreindCoords.data);
+                 this.getMarkers(this.responseDataViewFreindCoords.data);
                 // console.log(this.coords);
               }
             });
@@ -81,7 +70,7 @@ export class ViewPositionFriendsPage implements OnInit {
       this.presentToast('All quiet!.');
     }
     });
-  }
+   }
 
   async presentToast( message: string ) {
     const toast = await this.toastController.create({
@@ -94,11 +83,12 @@ export class ViewPositionFriendsPage implements OnInit {
   ngOnInit() {
   }
 
-  /* displayGoogleMap(dataCoords) {
+  displayGoogleMap(dataCoords) {
     // console.log(dataCoords);
 
-      for (const j of dataCoords) {
+    for (let j = 0; j < dataCoords.length; j++) {
       const latLng = new google.maps.LatLng(dataCoords[j].latitud_position, dataCoords[j].longitud_position);
+      // console.log(dataCoords[j].latitud_position, dataCoords[j].longitud_position);
 
       const mapOptions = {
         center: latLng,
@@ -112,7 +102,7 @@ export class ViewPositionFriendsPage implements OnInit {
   }
 
   getMarkers(cantidad) {
-    console.log(cantidad);
+    // console.log(cantidad);
     for (let i = 0; i < cantidad.length; i++) {
       if (i >= 0) {
         this.addMarkersToMap(cantidad[i]);
@@ -133,32 +123,10 @@ export class ViewPositionFriendsPage implements OnInit {
     google.maps.event.addListener(marker, 'click', () => {
       infoWindow.open(this.map, marker);
     });
-  } */
-
-  searchMaps(event) {
-    if (event.target.value.length > 2) {
-      const filteredJson = this.museumData.filter((row) => {
-        if (row.state.indexOf(event.target.value) !== -1) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-      this.isfiltered = true;
-      this.filteredMuseum = filteredJson;
-      // console.log(this.filteredMuseum);
-    }
   }
 
-  getMuseumDetails(museum) {
-    // console.log(JSON.stringify(museum));
-    localStorage.setItem('friendsDetails', JSON.stringify(museum));
-    // this.authService.setMuseum(museum);
-    this.router.navigate(['/menu/friendsDetail']);
-  }
-
-  allMuseumMap() {
-    this.router.navigate(['/menu/allFriends']);
+  regresar() {
+    this.router.navigate([ '/menu/viewPositionFreinds' ]); // remember to put this to add the back button behavior
   }
 
 }

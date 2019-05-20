@@ -12,7 +12,7 @@ export class MenuPage implements OnInit {
 
   pages = [
     {
-      title: 'Search for safe sites',
+      title: 'Search safe sites',
       url: '/menu/safeSite'
     },
     {
@@ -20,7 +20,7 @@ export class MenuPage implements OnInit {
       url: '/menu/shareLocation'
     },
     {
-      title: 'Add Friends',
+      title: 'Friends',
       url: '/menu/addFriends'
     },
     {
