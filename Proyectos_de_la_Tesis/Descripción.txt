@@ -13,3 +13,6 @@ Aqui se realizará una descripción de los proyectos con los que se realiza la tes
 	- Se debe configurar el .env
 	- Se debe crear manualmente la BDD
 	- Se sigue con los pasos del link
+
+3.- Revert un commit
+	- https://www.solucionex.com/blog/borrar-ultimo-commit-con-reset-y-revert-en-git

@@ -10,13 +10,11 @@
 <ion-content>
 <ion-list>
   <ion-list-header>Select one</ion-list-header>
-
   <ion-item>
     <ion-label>Friend: </ion-label>
-    <ion-select>
-      <ion-select-option *ngFor="let friend of friends">
-      {{friend.nombre_friend}}
-      </ion-select-option>
+      <ion-select [(ngModel)]="selectedSingleEmployee" [compareWith]="compareFn" (ionChange)="singleChange()">
+        <ion-select-option *ngFor="let user of friends" [value]="user">{{user.nombre_friend}}
+        </ion-select-option>
     </ion-select>
   </ion-item>
 </ion-list>
@@ -25,24 +23,24 @@
 <br />
   <ion-card>
     <ion-card-header>
-      Add Friends
+      Update Friends
       </ion-card-header>
       <ion-card-content>
         <ion-list>
             <ion-item>
               <ion-icon ios="ios-mail" md="md-mail" item-left></ion-icon>
               <ion-label stacked>Email:</ion-label>
-              <ion-input type="text" name="email" [(ngModel)]="userData.email_friend"></ion-input>
+              <ion-input type="text" name="email" [(ngModel)]="userData.email_friend" value={{userData.email_friend}}></ion-input>
             </ion-item>
             <ion-item>
               <ion-icon name="person" item-left></ion-icon>
               <ion-label stacked>Name:</ion-label>
-              <ion-input type="text" name="name" [(ngModel)]="userData.nombre_friend"></ion-input>
+              <ion-input type="text" name="name" [(ngModel)]="userData.nombre_friend" value={{userData.nombre_friend}}></ion-input>
             </ion-item>
             <ion-item>
               <ion-icon name="call" item-start></ion-icon>
               <ion-label stacked>CellPhone:</ion-label>
-              <ion-input type="text" name="telefono" [(ngModel)]="userData.telefono_friend"></ion-input>
+              <ion-input type="text" name="telefono" [(ngModel)]="userData.telefono_friend" value={{userData.telefono_friend}}></ion-input>
             </ion-item>
           </ion-list>
       </ion-card-content>

@@ -15,6 +15,10 @@ export class UpdateTabPage implements OnInit {
   responseDataFriend: any;
   count = 0;
   aux: any;
+  nombre: any;
+  telefono: any;
+  correo: any;
+  auxNombre = true;
 
   userData = { telefono_friend : '', nombre_friend : '', email_friend : '', status_friend : 'A' };
   selectFriend = { id_user : 0 , status_friend : 'A' };
@@ -23,6 +27,8 @@ export class UpdateTabPage implements OnInit {
 
   comboFriend: any;
   friends: any[] = [ ];
+
+  selectedSingleEmployee: any;
 
   constructor(
     private authService: UserService,
@@ -42,11 +48,22 @@ export class UpdateTabPage implements OnInit {
       for (let i = 0; i <= this.comboFriend.data.length - 1; i++) {
         this.friends = this.comboFriend.data;
       }
-
     });
    }
 
+  compareFn(e1, e2): boolean {
+    return e1 && e2 ? e1.nombre_friend === e2.nombre_friend : e1 === e2;
+  }
+
+  singleChange() {
+    console.log(this.selectedSingleEmployee);
+    this.userData.nombre_friend = this.selectedSingleEmployee.nombre_friend;
+    this.userData.email_friend = this.selectedSingleEmployee.email_friend;
+    this.userData.telefono_friend = this.selectedSingleEmployee.telefono_friend;
+  }
+
   ngOnInit() {
+
   }
 
   async presentToast( message: string ) {
