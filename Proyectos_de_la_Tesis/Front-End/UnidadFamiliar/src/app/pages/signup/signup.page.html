@@ -7,7 +7,50 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="fondo">
+<ion-content>
+  <ion-grid>
+      <ion-card-header text-center>
+        Registration
+      </ion-card-header>
+    <ion-row justify-content-center>
+      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+        <div padding>
+          <ion-item>
+              <ion-icon ios="ios-mail" md="md-mail" item-left></ion-icon>
+              <ion-label stacked>Email:</ion-label>
+              <ion-input type="text" name="email" placeholder= "Email" [(ngModel)]="userData.email"
+                         autocapitalize="on" required maxlength="30"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="person" item-left></ion-icon>
+              <ion-label stacked>Name:</ion-label>
+              <ion-input type="text" name="name" placeholder= "User Name" [(ngModel)]="userData.name"
+                         autocapitalize="on" required maxlength="30"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="call" item-start></ion-icon>
+              <ion-label stacked>CellPhone:</ion-label>
+              <ion-input type="text" name="number" placeholder= "Phone" [(ngModel)]="userData.telefono"
+                         autocapitalize="on" required maxlength="10"></ion-input>
+            </ion-item>
+            <ion-item [hidden]=activePassword>
+              <ion-icon name="key" item-left></ion-icon>
+              <ion-label stacked>Password:</ion-label>
+              <ion-input type="password" name="password" placeholder="Password" [(ngModel)]="userData.password"
+                         required maxlength="10"></ion-input>
+            </ion-item>
+          </div>
+            <div text-center>
+              <ion-button block type="submit" (click)="signup()" [hidden]=buttonRegister>Sign up</ion-button>
+              <ion-button block type="submit" [hidden]=buttonUpdate>Update</ion-button>
+            </div>
+            <div padding>
+                <ion-button expand="full" color="danger" (click)="cancelar()">Cancel</ion-button>
+            </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+<!--
   <form (ngSubmit)="presentAlert()">
     <ion-card>
       <ion-card-header>
@@ -29,7 +72,6 @@
               <ion-icon name="call" item-start></ion-icon>
               <ion-label stacked>CellPhone:</ion-label>
               <ion-input type="text" name="telefono" [(ngModel)]="userData.telefono"></ion-input>
-              <!--<ion-input formControlName="phone" type="number" placeholder="0998249810" disabled></ion-input>-->
             </ion-item>
             <ion-item [hidden]=activePassword>
               <ion-icon name="key" item-left></ion-icon>
@@ -49,4 +91,5 @@
       Cancel
     </a>
   </div>
+-->
 </ion-content>

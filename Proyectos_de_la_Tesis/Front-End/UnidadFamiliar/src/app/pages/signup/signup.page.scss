@@ -1,11 +1,36 @@
-page-signup {
+$white-color: linear-gradient(rgb(153, 185, 173), rgb(104, 134, 151)) no-repeat;
+$height100: 100%;
 
-  .fondo{
-    height: 100%;
-    background: linear-gradient(rgb(55, 78, 162), rgb(97, 33, 34)) no-repeat;
-  }
-  .aligncenter{
-    text-align: center;
-    margin-right: 30px;
-  }
+ion-grid {
+    width:100%;
+    height: $height100;
+    background: #85b4c7;
 }
+
+ion-row {
+    height: $height100;
+}
+
+ion-col {
+    border: 1px solid #488aff;
+    background: $white-color;
+}
+
+ion-button {
+    font-weight: 300;
+}
+
+@media (min-width: 240px) and (max-width: 728px) {
+    ion-grid {
+        background: $white-color;
+    }
+    ion-col {
+        border: none;
+    }
+}
+
+ion-img{
+  height: 278px;
+  width : 300px;
+}
+   

@@ -25,6 +25,10 @@ const routes: Routes = [
         loadChildren: '../login/login.module#LoginPageModule'
       },
       {
+        path: 'signup',
+        loadChildren: '../signup/signup.module#SignupPageModule'
+      },
+      {
         path: 'addFriends',
         loadChildren: '../add-friends/add-friends.module#AddFriendsPageModule'
       },

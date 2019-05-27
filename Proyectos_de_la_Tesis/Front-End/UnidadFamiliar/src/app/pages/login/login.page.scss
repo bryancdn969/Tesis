@@ -1,25 +1,36 @@
-page-login {
-    .img{
-      height: 192px;
-      width : 192px;
+$white-color: linear-gradient(rgb(153, 185, 173), rgb(104, 134, 151)) no-repeat;
+$height100: 100%;
+
+ion-grid {
+    width:100%;
+    height: $height100;
+    background: #85b4c7;
+}
+
+ion-row {
+    height: $height100;
+}
+
+ion-col {
+    border: 1px solid #488aff;
+    background: $white-color;
+}
+
+ion-button {
+    font-weight: 300;
+}
+
+@media (min-width: 200px) and (max-width: 700px) {
+    ion-grid {
+        background: $white-color;
     }
- 
-    .fondo{
-      height: 100%;
-     //background: linear-gradient(rgb(55, 78, 162), rgb(97, 33, 34)) no-repeat;
-      background: linear-gradient(rgb(72, 117, 162), rgb(97, 61, 40)) no-repeat;
+    ion-col {
+        border: none;
     }
- 
-   .btn{
-     background-color: rgb(104, 145, 162);
-   }
- 
-   .border{
-     //border-color: rgb(104, 145, 162);
-     border-bottom-color: rgb(104, 145, 162);
-   }
- 
-   .aligncenter{
-     text-align: center;
-   }
- }
+}
+
+ion-img{
+  height: 278px;
+  width : 310px;
+}
+   

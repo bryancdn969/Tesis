@@ -52,4 +52,8 @@ export class LoginPage implements OnInit {
           this.presentToast('The email field is required., The password field is required.');
       }
   }
+
+  signup() {
+    this.router.navigate([ '/menu/signup' ]);
+  }
 }

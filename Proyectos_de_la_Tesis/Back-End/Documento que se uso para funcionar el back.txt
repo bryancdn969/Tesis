@@ -108,6 +108,8 @@ Còdigo de la creación de la tabal zona
 
 ) ENGINE = InnoDB;
 
+PHP path
+	- https://www.forevolve.com/en/articles/2016/10/27/how-to-add-your-php-runtime-directory-to-your-windows-10-path-environment-variable/
 Insert para zonas
 	- INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
 VALUES ('Sur','Plaza Quitumbe','Av. Quitumbe s/n y Condor Ñan',-0.294424, -78.548260);
