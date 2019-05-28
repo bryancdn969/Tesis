@@ -1,28 +1,25 @@
-$white-color: linear-gradient(rgb(153, 185, 173), rgb(104, 134, 151)) no-repeat;
-$height100: 100%;
-
 ion-grid {
     width:100%;
-    height: $height100;
-    background: #85b4c7;
+    height: 100%;
+    background: #ffffff;
 }
 
 ion-row {
-    height: $height100;
+    height: 100%;
 }
 
 ion-col {
     border: 1px solid #488aff;
-    background: $white-color;
+    background: linear-gradient(rgb(72, 117, 162), rgb(97, 61, 40)) no-repeat;
 }
 
 ion-button {
     font-weight: 300;
 }
 
-@media (min-width: 200px) and (max-width: 700px) {
+@media (min-width: 100px) and (max-width: 300px) {
     ion-grid {
-        background: $white-color;
+        background: linear-gradient(rgb(72, 117, 162), rgb(97, 61, 40)) no-repeat;
     }
     ion-col {
         border: none;
@@ -30,7 +27,15 @@ ion-button {
 }
 
 ion-img{
-  height: 278px;
-  width : 310px;
+  height: 275px;
+  width : 300px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
-   
+
+.error{
+    white-space: normal;
+    color:red
+}

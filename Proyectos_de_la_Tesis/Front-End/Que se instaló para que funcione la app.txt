@@ -54,3 +54,10 @@ Loop for
 
 Tabs
 	- https://ionicacademy.com/ionic-4-tabs-side-menu/
+
+Form control
+	- https://blog.ng-classroom.com/blog/ionic2/validations/
+	- https://blog.ng-classroom.com/blog/ionic2/validations-in-forms/
+
+Scroll infinito
+	- https://www.freakyjolly.com/ionic-4-implement-infinite-scroll-list-with-virtual-scroll-list-in-ionic-4-application/

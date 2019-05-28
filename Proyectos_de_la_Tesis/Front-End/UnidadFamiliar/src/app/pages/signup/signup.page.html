@@ -1,95 +1,90 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons left>
-      <button ion-button (click)="regresar()"></button>
-      <ion-icon class="customIcon" name="arrow-back"></ion-icon>
+      <ion-icon name="arrow-round-back" (click)="regresar()"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-grid>
-      <ion-card-header text-center>
-        Registration
-      </ion-card-header>
     <ion-row justify-content-center>
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
         <div padding>
-          <ion-item>
-              <ion-icon ios="ios-mail" md="md-mail" item-left></ion-icon>
-              <ion-label stacked>Email:</ion-label>
-              <ion-input type="text" name="email" placeholder= "Email" [(ngModel)]="userData.email"
-                         autocapitalize="on" required maxlength="30"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-icon name="person" item-left></ion-icon>
-              <ion-label stacked>Name:</ion-label>
-              <ion-input type="text" name="name" placeholder= "User Name" [(ngModel)]="userData.name"
-                         autocapitalize="on" required maxlength="30"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-icon name="call" item-start></ion-icon>
-              <ion-label stacked>CellPhone:</ion-label>
-              <ion-input type="text" name="number" placeholder= "Phone" [(ngModel)]="userData.telefono"
-                         autocapitalize="on" required maxlength="10"></ion-input>
-            </ion-item>
-            <ion-item [hidden]=activePassword>
-              <ion-icon name="key" item-left></ion-icon>
-              <ion-label stacked>Password:</ion-label>
-              <ion-input type="password" name="password" placeholder="Password" [(ngModel)]="userData.password"
-                         required maxlength="10"></ion-input>
-            </ion-item>
-          </div>
-            <div text-center>
-              <ion-button block type="submit" (click)="signup()" [hidden]=buttonRegister>Sign up</ion-button>
-              <ion-button block type="submit" [hidden]=buttonUpdate>Update</ion-button>
+          <form [formGroup]="formularioUsuario" (ngSubmit)="signup()" novalidate>
+            <ion-list>
+              <ion-item>
+                <ion-icon name="person" item-left></ion-icon>
+                <ion-label stacked>Nombre: </ion-label>
+                <ion-input formControlName="nombre" type="text" placeholder="Nombre" name="nombre" required maxlength="30" [(ngModel)]="userData.name"> </ion-input>
+              </ion-item>
+              <ion-item *ngIf="formularioUsuario.get('nombre').errors && formularioUsuario.get('nombre').dirty">
+                <p *ngIf="formularioUsuario.get('nombre').hasError('required')" class="error">
+                  El nombre es requerido.
+                </p>
+                <p *ngIf="formularioUsuario.get('nombre').hasError('maxlength')" class="error">
+                  El maximo de caracteres permitidos es 30.
+                </p>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="at" item-left></ion-icon>
+                <ion-label stacked>Email: </ion-label>
+                <ion-input formControlName="correo" type="email" placeholder="correo" name="correo" required maxlength="30" [(ngModel)]="userData.email"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="formularioUsuario.get('correo').errors && formularioUsuario.get('correo').dirty">
+                <p *ngIf="formularioUsuario.get('correo').hasError('required')" class="error">
+                  El correo es requerido.
+                </p>
+                <p *ngIf="formularioUsuario.get('correo').hasError('email')" class="error">
+                  El correo electronico indicado no es valido.
+                </p>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="call" item-left></ion-icon>
+                <ion-label stacked>Teléfono: </ion-label>
+                <ion-input formControlName="numero_contacto" type="text" placeholder="Numero de contacto" name="numero_contacto" required maxlength="10" [(ngModel)]="userData.telefono"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="formularioUsuario.get('numero_contacto').errors && formularioUsuario.get('numero_contacto').dirty">
+                <p *ngIf="formularioUsuario.get('numero_contacto').hasError('required')" class="error">
+                  El numero es requerido.
+                </p>
+                <p *ngIf="formularioUsuario.get('numero_contacto').hasError('maxlength')" class="error">
+                  El numero de celular no puede contener más de 10 caracteres
+                </p>
+                <p *ngIf="formularioUsuario.get('numero_contacto').hasError('minlength')" class="error">
+                  El numero de celular debe contener 10 caracteres
+                </p>
+                <p *ngIf="formularioUsuario.get('numero_contacto').hasError('pattern')" class="error">
+                  No se permite letras
+                </p>
+              </ion-item>
+              <ion-item [hidden]=activePassword>
+                <ion-icon name="key" item-left></ion-icon>
+                <ion-label stacked>Password:</ion-label>
+                <ion-input formControlName="password" type="password" name="password" placeholder="Password" [(ngModel)]="userData.password" required maxlength="10"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="formularioUsuario.get('password').errors && formularioUsuario.get('password').dirty">
+                <p *ngIf="formularioUsuario.get('password').hasError('required')" class="error">
+                  La contraseña es requerida.
+                </p>
+                <p *ngIf="formularioUsuario.get('password').hasError('maxlength')" class="error">
+                  La contraseña no puede contener más de 10 caracteres
+                </p>
+                <p *ngIf="formularioUsuario.get('password').hasError('minlength')" class="error">
+                  La contraseña debe contener al menos 5 caracteres
+                </p>
+              </ion-item>
+            </ion-list>
+            <div class="padding">
+              <ion-button block type="submit" [hidden]=buttonRegister [disabled]="!formularioUsuario.valid" class="alinearBoton">Register</ion-button>
+              <ion-button block type="submit" [hidden]=buttonUpdate [disabled]="!formularioUsuario.valid" class="alinearBoton">Update</ion-button>
             </div>
             <div padding>
-                <ion-button expand="full" color="danger" (click)="cancelar()">Cancel</ion-button>
+              <ion-button expand="full" color="danger" (click)="cancelar()">Cancel</ion-button>
             </div>
+          </form>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>
-<!--
-  <form (ngSubmit)="presentAlert()">
-    <ion-card>
-      <ion-card-header>
-        Registration
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list>
-            <ion-item>
-              <ion-icon ios="ios-mail" md="md-mail" item-left></ion-icon>
-              <ion-label stacked>Email:</ion-label>
-              <ion-input type="text" name="email" [(ngModel)]="userData.email"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-icon name="person" item-left></ion-icon>
-              <ion-label stacked>Name:</ion-label>
-              <ion-input type="text" name="name" [(ngModel)]="userData.name"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-icon name="call" item-start></ion-icon>
-              <ion-label stacked>CellPhone:</ion-label>
-              <ion-input type="text" name="telefono" [(ngModel)]="userData.telefono"></ion-input>
-            </ion-item>
-            <ion-item [hidden]=activePassword>
-              <ion-icon name="key" item-left></ion-icon>
-              <ion-label stacked>Password:</ion-label>
-              <ion-input type="password" name="password" [(ngModel)]="userData.password"></ion-input>
-            </ion-item>
-          </ion-list>
-      </ion-card-content>
-    </ion-card>
-  </form>
-  <div text-center>
-    <ion-button block type="submit" (click)="signup()" [hidden]=buttonRegister>Sign up</ion-button>
-    <ion-button block type="submit" [hidden]=buttonUpdate>Update</ion-button>
-  </div>
-  <div text-center>
-    <a ion-button block clear (click)="cancelar()">
-      Cancel
-    </a>
-  </div>
--->
 </ion-content>

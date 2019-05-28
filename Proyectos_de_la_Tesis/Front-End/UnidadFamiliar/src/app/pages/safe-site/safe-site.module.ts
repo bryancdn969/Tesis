@@ -9,8 +9,23 @@ import { SafeSitePage } from './safe-site.page';
 
 const routes: Routes = [
   {
+    path: 'tabsSite',
+    component: SafeSitePage,
+    children: [
+      {
+        path: 'nearSite',
+        loadChildren: '../safe-site-near-tab/safe-site-near-tab.module#SafeSiteNearTabPageModule'
+      },
+      {
+        path: 'searchSite',
+        loadChildren: '../safe-site-search-tab/safe-site-search-tab.module#SafeSiteSearchTabPageModule'
+      }
+    ]
+  },
+  {
     path: '',
-    component: SafeSitePage
+    redirectTo: 'tabsSite/nearSite',
+    pathMatch: 'full'
   }
 ];
 

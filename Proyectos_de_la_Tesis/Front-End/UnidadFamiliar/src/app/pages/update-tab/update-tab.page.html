@@ -3,15 +3,15 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Update Friends Information</ion-title>
+    <ion-title>Actualizar la información de amigos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 <ion-list>
-  <ion-list-header>Select one</ion-list-header>
+  <ion-list-header>Escoja uno: </ion-list-header>
   <ion-item>
-    <ion-label>Friend: </ion-label>
+    <ion-label>Amigo: </ion-label>
       <ion-select [(ngModel)]="selectedSingleEmployee" [compareWith]="compareFn" (ionChange)="singleChange()">
         <ion-select-option *ngFor="let user of friends" [value]="user">{{user.nombre_friend}}
         </ion-select-option>
@@ -22,9 +22,6 @@
 <form (ngSubmit)="presentAlert()">
 <br />
   <ion-card>
-    <ion-card-header>
-      Update Friends
-      </ion-card-header>
       <ion-card-content>
         <ion-list>
             <ion-item>

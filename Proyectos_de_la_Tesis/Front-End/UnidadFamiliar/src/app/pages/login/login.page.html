@@ -1,41 +1,50 @@
-<!-- <ion-content>
-        <ion-card>
-            <ion-list>
-                <ion-item text-center class="fondo">
-                    <ion-img class="img" src="assets/imgs/fis.jpg"></ion-img>
-                </ion-item>
-                <br/>
-                <ion-item>
-                    <ion-icon name="mail" item-left></ion-icon>
-                    <ion-label stacked>Email: </ion-label>
-                    <ion-input type="text"  name="email" placeholder= "Email"  [(ngModel)]="userData.email"
-                               autocapitalize="off" required></ion-input>
-                </ion-item>
-                <ion-item>
-                    <ion-icon name="key" item-left></ion-icon>
-                    <ion-label stacked>Password: </ion-label>
-                    <ion-input type="password"  name="password" placeholder="Password"  [(ngModel)]="userData.password" required></ion-input>
-                </ion-item>
-            </ion-list>
-            <div padding>
-                <ion-button block (click)="login()">Login</ion-button>
-            </div>
-        </ion-card>
-    <div text-center>
-        <a ion-button block clear (click)="Signup()">
-            New Account
-        </a>
-        <a ion-button block clear (click)="goToResetPassword()">
-            Forget my password
-        </a>
-    </div>
-</ion-content> -->
-
 <ion-content>
     <ion-grid>
         <ion-row justify-content-center>
             <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
                 <div padding>
+                    <form [formGroup]="formularioUsuario" (ngSubmit)="login()" novalidate>
+                        <ion-list>
+                        <ion-img src="assets/imgs/fis.jpg"></ion-img>
+                            <br />
+                        <ion-item>
+                            <ion-icon name="at" item-left></ion-icon>
+                            <ion-label stacked>Email: </ion-label>
+                            <ion-input formControlName="correo" type="email" placeholder="correo" name="correo" required maxlength="30" [(ngModel)]="userData.email"></ion-input>
+                        </ion-item>
+                        <ion-item *ngIf="formularioUsuario.get('correo').errors && formularioUsuario.get('correo').dirty">
+                            <p *ngIf="formularioUsuario.get('correo').hasError('required')" class="error">
+                            El correo es requerido.
+                            </p>
+                            <p *ngIf="formularioUsuario.get('correo').hasError('email')" class="error">
+                            El correo electronico indicado no es valido.
+                            </p>
+                        </ion-item>
+                        <ion-item>
+                            <ion-icon name="key" item-left></ion-icon>
+                            <ion-label stacked>Password:</ion-label>
+                            <ion-input formControlName="password" type="password" name="password" placeholder="Password" [(ngModel)]="userData.password" required maxlength="10"></ion-input>
+                        </ion-item>
+                        <ion-item *ngIf="formularioUsuario.get('password').errors && formularioUsuario.get('password').dirty">
+                            <p *ngIf="formularioUsuario.get('password').hasError('required')" class="error">
+                            La contraseña es requerida.
+                            </p>
+                            <p *ngIf="formularioUsuario.get('password').hasError('maxlength')" class="error">
+                            La contraseña no puede contener más de 10 caracteres
+                            </p>
+                            <p *ngIf="formularioUsuario.get('password').hasError('minlength')" class="error">
+                            La contraseña debe contener al menos 5 caracteres
+                            </p>
+                        </ion-item>
+                        </ion-list>
+                        <div class="padding">
+                            <p text-right (click)="goToResetPassword()"><b>Olvidate tu contraseña?</b></p>  
+                                <ion-button type="submit" expand="full" color="primary" [disabled]="!formularioUsuario.valid">Login</ion-button>
+                            <p text-center>No tienes cuenta?</p>
+                                <ion-button expand="full" color="danger" (click)="signup()">Register</ion-button>
+                        </div>
+                    </form>
+                <!-- Login antiguo 
                     <ion-img src="assets/imgs/fis.jpg"></ion-img>
                     <br />
                     <ion-item>
@@ -56,6 +65,7 @@
                     <ion-button type="submit" expand="full" color="primary" (click)="login()">Login</ion-button>
                     <p text-center>Don't have a account?</p>
                     <ion-button expand="full" color="danger" (click)="signup()">Register</ion-button>
+                </div>-->
                 </div>
             </ion-col>
         </ion-row>

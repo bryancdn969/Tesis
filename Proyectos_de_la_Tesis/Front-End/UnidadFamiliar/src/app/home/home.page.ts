@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,10 @@ import { Router } from '@angular/router';
 })
 export class HomePage {
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    public menu: MenuController,
+  ) {
   }
 
   login() {
@@ -17,6 +21,16 @@ export class HomePage {
 
   signup() {
     this.router.navigate([ '/signup' ]);
+  }
+
+  ionViewWillEnter() {
+    /* this.storage.get('ion_did_tutorial').then(res => {
+      if (res === true) {
+        this.router.navigateByUrl('/app/tabs/schedule');
+      }
+    }); */
+
+    this.menu.enable(false);
   }
 
 }

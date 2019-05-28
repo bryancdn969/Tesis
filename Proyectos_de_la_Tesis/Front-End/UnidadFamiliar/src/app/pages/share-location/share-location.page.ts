@@ -5,6 +5,7 @@ import { UserService } from '../../api/user.service';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { MenuController } from '@ionic/angular';
 
 declare var google;
 
@@ -42,7 +43,8 @@ export class ShareLocationPage implements OnInit {
     private nativeGeocoder: NativeGeocoder,
     private authService: UserService,
     private router: Router,
-    private toastController: ToastController
+    private toastController: ToastController,
+    public menu: MenuController,
   ) { }
 
   async presentToast( message: string ) {
@@ -194,6 +196,16 @@ export class ShareLocationPage implements OnInit {
     console.log(err);
     this.presentToast('The service is failed.');
     });
+}
+
+ionViewWillEnter() {
+  /* this.storage.get('ion_did_tutorial').then(res => {
+    if (res === true) {
+      this.router.navigateByUrl('/app/tabs/schedule');
+    }
+  }); */
+
+  this.menu.enable(true);
 }
 
 }

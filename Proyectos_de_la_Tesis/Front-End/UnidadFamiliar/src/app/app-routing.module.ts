@@ -16,6 +16,8 @@ const routes: Routes = [
   { path: 'all-friends', loadChildren: './pages/all-friends/all-friends.module#AllFriendsPageModule' },
   { path: 'update-tab', loadChildren: './pages/update-tab/update-tab.module#UpdateTabPageModule' },
   { path: 'register-tab', loadChildren: './pages/register-tab/register-tab.module#RegisterTabPageModule' },
+  { path: 'safe-site-near-tab', loadChildren: './pages/safe-site-near-tab/safe-site-near-tab.module#SafeSiteNearTabPageModule' },
+  { path: 'safe-site-search-tab', loadChildren: './pages/safe-site-search-tab/safe-site-search-tab.module#SafeSiteSearchTabPageModule' },
 
 ];
 
