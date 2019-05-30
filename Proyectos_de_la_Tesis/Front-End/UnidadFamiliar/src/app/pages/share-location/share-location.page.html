@@ -16,20 +16,50 @@
 </ion-header>
 
 <ion-content>
- 
-  <div class="map-wrapper">
+ <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col align-self-center size-md="3" size-lg="2" size-xs="13">
+        <div padding>
+          <form novalidate>  
+            <ion-list> 
+              <div class="map-wrapper">
+                  <div id="map_center">
+                    <img src="../../assets/icon/center_marker.png" />
+                  </div>
+                  <div #map id="map"></div>
+              </div>
+            </ion-list>
+            <div id="address">
+              <span>{{address}}</span>
+            </div>
+          </form>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+ <!-- <div class="map-wrapper">
     <div id="map_center">
       <img src="../../assets/icon/center_marker.png" />
     </div>
     <div #map id="map"></div>
   </div>
-  <ion-button (click)="shareLocation(address)" shape="round" fill="outline">
-    <ion-icon slot="start" name="shareLocation"></ion-icon>
-    Share Location with my friends
-  </ion-button>
+    <ion-button (click)="shareLocation(address)" shape="round" fill="outline">
+      <ion-icon slot="start" name="shareLocation"></ion-icon>
+      Share Location with my friends
+    </ion-button>
   <div id="address">
     <span>{{address}}</span>
-  </div>
- 
- 
+  </div>-->
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="shareLocation(address)" shape="round" fill="outline">
+            Enviar mi ubicación
+          </ion-button>
+        </ion-col>
+      </ion-row>
+  </ion-toolbar>
+</ion-footer>

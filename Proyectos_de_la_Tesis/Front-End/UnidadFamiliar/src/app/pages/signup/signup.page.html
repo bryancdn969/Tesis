@@ -12,7 +12,8 @@
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
         <div padding>
           <form [formGroup]="formularioUsuario" (ngSubmit)="signup()" novalidate>
-            <ion-list>
+            <ion-icon name="clipboard" class="alinearIcono"></ion-icon>
+            <ion-list>            
               <ion-item>
                 <ion-icon name="person" item-left></ion-icon>
                 <ion-label stacked>Nombre: </ion-label>
@@ -28,7 +29,7 @@
               </ion-item>
               <ion-item>
                 <ion-icon name="at" item-left></ion-icon>
-                <ion-label stacked>Email: </ion-label>
+                <ion-label stacked>Correo: </ion-label>
                 <ion-input formControlName="correo" type="email" placeholder="correo" name="correo" required maxlength="30" [(ngModel)]="userData.email"></ion-input>
               </ion-item>
               <ion-item *ngIf="formularioUsuario.get('correo').errors && formularioUsuario.get('correo').dirty">

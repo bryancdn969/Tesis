@@ -61,3 +61,53 @@ Form control
 
 Scroll infinito
 	- https://www.freakyjolly.com/ionic-4-implement-infinite-scroll-list-with-virtual-scroll-list-in-ionic-4-application/
+	- https://github.com/ionic-team/ionic/blob/master/angular/BREAKING.md#scroll // como llamr a un scroll
+
+Travel mode
+	- https://developers.google.com/maps/documentation/javascript/examples/directions-travel-modes
+
+Background
+	- https://www.freakyjolly.com/ionic-3-4-how-to-change-css-custom-properties-of-ui-components/#more-2115
+
+Trazar rutas
+	- https://blog.ng-classroom.com/blog/ionic2/directions-google-js-ionic/
+
+Calcular distancia entre coordenadas geograficas
+	- http://www.tufuncion.com/distancia-coordenadas
+	- <script type="text/javascript">
+
+    
+	var lat1 = 41.3879169;
+    var lon1 = 2.1699187;
+    var lat2 = 40.4167413;
+    var lon2 = -3.7032498;
+
+    
+	Distancia = Dist(lat1, lon1, lat2, lon2);   //Retorna numero en Km
+
+    
+	function Dist(lat1, lon1, lat2, lon2)
+      {
+      
+	rad = function(x) {return x*Math.PI/180;}
+
+      
+	var R     = 6378.137;                     //Radio de la tierra en km
+      
+	var dLat  = rad( lat2 - lat1 );
+     
+	var dLong = rad( lon2 - lon1 );
+
+      
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLong/2) * Math.sin(dLong/2);
+      
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      
+	var d = R * c;
+
+      return d.toFixed(3);                      //Retorna tres decimales
+      
+	console.log(d);
+    }
+
+	</script>

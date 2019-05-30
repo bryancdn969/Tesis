@@ -1,9 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>safeSiteNearTab</ion-title>
+    <ion-buttons left>
+      <ion-icon name="arrow-round-back" (click)="regresar()"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content scrollX="true" class="scroll">
+  <div id="map"></div>
+  <div padding-horizontal id="panel" claas="letra"></div>
 </ion-content>

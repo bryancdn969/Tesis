@@ -1,19 +1,12 @@
-#map_canvas {
-    width: 90%;
-    height: 80%;
-    border: 1px solid red;
-  }
-   
-   
   #address {
-    padding: 10px;
-    font-size: 18px;
+    padding-top: 10px;
+    font-size: 17px;
     font-weight: bold;
   }
    
   #map {
     width: 100%;
-    height: 70vh;
+    height: 60vh;
   }
    
   .map-wrapper {
@@ -27,12 +20,34 @@
       top: 50%;
       left: 50%;
       margin-left: -21px;
-      margin-top: -41px;
+      margin-top: -41px
     }
   }
 
   ion-button {
-    padding-top: 10px;
-    padding-left: 5px;
+    padding-left: 62px;
     height: 40px;
+  }
+
+  ion-grid {
+    width:100%;
+    height: 100%;
+    background: linear-gradient(rgb(72, 117, 162), rgb(197, 126, 85)) no-repeat;
+  }
+
+  ion-row {
+      height: 100%;
+  }
+
+  ion-col {
+      height: 100%;
+      width: 400%;
+  }
+
+  ion-list {
+    width: 100%;
+  }
+
+  ion-toolbar {
+    --background: linear-gradient(rgb(156, 159, 161), rgb(243, 195, 168)) no-repeat;
   }

@@ -1,0 +1,24 @@
+ion-content{
+    background: linear-gradient(rgb(72, 117, 162), rgb(197, 126, 85)) no-repeat;
+      #map {
+        width: 100%;
+        height: 350px;
+        opacity: 0;
+        transition: opacity 150ms ease-in;
+        display: block;
+        &.show-map{
+          opacity: 1;
+        }
+      }
+      .scroll{
+        height: calc(100% - 250px);
+      }
+}
+
+ion-toolbar {
+    --background: linear-gradient(rgb(156, 159, 161), rgb(243, 195, 168)) no-repeat;
+}
+
+ion-content{
+    --background: linear-gradient(rgb(197, 126, 85), rgb(72, 117, 162)) no-repeat;
+}

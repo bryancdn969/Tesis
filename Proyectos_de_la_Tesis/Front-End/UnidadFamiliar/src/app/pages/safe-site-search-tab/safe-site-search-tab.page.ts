@@ -44,7 +44,6 @@ export class SafeSiteSearchTabPage implements OnInit {
 
   singleChange() {
     console.log(this.selectedSingleZone);
-    this.habilitarLista = false;
     this.sectorZone.sector_zona = this.selectedSingleZone.id_sector;
     this.authService.postData(JSON.stringify(this.sectorZone), 'selectzonesespecificas').then((res) => {
       this.sectorEspecificas = res;
