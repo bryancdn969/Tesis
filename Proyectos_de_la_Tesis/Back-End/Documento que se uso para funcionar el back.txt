@@ -149,3 +149,29 @@ VALUES ('Sur','Parque Batallón Chimborazo','Calle Punta Arenas',-0.251312, -78.5
 
 	  INSERT INTO unidadfamiliar.app_zona(sector_zona,nombre_zona, direccion_zona, latitud_zona, longitud_zona)
 VALUES ('Sur','Parque Metropolitano del Sur','Sector de El Troje, Av. Simón Bolívar',-0.332326, -78.518741);
+
+
+Create table person
+	- CREATE TABLE IF NOT EXISTS unidadfamiliar.app_persona (
+	
+		id_persona	INT NOT NULL AUTO_INCREMENT,
+	
+		nombre_persona	VARCHAR(250) NOT NULL,
+	
+		correo_persona VARCHAR(30) NOT NULL,
+	
+		telefono_persona VARCHAR(15) NOT NULL,
+	
+		ciudad_persona CHAR(30) NOT NULL,
+	
+		sector_persona	CHAR(1) NOT NULL,
+	
+		fecha_creacion_persona	TIMESTAMP,
+	
+		estado_persona	CHAR(1),
+	
+		INDEX idx_persona (id_persona ASC),
+	
+		PRIMARY KEY (id_persona)
+
+	) ENGINE = InnoDB; 

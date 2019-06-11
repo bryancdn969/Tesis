@@ -24,6 +24,16 @@ export class SignupPage implements OnInit {
   titleUpdate: any;
   formularioUsuario: FormGroup;
   existeUsuario: any;
+  selectZone =  {};
+  comboZones: any;
+  zones: any[] = [ ];
+  selectedSingleZone: any;
+  sectorZone = { sector_zona : 0 , status_zona : 'A' };
+  sectorEspecificas: any;
+  sector: any[] = [ ];
+  personaData = {nombre_persona : '' , correo_persona : '', telefono_persona : '',
+                 ciudad_persona : 'Quito', sector_persona : '' , estado_persona : 'A'};
+  persona: any;
 
   constructor(
       private authService: UserService,
@@ -46,7 +56,7 @@ export class SignupPage implements OnInit {
       this.buttonUpdate   = false;
     }
   }
-
+  // Toast information
   async presentToast( message: string ) {
     const toast = await this.toastController.create({
       message,
@@ -55,34 +65,74 @@ export class SignupPage implements OnInit {
     toast.present();
   }
 
+  // Se llama al servicio de zonas y se valida el build form
   ngOnInit() {
     this.buildForm();
+    this.authService.postData(JSON.stringify(this.selectZone), 'selectzones').then((res) => {
+      this.comboZones = res;
+      // console.log(this.comboZones);
+      for (let i = 0; i <= this.comboZones.data.length - 1; i++) {
+        this.zones = this.comboZones.data;
+      }
+    });
   }
 
+  // Compara la zona seleccionada y la cambia
+  compareFn(e1, e2): boolean {
+    return e1 && e2 ? e1.nombre_sector === e2.nombre_sector : e1 === e2;
+  }
+
+  // sientre el cambio de zona y lo almacena en una variable
+  singleChange() {
+    console.log(this.selectedSingleZone);
+    this.sectorZone.sector_zona = this.selectedSingleZone.id_sector;
+    this.personaData.sector_persona = this.sectorZone.sector_zona.toString();
+    console.log(this.personaData.sector_persona);
+  }
+
+
+  // valida el registro tanto de la persona como la del usuario
   signup() {
-    if (this.userData.name && this.userData.email && this.userData.password && this.userData.telefono) {
+    if (this.userData.name && this.userData.email && this.userData.password && this.userData.telefono
+        && this.personaData.sector_persona.valueOf() !== '') {
       this.userExiste.telefono = this.userData.telefono;
       this.userData.telefono = this.userData.telefono;
+      this.personaData.nombre_persona = this.userData.name;
+      this.personaData.correo_persona = this.userData.email;
+      this.personaData.telefono_persona = this.userData.telefono;
+
+        // Aqui registraremos el usuario
       this.authService.postData(JSON.stringify(this.userExiste), 'controlarusuariosrepetidos').then((res) => {
-        this.existeUsuario = res;
-        if (this.existeUsuario.api_status === 1 && this.existeUsuario.api_http === 200) {
-          this.presentToast('El número de teléfono ingresado ya existe.');
-        } else {
-          this.authService.postData(JSON.stringify(this.userData), 'signup').then((result) => {
-            this.responseData = result;
-            console.log(this.responseData);
-            if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
-              localStorage.setItem('userData', JSON.stringify(this.responseData));
-              this.presentToast('Usuario guardado correctamente.');
-              // this.buildForm();
-              this.router.navigate([ '/menu/login' ]);
-            }
-          }, (err) => {
-            console.log(err);
-            this.presentToast('Falla del servicio.');
-          });
-        }
-       });
+          this.existeUsuario = res;
+          if (this.existeUsuario.api_status === 1 && this.existeUsuario.api_http === 200) {
+            this.presentToast('El número de teléfono ingresado ya existe.');
+          } else {
+            this.authService.postData(JSON.stringify(this.userData), 'signup').then((result) => {
+              this.responseData = result;
+              console.log(this.responseData);
+              if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
+                localStorage.setItem('userData', JSON.stringify(this.responseData));
+                // Crearemos primero persona
+                this.authService.postData(JSON.stringify(this.personaData), 'createperson').then((resPerson) => {
+                  this.persona = resPerson;
+                  console.log(this.persona);
+                  this.presentToast('Usuario guardado correctamente.');
+                 // this.buildForm();
+                  this.router.navigate([ '/menu/login' ]);
+                }, (err) => {
+                  console.log(err);
+                  this.presentToast('Falla del servicio.');
+                });
+              }
+            }, (err) => {
+              console.log(err);
+              this.presentToast('Falla del servicio.');
+            });
+          }
+         }, (err) => {
+          console.log(err);
+          this.presentToast('Falla del servicio.');
+        });
     } else {
       this.presentToast('Todos campos son necesarios.');
     }
@@ -113,7 +163,9 @@ export class SignupPage implements OnInit {
       nombre: ['', [Validators.required, Validators.maxLength(30)]],
       correo: ['', [Validators.required, Validators.email]],
       numero_contacto: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]{5,10}$/)]],
-      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]]
+      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
+      ciudad: [''],
+      sector: ['', [Validators.required]]
     });
   }
 

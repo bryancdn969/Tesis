@@ -59,6 +59,18 @@
                   No se permite letras
                 </p>
               </ion-item>
+               <ion-item>
+                <ion-icon name="locate" item-left></ion-icon>
+                <ion-label stacked>Ciudad: </ion-label>
+                <ion-input formControlName="ciudad" type="text" name="ciudad" [(ngModel)]="personaData.ciudad" value="Quito" disabled></ion-input>
+              </ion-item>
+               <ion-item>
+               <ion-icon name="map" item-left></ion-icon>
+                <ion-label>Seleccione un sector: </ion-label>
+                  <ion-select formControlName="sector" name="sector" [(ngModel)]="selectedSingleZone" [compareWith]="compareFn" (ionChange)="singleChange()">
+                    <ion-select-option *ngFor="let zone of zones" [value]="zone">{{zone.nombre_sector}}</ion-select-option>
+                  </ion-select>
+              </ion-item>
               <ion-item [hidden]=activePassword>
                 <ion-icon name="key" item-left></ion-icon>
                 <ion-label stacked>Password:</ion-label>
