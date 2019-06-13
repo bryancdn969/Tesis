@@ -1,8 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-icon name="arrow-round-back" (click)="regresar()"></ion-icon>
-    </ion-buttons>
+    <ion-buttons slot="start"> <ion-menu-button></ion-menu-button> </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -15,7 +13,7 @@
   </ion-item>
 
   <ion-virtual-scroll [items]="sector" [hidden]=habilitarLista>
-    <ion-item *virtualItem="let item">
+    <ion-item *virtualItem="let item" (click)="optionsFn(item)">
       <ion-avatar slot="start">
         <ion-icon name="paper-plane" class="alinearIcono"></ion-icon>
       </ion-avatar>

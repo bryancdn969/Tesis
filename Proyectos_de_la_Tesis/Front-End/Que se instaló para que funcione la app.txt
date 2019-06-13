@@ -111,3 +111,6 @@ Calcular distancia entre coordenadas geograficas
     }
 
 	</script>
+
+Obtener un item selecionado 
+	- https://stackoverflow.com/questions/39503876/how-to-get-the-value-from-ion-select-option

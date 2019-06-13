@@ -43,6 +43,10 @@ const routes: Routes = [
       {
         path: 'friendsDetail',
         loadChildren: '../friends-detail/friends-detail.module#FriendsDetailPageModule'
+      },
+      {
+        path: 'sectorSelected',
+        loadChildren: '../sector-selected/sector-selected.module#SectorSelectedPageModule'
       }
     ]
   }

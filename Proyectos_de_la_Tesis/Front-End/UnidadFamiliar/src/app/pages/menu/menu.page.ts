@@ -12,19 +12,19 @@ export class MenuPage implements OnInit {
 
   pages = [
     {
-      title: 'Search safe sites',
-      url: '/menu/safeSite'
-    },
-    {
-      title: 'Share current location',
+      title: 'Compartir Posiciòn Actual',
       url: '/menu/shareLocation'
     },
     {
-      title: 'Friends',
+      title: 'Buscar Sitios Seguros',
+      url: '/menu/safeSite'
+    },
+    {
+      title: 'Amigos',
       url: '/menu/addFriends'
     },
     {
-      title: 'View Position Freinds',
+      title: 'Ver la ubicaciòn de Amigos',
       url: '/menu/viewPositionFreinds'
     }
   ];

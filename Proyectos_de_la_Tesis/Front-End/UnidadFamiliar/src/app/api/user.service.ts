@@ -14,6 +14,8 @@ const httpOptions = {  headers: new Headers({'Content-Type': 'application/json',
 })
 export class UserService {
 
+  HAS_LOGGED_IN = 'hasLoggedIn';
+
   constructor(
     public http: Http
   ) {
@@ -46,6 +48,14 @@ export class UserService {
           });
     });
 
+  }
+
+  isLoggedIn() {
+    console.log((this.HAS_LOGGED_IN));
+    localStorage.setItem('HAS_LOGGED_IN', (this.HAS_LOGGED_IN));
+    /* return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
+      return value === true;
+    }); */
   }
 
 }

@@ -18,6 +18,8 @@ const routes: Routes = [
   { path: 'register-tab', loadChildren: './pages/register-tab/register-tab.module#RegisterTabPageModule' },
   { path: 'safe-site-near-tab', loadChildren: './pages/safe-site-near-tab/safe-site-near-tab.module#SafeSiteNearTabPageModule' },
   { path: 'safe-site-search-tab', loadChildren: './pages/safe-site-search-tab/safe-site-search-tab.module#SafeSiteSearchTabPageModule' },
+  { path: 'sector-selected', loadChildren: './pages/sector-selected/sector-selected.module#SectorSelectedPageModule' },
+  { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' },
 
 ];
 

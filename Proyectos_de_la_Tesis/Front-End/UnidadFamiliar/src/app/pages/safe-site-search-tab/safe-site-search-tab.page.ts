@@ -14,6 +14,7 @@ export class SafeSiteSearchTabPage implements OnInit {
   zones: any[] = [ ];
   sector: any[] = [ ];
   selectedSingleZone: any;
+  selectedExactZone: any;
   selectZone =  {};
   comboZones: any;
   sectorEspecificas: any;
@@ -47,12 +48,17 @@ export class SafeSiteSearchTabPage implements OnInit {
     this.sectorZone.sector_zona = this.selectedSingleZone.id_sector;
     this.authService.postData(JSON.stringify(this.sectorZone), 'selectzonesespecificas').then((res) => {
       this.sectorEspecificas = res;
-      // console.log(this.comboZones);
       for (let i = 0; i <= this.sectorEspecificas.data.length - 1; i++) {
         this.sector = this.sectorEspecificas.data;
         this.habilitarLista = false;
       }
     });
+  }
+
+  optionsFn(aux) {
+    console.log(aux);
+    localStorage.setItem('sectorSelected', JSON.stringify(aux));
+    this.router.navigate([ '/menu/sectorSelected' ]);
   }
 
   loadData(event) {
