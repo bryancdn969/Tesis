@@ -47,6 +47,10 @@ const routes: Routes = [
       {
         path: 'sectorSelected',
         loadChildren: '../sector-selected/sector-selected.module#SectorSelectedPageModule'
+      },
+      {
+        path: 'profile',
+        loadChildren: '../profile/profile.module#ProfilePageModule'
       }
     ]
   }

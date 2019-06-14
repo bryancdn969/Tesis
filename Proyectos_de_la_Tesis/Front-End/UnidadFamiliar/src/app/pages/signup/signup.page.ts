@@ -19,7 +19,6 @@ export class SignupPage implements OnInit {
   boolean: any;
   activePassword: any;
   buttonRegister: any;
-  buttonUpdate: any;
   titleSignup: any;
   titleUpdate: any;
   formularioUsuario: FormGroup;
@@ -48,12 +47,10 @@ export class SignupPage implements OnInit {
       this.boolean        = true;
       this.activePassword = false;
       this.buttonRegister = false;
-      this.buttonUpdate   = true;
     } else if (localStorage.getItem('update') === 'false') {
       this.boolean        = false;
       this.activePassword = true;
       this.buttonRegister = true;
-      this.buttonUpdate   = false;
     }
   }
   // Toast information
