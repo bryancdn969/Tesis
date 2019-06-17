@@ -47,6 +47,7 @@ Código de la creacion de la tabla de posición
 	id_position	INT NOT NULL AUTO_INCREMENT,
     
 	id_user	INT UNSIGNED NOT NULL,
+	
 	id_friend	INT NOT NULL,
     
 	name_user VARCHAR(30) NOT NULL,

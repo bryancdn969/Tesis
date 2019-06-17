@@ -5,12 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ViewPositionFriendsPage } from './view-position-friends.page';
+import { ViewPositionFriendsMapPage } from './view-position-friends-map.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ViewPositionFriendsPage,
+    component: ViewPositionFriendsMapPage
   }
 ];
 
@@ -21,6 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ViewPositionFriendsPage]
+  declarations: [ViewPositionFriendsMapPage]
 })
-export class ViewPositionFriendsPageModule {}
+export class ViewPositionFriendsMapPageModule {}

@@ -24,8 +24,8 @@ export class MenuPage implements OnInit {
       url: '/menu/addFriends'
     },
     {
-      title: 'Ver la ubicaciòn de Amigos',
-      url: '/menu/viewPositionFreinds'
+      title: 'Ver la ubicaciòn de mis Amigos',
+      url: '/menu/viewPositionFriends'
     },
     {
       title: 'Perfil',

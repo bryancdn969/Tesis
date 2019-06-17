@@ -20,6 +20,7 @@ export class LoginPage implements OnInit {
     valuSector: any;
     sectorUser = { sector_zona : '', status_zona : 'A', sector_persona : '', estado_persona : 'A'};
     zonaUser: any;
+
   constructor(
       private authService: UserService,
       private router: Router,
@@ -29,7 +30,7 @@ export class LoginPage implements OnInit {
     ) {
     }
 
-      async presentToast( message: string ) {
+  async presentToast( message: string ) {
       const toast = await this.toastController.create({
           message,
           duration: 2000
@@ -97,6 +98,7 @@ export class LoginPage implements OnInit {
   });
 
   }
+
   signup() {
     this.router.navigate([ '/menu/signup' ]);
   }

@@ -33,7 +33,7 @@ const routes: Routes = [
         loadChildren: '../add-friends/add-friends.module#AddFriendsPageModule'
       },
       {
-        path: 'viewPositionFreinds',
+        path: 'viewPositionFriends',
         loadChildren: '../view-position-friends/view-position-friends.module#ViewPositionFriendsPageModule'
       },
       {
@@ -51,6 +51,10 @@ const routes: Routes = [
       {
         path: 'profile',
         loadChildren: '../profile/profile.module#ProfilePageModule'
+      },
+      {
+        path: 'viewFriendPositionMap',
+        loadChildren: '../view-position-friends-map/view-position-friends-map.module#ViewPositionFriendsMapPageModule'
       }
     ]
   }

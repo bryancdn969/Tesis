@@ -175,4 +175,4 @@ export class SignupPage implements OnInit {
 
     this.menu.enable(false);
   }
-}
+  }

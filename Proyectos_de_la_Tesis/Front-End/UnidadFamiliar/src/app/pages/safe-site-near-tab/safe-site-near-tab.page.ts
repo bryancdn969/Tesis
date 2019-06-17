@@ -37,6 +37,7 @@ export class SafeSiteNearTabPage implements OnInit {
     this.responseData = JSON.parse(localStorage.getItem('zonaUser'));
 
     this.waypoints = this.responseData;
+    console.log(this.waypoints);
     /*this.waypoints = [
       { location: { lat: -0.287557, lng: -78.547576 }, stopover: true, },
        { location: { lat: -0.245671, lng: -78.530838 }, stopover: true, },

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../api/user.service';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register-tab',
@@ -24,10 +25,13 @@ export class RegisterTabPage implements OnInit {
 
   friends: any[] = [ ];
 
+  formularioUsuario: FormGroup;
+
   constructor(
     private authService: UserService,
     private router: Router,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private fb: FormBuilder,
   ) {
     // primero consultamos si el usaurio tiene contactos agregados
     this.responseDataid = localStorage.getItem('userDataLogin');
@@ -60,6 +64,7 @@ export class RegisterTabPage implements OnInit {
   }
 
   ngOnInit() {
+    this.buildForm();
   }
 
   addFriend() {
@@ -86,6 +91,20 @@ export class RegisterTabPage implements OnInit {
         this.presentToast('The data is required.');
       }
     }
+  }
+
+  buildForm() {
+    /**
+     * @description Asignamos a la propiedad "formularioUsuario" los campos que se van a controlar de la vista
+     */
+    this.formularioUsuario = this.fb.group({
+      nombre: ['', [Validators.required, Validators.maxLength(30)]],
+      correo: ['', [Validators.required, Validators.email]],
+      numero_contacto: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]{5,10}$/)]],
+      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
+      ciudad: [''],
+      sector: ['', [Validators.required]]
+    });
   }
 
 }
