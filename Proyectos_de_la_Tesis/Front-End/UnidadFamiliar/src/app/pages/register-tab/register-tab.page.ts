@@ -16,15 +16,11 @@ export class RegisterTabPage implements OnInit {
   responseDataFriend: any;
   count = 0;
   aux: any;
-
   userData = { id_user : '' , name_user : '' ,  telefono_user : '' , telefono_friend : '', nombre_friend : '',
   email_friend : '' , count_friend : this.count, status_friend : 'A' };
   selectFriend = { id_user : 0 , status_friend : 'A' };
-
   dataVerification = { id_user : 0};
-
   friends: any[] = [ ];
-
   formularioUsuario: FormGroup;
 
   constructor(
@@ -51,6 +47,7 @@ export class RegisterTabPage implements OnInit {
           this.count = 0;
       } else {
         this.count = this.responseData.data[0].count_friend;
+        console.log(this.count);
       }
     });
   }
@@ -69,7 +66,7 @@ export class RegisterTabPage implements OnInit {
 
   addFriend() {
     if (this.count > 3) {
-      this.presentToast('You can only add 3 friends.');
+      this.presentToast('Solo puede agregar 3 amigos.');
     } else {
 
       if (this.userData.nombre_friend && this.userData.telefono_friend) {
@@ -107,4 +104,11 @@ export class RegisterTabPage implements OnInit {
     });
   }
 
+  cancelar() {
+    this.formularioUsuario = this.fb.group({
+      nombre: '',
+      correo: '',
+      numero_contacto: ''
+    });
+  }
 }

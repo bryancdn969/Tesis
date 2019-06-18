@@ -16,8 +16,6 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
   responseData: any;
 
   boolean: any;
-  activePassword: any;
-  buttonUpdate: any;
   titleSignup: any;
   titleUpdate: any;
   formularioUsuario: FormGroup;
@@ -29,7 +27,9 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
   sectorZone = { sector_zona : 0 , status_zona : 'A' };
   sectorEspecificas: any;
   sector: any[] = [ ];
-
+  activePassword = true; buttonUpdate = false; activeName = false; activeEmail = false;
+  activePhone = false; activeCity = false; activeSector = false; buttonUpdatePassword = true;
+  buuttonActivePassword = false;
   takePersona = {correo_persona : '', estado_persona : 'A', email : '', status : 'Active' };
   persona: any;
 
@@ -141,6 +141,13 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
         numero_contacto: ['',
         [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]{5,10}$/)]],
       });
+  }
+
+  changePassword() {
+    this.activeName = true; this.activeEmail = true;
+    this.activePhone = true; this.activeCity = true;
+    this.activeSector = true; this.activePassword = false;
+    this.buttonUpdate = true; this.buttonUpdatePassword = false;
   }
 
 }

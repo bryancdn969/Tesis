@@ -71,7 +71,7 @@
                     </ion-item>
                 </ion-list>
                 <div class="padding">
-                    <ion-button block type="submit" class="alinearBoton">Agregar Amigo</ion-button>
+                    <ion-button block type="submit" class="alinearBoton" [disabled]="!formularioUsuario.valid">Actualizar Amigo</ion-button>
                 </div>
                 <div padding>
                     <ion-button expand="full" color="danger" (click)="cancelar()">Cancelar</ion-button>

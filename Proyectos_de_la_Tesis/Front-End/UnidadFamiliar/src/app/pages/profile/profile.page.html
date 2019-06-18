@@ -15,7 +15,7 @@
           <form [formGroup]="formularioUsuario" (ngSubmit)="update()" novalidate>
             <ion-icon name="contact" class="alinearIcono"></ion-icon>
             <ion-list>            
-              <ion-item>
+              <ion-item [hidden]=activeName>
                 <ion-icon name="person" item-left></ion-icon>
                 <ion-label stacked>Nombre: </ion-label>
                 <ion-input formControlName="nombre" type="text" placeholder="Nombre" name="nombre" required maxlength="30" [(ngModel)]="userData.name"> </ion-input>
@@ -28,7 +28,7 @@
                   El maximo de caracteres permitidos es 30.
                 </p>
               </ion-item>
-              <ion-item>
+              <ion-item [hidden]=activeEmail>
                 <ion-icon name="at" item-left></ion-icon>
                 <ion-label stacked>Correo: </ion-label>
                 <ion-input formControlName="correo" type="email" placeholder="correo" name="correo" required maxlength="30" [(ngModel)]="userData.email"></ion-input>
@@ -41,7 +41,7 @@
                   El correo electronico indicado no es valido.
                 </p>
               </ion-item>
-              <ion-item>
+              <ion-item [hidden]=activePhone>
                 <ion-icon name="call" item-left></ion-icon>
                 <ion-label stacked>Teléfono: </ion-label>
                 <ion-input formControlName="numero_contacto" type="text" placeholder="Numero de contacto" name="numero_contacto" required maxlength="10" [(ngModel)]="userData.telefono"></ion-input>
@@ -60,12 +60,12 @@
                   No se permite letras
                 </p>
               </ion-item>
-               <ion-item>
+               <ion-item [hidden]=activeCity>
                 <ion-icon name="locate" item-left></ion-icon>
                 <ion-label stacked>Ciudad: </ion-label>
                 <ion-input formControlName="ciudad" type="text" name="ciudad" [(ngModel)]="userData.ciudad" value="Quito" disabled></ion-input>
               </ion-item>
-               <ion-item>
+               <ion-item [hidden]=activeSector>
                <ion-icon name="map" item-left></ion-icon>
                 <ion-label>Sector: </ion-label>
                 <ion-input formControlName="sectorI" type="text" name="sectorI" [(ngModel)]="userData.sector"></ion-input>
@@ -92,6 +92,10 @@
             </ion-list>
             <div class="padding">
               <ion-button block type="submit" [hidden]=buttonUpdate [disabled]="!formularioUsuario.valid" class="alinearBoton">Actualizar</ion-button>
+              <ion-button block type="submit" [hidden]=buttonUpdatePassword [disabled]="!formularioUsuario.valid" class="alinearBoton">Actualizar Contraseña</ion-button>
+            </div>
+            <div class="padding">
+              <ion-button block type="submit" [hidden]=buuttonActivePassword class="alinearBoton" (click)="changePassword()">Cambiar Contraseña</ion-button>
             </div>
           </form>
         </div>

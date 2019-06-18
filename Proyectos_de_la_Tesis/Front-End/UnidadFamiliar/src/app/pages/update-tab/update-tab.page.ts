@@ -113,9 +113,14 @@ export class UpdateTabPage implements OnInit {
       nombre: ['', [Validators.required, Validators.maxLength(30)]],
       correo: ['', [Validators.required, Validators.email]],
       numero_contacto: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]{5,10}$/)]],
-      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
-      ciudad: [''],
-      sector: ['', [Validators.required]]
+    });
+  }
+
+  cancelar() {
+    this.formularioUsuario = this.fb.group({
+      nombre: '',
+      correo: '',
+      numero_contacto: '',
     });
   }
 
