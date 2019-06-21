@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../api/user.service';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -36,7 +35,6 @@ export class UpdateTabPage implements OnInit {
   constructor(
     private authService: UserService,
     private router: Router,
-    private toastController: ToastController,
     private fb: FormBuilder,
   ) {
     // primero consultamos si el usaurio tiene contactos agregados
@@ -75,14 +73,6 @@ export class UpdateTabPage implements OnInit {
     this.buildForm();
   }
 
-  async presentToast( message: string ) {
-    const toast = await this.toastController.create({
-      message,
-      duration: 2000
-    });
-    toast.present();
-  }
-
   updateFriend() {
       if (this.userData.nombre_friend && this.userData.telefono_friend) {
           console.log(this.userData);
@@ -91,17 +81,17 @@ export class UpdateTabPage implements OnInit {
           console.log(this.responseDataFriend);
           if (this.responseDataFriend.api_status === 1 && this.responseDataFriend.api_http === 200) {
             localStorage.setItem('userDataFriendUpdte', this.responseDataFriend);
-            this.presentToast('Friend update successful.');
+            this.authService.presentToast('Friend update successful.');
             this.router.navigate([ '/menu/addFriends' ]);
           } else {
-            this.presentToast('Error updating.');
+            this.authService.presentToast('Error updating.');
           }
         }, (err) => {
           console.log(err);
-          this.presentToast('The service is failed.');
+          this.authService.presentToast('The service is failed.');
         });
       } else {
-        this.presentToast('The data is required.');
+        this.authService.presentToast('The data is required.');
       }
   }
 

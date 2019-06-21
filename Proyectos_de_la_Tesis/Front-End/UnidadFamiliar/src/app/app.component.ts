@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
   checkLoginStatus() {
     this.responseData = (localStorage.getItem('HAS_LOGGED_IN'));
     if (this.responseData === 'hasLoggedIn') {
-      // this.router.navigate([ '/menu/shareLocation' ]);
+       this.router.navigate([ '/menu/shareLocation' ]);
     } else {
       this.initializeApp();
     }

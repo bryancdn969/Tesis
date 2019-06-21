@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../api/user.service';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuController } from '@ionic/angular';
 
@@ -19,6 +18,7 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
   titleSignup: any;
   titleUpdate: any;
   formularioUsuario: FormGroup;
+  formularioPassword: FormGroup;
   existeUsuario: any;
   selectZone =  {};
   comboZones: any;
@@ -29,14 +29,13 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
   sector: any[] = [ ];
   activePassword = true; buttonUpdate = false; activeName = false; activeEmail = false;
   activePhone = false; activeCity = false; activeSector = false; buttonUpdatePassword = true;
-  buuttonActivePassword = false;
   takePersona = {correo_persona : '', estado_persona : 'A', email : '', status : 'Active' };
   persona: any;
+  buttonActivePassword = true;
 
   constructor(
       private authService: UserService,
       private router: Router,
-      private toastController: ToastController,
       private fb: FormBuilder,
       public menu: MenuController,
   ) {
@@ -59,21 +58,13 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
     }
   }, (err) => {
     console.log(err);
-    this.presentToast('Falla de servicio.');
+    this.authService.presentToast('Falla de servicio.');
     });
-  }
-
-// Toast information
-  async presentToast( message: string ) {
-    const toast = await this.toastController.create({
-      message,
-      duration: 2000
-    });
-    toast.present();
   }
 
   ngOnInit() {
     this.buildForm();
+    this.validatPassword();
     this.authService.postData(JSON.stringify(this.selectZone), 'selectzones').then((res) => {
       this.comboZones = res;
       // console.log(this.comboZones);
@@ -94,53 +85,23 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
       this.userData.sector = '';
   }
 
-  // valida el registro tanto de la persona como la del usuario
-/*   update() {
-    if (this.userData.name && this.userData.email && this.userData.password && this.userData.telefono
-        && this.personaData.sector_persona.valueOf() !== '') {
-      this.userData.telefono = this.userData.telefono;
-      this.personaData.nombre_persona = this.userData.name;
-      this.personaData.correo_persona = this.userData.email;
-      this.personaData.telefono_persona = this.userData.telefono;
-
-        // Aqui registraremos el usuario
-            this.authService.postData(JSON.stringify(this.userData), 'signup').then((result) => {
-              this.responseData = result;
-              console.log(this.responseData);
-              if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
-                localStorage.setItem('userData', JSON.stringify(this.responseData));
-                // Crearemos primero persona
-                this.authService.postData(JSON.stringify(this.personaData), 'createperson').then((resPerson) => {
-                  this.persona = resPerson;
-                  console.log(this.persona);
-                  this.presentToast('Usuario guardado correctamente.');
-                 // this.buildForm();
-                  this.router.navigate([ '/menu/login' ]);
-                }, (err) => {
-                  console.log(err);
-                  this.presentToast('Falla del servicio.');
-                });
-              }
-            }, (err) => {
-              console.log(err);
-              this.presentToast('Falla del servicio.');
-            });
-    } else {
-      this.presentToast('Todos campos son necesarios.');
-    }
-  } */
-
   buildForm() {
       this.formularioUsuario = this.fb.group({
         nombre: ['', [Validators.required, Validators.maxLength(30)]],
         correo: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
         ciudad: [''],
-        sectorI: ['', [Validators.required]],
-        sectorS: ['', [Validators.required]],
+        sectorI: [''],
+        sectorS: [''],
         numero_contacto: ['',
         [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]{5,10}$/)]],
+        password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
       });
+  }
+
+  validatPassword() {
+    this.formularioPassword = this.fb.group({
+      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
+    });
   }
 
   changePassword() {
@@ -148,6 +109,8 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
     this.activePhone = true; this.activeCity = true;
     this.activeSector = true; this.activePassword = false;
     this.buttonUpdate = true; this.buttonUpdatePassword = false;
+    this.buttonActivePassword = true;
+    this.buttonUpdatePassword = true;
   }
 
 }

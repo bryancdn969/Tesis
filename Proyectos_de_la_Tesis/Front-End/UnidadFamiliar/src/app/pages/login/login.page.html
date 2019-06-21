@@ -44,50 +44,8 @@
                                 <ion-button expand="full" color="danger" (click)="signup()">Register</ion-button>
                         </div>
                     </form>
-                <!-- Login antiguo 
-                    <ion-img src="assets/imgs/fis.jpg"></ion-img>
-                    <br />
-                    <ion-item>
-                        <ion-icon name="mail" item-left></ion-icon>
-                        <ion-label stacked>Email:</ion-label>
-                        <ion-input type="text"  name="email" placeholder= "Email"  [(ngModel)]="userData.email"
-                                    autocapitalize="on" required maxlength="30"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-icon name="key" item-left></ion-icon>
-                        <ion-label stacked>Password:</ion-label>
-                        <ion-input type="password" name="password" placeholder="Password" [(ngModel)]="userData.password" 
-                                    required maxlength="10"></ion-input>
-                    </ion-item>
-                </div>
-                <div padding>
-                    <p text-right (click)="goToResetPassword()"><b>Forgot Password?</b></p>  
-                    <ion-button type="submit" expand="full" color="primary" (click)="login()">Login</ion-button>
-                    <p text-center>Don't have a account?</p>
-                    <ion-button expand="full" color="danger" (click)="signup()">Register</ion-button>
-                </div>-->
                 </div>
             </ion-col>
         </ion-row>
     </ion-grid>
-   <!-- <div class="container box">
-        @if(count($errors) > 0)
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert">
-                </button>
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }} </li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        @if($message = Session::get('success'))
-            <di class="alert alert-success alert-block">
-                <button type="button" clase="close" data-dismiss="alert">
-                </button>
-                <strong>{{ $message }}</strong>
-            </div>
-        @endif
-    </div>-->
 </ion-content>

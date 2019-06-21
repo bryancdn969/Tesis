@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { ToastController } from '@ionic/angular';
 
 const apiUrl = 'http://localhost/Tesis/Proyectos_de_la_Tesis/Back-End/UnidadFamiliar/public/api/';
 const httpOptions = {  headers: new Headers({'Content-Type': 'application/json',
@@ -17,7 +18,8 @@ export class UserService {
   HAS_LOGGED_IN = 'hasLoggedIn';
 
   constructor(
-    public http: Http
+    public http: Http,
+    private toastController: ToastController,
   ) {
     this.http = http;
   }
@@ -56,6 +58,14 @@ export class UserService {
     /* return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
       return value === true;
     }); */
+  }
+
+  async presentToast( message: string ) {
+    const toast = await this.toastController.create({
+        message,
+        duration: 2000
+    });
+    toast.present();
   }
 
 }

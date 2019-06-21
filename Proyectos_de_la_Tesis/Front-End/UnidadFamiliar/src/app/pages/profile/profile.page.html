@@ -12,7 +12,7 @@
     <ion-row justify-content-center>
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
         <div padding>
-          <form [formGroup]="formularioUsuario" (ngSubmit)="update()" novalidate>
+          <form [formGroup]="formularioUsuario" novalidate>
             <ion-icon name="contact" class="alinearIcono"></ion-icon>
             <ion-list>            
               <ion-item [hidden]=activeName>
@@ -69,13 +69,29 @@
                <ion-icon name="map" item-left></ion-icon>
                 <ion-label>Sector: </ion-label>
                 <ion-input formControlName="sectorI" type="text" name="sectorI" [(ngModel)]="userData.sector"></ion-input>
-                  <ion-select formControlName="sectorS" name="sectorS" [(ngModel)]="selectedSingleZone" [compareWith]="compareFn" (ionChange)="singleChange()">
+                  <ion-select formControlName="sectorS" [(ngModel)]="selectedSingleZone" [compareWith]="compareFn" (ionChange)="singleChange()">
                     <ion-select-option *ngFor="let zone of zones" [value]="zone">{{zone.nombre_sector}}</ion-select-option>
                   </ion-select>
               </ion-item>
               <ion-item [hidden]=activePassword>
                 <ion-icon name="key" item-left></ion-icon>
-                <ion-label stacked>Password:</ion-label>
+                <ion-label stacked>Contraseña antigua:</ion-label>
+                <ion-input formControlName="password" type="password" name="password" placeholder="Password" [(ngModel)]="userData.passwordP" required maxlength="10"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="formularioUsuario.get('password').errors && formularioUsuario.get('password').dirty">
+                <p *ngIf="formularioUsuario.get('password').hasError('required')" class="error">
+                  La contraseña es requerida.
+                </p>
+                <p *ngIf="formularioUsuario.get('password').hasError('maxlength')" class="error">
+                  La contraseña no puede contener más de 10 caracteres
+                </p>
+                <p *ngIf="formularioUsuario.get('password').hasError('minlength')" class="error">
+                  La contraseña debe contener al menos 5 caracteres
+                </p>
+              </ion-item>
+              <ion-item [hidden]=activePassword>
+                <ion-icon name="key" item-left></ion-icon>
+                <ion-label stacked>Contraseña nueva:</ion-label>
                 <ion-input formControlName="password" type="password" name="password" placeholder="Password" [(ngModel)]="userData.password" required maxlength="10"></ion-input>
               </ion-item>
               <ion-item *ngIf="formularioUsuario.get('password').errors && formularioUsuario.get('password').dirty">
@@ -91,11 +107,11 @@
               </ion-item>
             </ion-list>
             <div class="padding">
-              <ion-button block type="submit" [hidden]=buttonUpdate [disabled]="!formularioUsuario.valid" class="alinearBoton">Actualizar</ion-button>
-              <ion-button block type="submit" [hidden]=buttonUpdatePassword [disabled]="!formularioUsuario.valid" class="alinearBoton">Actualizar Contraseña</ion-button>
+              <ion-button block type="submit" [hidden]=buttonUpdate class="alinearBoton">Actualizar</ion-button>
+              <ion-button block type="submit" [hidden]=buttonUpdatePassword [disabled]="!formularioPassword.valid" class="alinearBotonPassword">Actualizar Contraseña</ion-button>
             </div>
             <div class="padding">
-              <ion-button block type="submit" [hidden]=buuttonActivePassword class="alinearBoton" (click)="changePassword()">Cambiar Contraseña</ion-button>
+              <ion-button block type="submit" class="alinearBotonPassword" >Cambiar Contraseña</ion-button>
             </div>
           </form>
         </div>

@@ -37,24 +37,12 @@ const routes: Routes = [
         loadChildren: '../view-position-friends/view-position-friends.module#ViewPositionFriendsPageModule'
       },
       {
-        path: 'allFriends',
-        loadChildren: '../all-friends/all-friends.module#AllFriendsPageModule'
-      },
-      {
-        path: 'friendsDetail',
-        loadChildren: '../friends-detail/friends-detail.module#FriendsDetailPageModule'
-      },
-      {
         path: 'sectorSelected',
         loadChildren: '../sector-selected/sector-selected.module#SectorSelectedPageModule'
       },
       {
         path: 'profile',
         loadChildren: '../profile/profile.module#ProfilePageModule'
-      },
-      {
-        path: 'viewFriendPositionMap',
-        loadChildren: '../view-position-friends-map/view-position-friends-map.module#ViewPositionFriendsMapPageModule'
       }
     ]
   }

@@ -31,10 +31,11 @@ export class SectorSelectedPage implements OnInit {
     this.directionsService = new google.maps.DirectionsService();
     this.directionsDisplay = new google.maps.DirectionsRenderer();
     this.bounds = new google.maps.LatLngBounds();
+    this.getPosition();
    }
 
   ngOnInit() {
-    this.getPosition();
+    // this.getPosition();
   }
 
   getPosition(): any {
@@ -81,18 +82,13 @@ export class SectorSelectedPage implements OnInit {
       this.lat = +(this.responseData.latitud_zona);
       this.lng = +(this.responseData.longitud_zona);
 
-      // this.mejorSector(this.distanciaInicio);
-    // this.waypoints.forEach(waypoint => {
       const point = new google.maps.LatLng(this.lat, this.lng);
       this.bounds.extend(point);
-    // });
 
       this.map.fitBounds(this.bounds);
       this.directionsService.route({
           origin: new google.maps.LatLng(this.myLatLng.lat, this.myLatLng.lng),
           destination: new google.maps.LatLng(this.lat, this.lng),
-        // destination: new google.maps.LatLng(this.myLatLng.lat, this.myLatLng.lng),
-        // waypoints: this.waypoints,
         optimizeWaypoints: true,
         travelMode: google.maps.TravelMode.WALKING,
         avoidTolls: true

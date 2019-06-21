@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../api/user.service';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -26,7 +25,6 @@ export class RegisterTabPage implements OnInit {
   constructor(
     private authService: UserService,
     private router: Router,
-    private toastController: ToastController,
     private fb: FormBuilder,
   ) {
     // primero consultamos si el usaurio tiene contactos agregados
@@ -52,21 +50,13 @@ export class RegisterTabPage implements OnInit {
     });
   }
 
-  async presentToast( message: string ) {
-    const toast = await this.toastController.create({
-      message,
-      duration: 2000
-    });
-    toast.present();
-  }
-
   ngOnInit() {
     this.buildForm();
   }
 
   addFriend() {
     if (this.count > 3) {
-      this.presentToast('Solo puede agregar 3 amigos.');
+      this.authService.presentToast('Solo puede agregar 3 amigos.');
     } else {
 
       if (this.userData.nombre_friend && this.userData.telefono_friend) {
@@ -76,16 +66,16 @@ export class RegisterTabPage implements OnInit {
           console.log(this.responseDataFriend);
           if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
             localStorage.setItem('userDataFriend', JSON.stringify(this.responseData));
-            this.presentToast('Friend saved successful.');
+            this.authService.presentToast('Friend saved successful.');
           } else {
-            this.presentToast('Error saving.');
+            this.authService.presentToast('Error saving.');
           }
         }, (err) => {
           console.log(err);
-          this.presentToast('The service is failed.');
+          this.authService.presentToast('The service is failed.');
         });
       } else {
-        this.presentToast('The data is required.');
+        this.authService.presentToast('The data is required.');
       }
     }
   }

@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
 import { UserService } from '../../api/user.service';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 import { IonInfiniteScroll, IonVirtualScroll } from '@ionic/angular';
 
 @Component({
@@ -26,7 +25,6 @@ export class SafeSiteSearchTabPage implements OnInit {
   constructor(
     private authService: UserService,
     private router: Router,
-    private toastController: ToastController,
   ) { }
 
   ngOnInit() {

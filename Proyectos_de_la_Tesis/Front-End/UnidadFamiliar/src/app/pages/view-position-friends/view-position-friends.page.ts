@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../../api/user.service';
-import { ToastController } from '@ionic/angular';
 import { IonInfiniteScroll, IonVirtualScroll } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -36,7 +35,6 @@ export class ViewPositionFriendsPage implements OnInit {
 
   constructor(
     private authService: UserService,
-    private toastController: ToastController,
     private router: Router,
     private geolocation: Geolocation,
     private nativeGeocoder: NativeGeocoder,
@@ -53,14 +51,6 @@ export class ViewPositionFriendsPage implements OnInit {
         this.amigo = this.sectorFriendEspecificas.data;
       }
     });
-  }
-
-  async presentToast( message: string ) {
-    const toast = await this.toastController.create({
-        message,
-        duration: 2000
-    });
-    toast.present();
   }
 
   optionsFn(auxFriend) {
@@ -126,7 +116,6 @@ export class ViewPositionFriendsPage implements OnInit {
 
 
   ngOnInit() {
-
   }
 
   loadData(event) {

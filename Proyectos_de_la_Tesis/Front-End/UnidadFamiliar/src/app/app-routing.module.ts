@@ -13,19 +13,12 @@ const routes: Routes = [
   {
     path: 'view-position-friends',
     loadChildren: './pages/view-position-friends/view-position-friends.module#ViewPositionFriendsPageModule' },
-  { path: 'friends-detail', loadChildren: './pages/friends-detail/friends-detail.module#FriendsDetailPageModule' },
-  { path: 'all-friends', loadChildren: './pages/all-friends/all-friends.module#AllFriendsPageModule' },
   { path: 'update-tab', loadChildren: './pages/update-tab/update-tab.module#UpdateTabPageModule' },
   { path: 'register-tab', loadChildren: './pages/register-tab/register-tab.module#RegisterTabPageModule' },
   { path: 'safe-site-near-tab', loadChildren: './pages/safe-site-near-tab/safe-site-near-tab.module#SafeSiteNearTabPageModule' },
   { path: 'safe-site-search-tab', loadChildren: './pages/safe-site-search-tab/safe-site-search-tab.module#SafeSiteSearchTabPageModule' },
   { path: 'sector-selected', loadChildren: './pages/sector-selected/sector-selected.module#SectorSelectedPageModule' },
-  { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' },
-  { path:
-    'view-position-friends-map',
-    loadChildren: './pages/view-position-friends-map/view-position-friends-map.module#ViewPositionFriendsMapPageModule' },
-  { path: 'recover-password', loadChildren: './pages/recover-password/recover-password.module#RecoverPasswordPageModule' },
-
+  { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' }
 ];
 
 @NgModule({

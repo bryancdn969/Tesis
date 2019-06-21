@@ -16,7 +16,7 @@
             <ion-list>            
               <ion-item>
                 <ion-icon name="person" item-left></ion-icon>
-                <ion-label stacked>Nombre: </ion-label>
+                <ion-label stacked>Nombres: </ion-label>
                 <ion-input formControlName="nombre" type="text" placeholder="Nombre" name="nombre" required maxlength="30" [(ngModel)]="userData.name"> </ion-input>
               </ion-item>
               <ion-item *ngIf="formularioUsuario.get('nombre').errors && formularioUsuario.get('nombre').dirty">
@@ -66,14 +66,14 @@
               </ion-item>
                <ion-item>
                <ion-icon name="map" item-left></ion-icon>
-                <ion-label>Seleccione un sector: </ion-label>
+                <ion-label>Sector: </ion-label>
                   <ion-select formControlName="sector" name="sector" [(ngModel)]="selectedSingleZone" [compareWith]="compareFn" (ionChange)="singleChange()">
                     <ion-select-option *ngFor="let zone of zones" [value]="zone">{{zone.nombre_sector}}</ion-select-option>
                   </ion-select>
               </ion-item>
               <ion-item [hidden]=activePassword>
                 <ion-icon name="key" item-left></ion-icon>
-                <ion-label stacked>Password:</ion-label>
+                <ion-label stacked>Contraseña:</ion-label>
                 <ion-input formControlName="password" type="password" name="password" placeholder="Password" [(ngModel)]="userData.password" required maxlength="10"></ion-input>
               </ion-item>
               <ion-item *ngIf="formularioUsuario.get('password').errors && formularioUsuario.get('password').dirty">
