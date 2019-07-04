@@ -18,7 +18,6 @@ export class LoginPage implements OnInit {
     sector: any;
     valuSector: any;
     sectorUser = { sector_zona : '', status_zona : 'A', sector_persona : '', estado_persona : 'A'};
-    zonaUser: any;
 
     constructor(
       private authService: UserService,
@@ -41,14 +40,11 @@ export class LoginPage implements OnInit {
           (this.userData, 'login?email=' + this.userData.email + '&password=' + this.userData.password
                                          + '&status=' + this.userData.status).then((result) => { */
               this.responseData = result;
-              // console.log(this.responseData.password);
               if (this.responseData.api_status === 1 && this.responseData.api_http === 200 && this.responseData.status === 'Active' &&
                   this.userData.password !== '123456') {
                   localStorage.setItem('userDataLogin', JSON.stringify(this.responseData));
-                  this.takeSectorPersona();
                   this.authService.isLoggedIn();
-                  this.authService.presentToast('Login successful.');
-                  this.router.navigate([ '/menu/shareLocation' ]);
+                  this.takeSectorPersona();
               } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 200) {
                 this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
               } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 401) {
@@ -57,7 +53,6 @@ export class LoginPage implements OnInit {
                 this.router.navigate([ '/menu/login' ]);
               }
           }, (err) => {
-              // console.log(err);
               this.authService.presentToast('Falla del servicio.');
           });
       } else {
@@ -71,7 +66,6 @@ export class LoginPage implements OnInit {
       this.valuSector = this.sector.sector_persona;
       this.sectorXZona(this.valuSector);
     }, (err) => {
-      // console.log(err);
       this.authService.presentToast('Falla del servicio.');
     });
 
@@ -80,13 +74,14 @@ export class LoginPage implements OnInit {
   sectorXZona(sector) {
     this.sectorUser.sector_persona = sector;
     this.sectorUser.sector_zona = sector;
+    let zonaUser: any;
 
     this.authService.postData(JSON.stringify(this.sectorUser), 'sectorxzona').then((res) => {
-      this.zonaUser = res;
-      // console.log(this.zonaUser);
-      localStorage.setItem('zonaUser', JSON.stringify(this.zonaUser));
+      zonaUser = JSON.stringify(res);
+      this.authService.presentToast('Login exitoso.');
+      this.router.navigate([ '/menu/shareLocation', {zonaUser} ]);
+      localStorage.setItem('zonaUser', zonaUser);
     }, (err) => {
-      // console.log(err);
       this.authService.presentToast('Falla del servicio.');
   });
 

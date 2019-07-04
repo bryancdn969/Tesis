@@ -54,9 +54,10 @@ export class SafeSiteSearchTabPage implements OnInit {
   }
 
   optionsFn(aux) {
-    console.log(aux);
-    localStorage.setItem('sectorSelected', JSON.stringify(aux));
-    this.router.navigate([ '/menu/sectorSelected' ]);
+    // console.log(aux);
+    const sectorSelect = JSON.stringify(aux);
+    // localStorage.setItem('sectorSelected', JSON.stringify(aux));
+    this.router.navigate([ '/menu/sectorSelected', {sectorSelect} ]);
   }
 
   loadData(event) {

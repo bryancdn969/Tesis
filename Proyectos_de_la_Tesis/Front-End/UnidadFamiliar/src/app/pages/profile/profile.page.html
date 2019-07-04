@@ -76,7 +76,7 @@
               <ion-item [hidden]=activePassword>
                 <ion-icon name="key" item-left></ion-icon>
                 <ion-label stacked>Contraseña antigua:</ion-label>
-                <ion-input formControlName="password" type="password" name="password" placeholder="Password" [(ngModel)]="userData.passwordP" required maxlength="10"></ion-input>
+                <ion-input formControlName="password" type="password" name="password" placeholder="Password" [(ngModel)]="userData.password" required maxlength="10"></ion-input>
               </ion-item>
               <ion-item *ngIf="formularioUsuario.get('password').errors && formularioUsuario.get('password').dirty">
                 <p *ngIf="formularioUsuario.get('password').hasError('required')" class="error">

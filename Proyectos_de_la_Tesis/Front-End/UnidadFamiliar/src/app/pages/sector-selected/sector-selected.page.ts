@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 declare var google;
 
@@ -27,15 +27,17 @@ export class SectorSelectedPage implements OnInit {
   constructor(
     public geolocation: Geolocation,
     private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     this.directionsService = new google.maps.DirectionsService();
     this.directionsDisplay = new google.maps.DirectionsRenderer();
     this.bounds = new google.maps.LatLngBounds();
-    this.getPosition();
+    // this.getPosition();
    }
 
   ngOnInit() {
-    // this.getPosition();
+    this.responseData = JSON.parse(this.activatedRoute.snapshot.params.sectorSelect);
+    this.getPosition();
   }
 
   getPosition(): any {
@@ -49,7 +51,7 @@ export class SectorSelectedPage implements OnInit {
   }
 
   loadMap(position: Geoposition) {
-    this.responseData = JSON.parse(localStorage.getItem('sectorSelected'));
+    // this.responseData = JSON.parse(localStorage.getItem('sectorSelected'));
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     // create a new map by passing HTMLElement

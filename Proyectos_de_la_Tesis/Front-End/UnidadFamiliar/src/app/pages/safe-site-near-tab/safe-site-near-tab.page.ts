@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 declare var google;
 
@@ -30,6 +30,7 @@ export class SafeSiteNearTabPage implements OnInit {
   constructor(
     public geolocation: Geolocation,
     private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     this.directionsService = new google.maps.DirectionsService();
     this.directionsDisplay = new google.maps.DirectionsRenderer();
@@ -37,13 +38,28 @@ export class SafeSiteNearTabPage implements OnInit {
     this.responseData = JSON.parse(localStorage.getItem('zonaUser'));
 
     this.waypoints = this.responseData;
-    console.log(this.waypoints);
-    this.getPosition();
+    // console.log(this.waypoints);
+    // this.getPosition();
   }
 
   ngOnInit() {
-    // this.getPosition();
+    /* console.log(JSON.parse(this.activatedRoute.snapshot.params.zonaUser));
+    this.responseData = JSON.parse(this.activatedRoute.snapshot.params.zonaUser);
+    this.waypoints = this.responseData; */
+    this.getPosition();
   }
+
+  /* ionViewWillEnter() {
+    this.getPosition();
+  } */
+
+/*   doRefresh(event) {
+    console.log('Begin async operation');
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  } */
 
   getPosition(): any {
     this.geolocation.getCurrentPosition()
@@ -51,7 +67,7 @@ export class SafeSiteNearTabPage implements OnInit {
       this.loadMap(response);
     })
     .catch(error => {
-      console.log(error);
+      alert('Error de servicio de google maps');
     });
   }
 
@@ -65,17 +81,27 @@ export class SafeSiteNearTabPage implements OnInit {
     // create LatLng object
     this.myLatLng = {lat: latitude, lng: longitude};
 
-    // create map
-    this.map = new google.maps.Map(mapEle, {
+    const mapOptions = {
       center: this.myLatLng,
       zoom: 15,
-    });
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    this.map = new google.maps.Map(mapEle, mapOptions);
+    // create map
+    /* this.map = new google.maps.Map(mapEle, {
+      center: this.myLatLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }); */
 
     this.directionsDisplay.setMap(this.map);
     this.directionsDisplay.setPanel(panelEle);
 
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
-      mapEle.classList.add('show-map');
+      this.map.addListener('tilesloaded', () => {
+        mapEle.classList.add('show-map');
+      });
       this.calculateRoute();
     });
   }
@@ -101,7 +127,7 @@ export class SafeSiteNearTabPage implements OnInit {
     this.bounds.extend(point);
 
     this.map.fitBounds(this.bounds);
-    console.log(latitud, longitud);
+    // console.log(latitud, longitud);
     this.directionsService.route({
         origin: new google.maps.LatLng(this.myLatLng.lat, this.myLatLng.lng),
         destination: new google.maps.LatLng(latitud, longitud),
@@ -110,7 +136,7 @@ export class SafeSiteNearTabPage implements OnInit {
         avoidTolls: true
       }, (response, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
-          console.log(response);
+          // console.log(response);
           this.directionsDisplay.setDirections(response);
         } else {
           alert('Could not display directions due to: ' + status);
