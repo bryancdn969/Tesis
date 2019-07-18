@@ -23,14 +23,20 @@ export class SignupPage implements OnInit {
   formularioUsuario: FormGroup;
   existeUsuario: any;
   selectZone =  {};
+  selectedPreguntas = {};
   comboZones: any;
+  comboPreguntas: any;
   zones: any[] = [ ];
+  preguntas: any [] = [ ];
   selectedSingleZone: any;
+  selectedPregunta: any;
   sectorZone = { sector_zona : 0 , status_zona : 'A' };
+  pregunta = { tipo_preguntas : 0 , descripcion_preguntas : '' , status_preguntas : 'A' };
   sectorEspecificas: any;
   sector: any[] = [ ];
   personaData = {nombre_persona : '' , correo_persona : '', telefono_persona : '',
-                 ciudad_persona : 'Quito', sector_persona : '' , estado_persona : 'A'};
+                 ciudad_persona : 'Quito', sector_persona : '' , tipo_pregunta : 0, 	respuesta_pregunta_persona : '',
+                 estado_persona : 'A'};
   persona: any;
 
   constructor(
@@ -55,6 +61,11 @@ export class SignupPage implements OnInit {
   // Se llama al servicio de zonas y se valida el build form
   ngOnInit() {
     this.buildForm();
+    this.selectSector();
+    this.selectPreguntas();
+  }
+
+  selectSector() {
     this.authService.postData(JSON.stringify(this.selectZone), 'selectzones').then((res) => {
       this.comboZones = res;
       // console.log(this.comboZones);
@@ -64,9 +75,24 @@ export class SignupPage implements OnInit {
     });
   }
 
+  selectPreguntas() {
+    this.authService.postData(JSON.stringify(this.selectedPreguntas), 'selectpreguntas').then((res) => {
+      this.comboPreguntas = res;
+      // console.log(this.comboZones);
+      for (let i = 0; i <= this.comboPreguntas.data.length - 1; i++) {
+        this.preguntas = this.comboPreguntas.data;
+      }
+    });
+  }
+
   // Compara la zona seleccionada y la cambia
   compareFn(e1, e2): boolean {
     return e1 && e2 ? e1.nombre_sector === e2.nombre_sector : e1 === e2;
+  }
+
+  // Compara la pregunta seleccionada y la cambia
+  compareFnP(e1, e2): boolean {
+    return e1 && e2 ? e1.descripcion_preguntas === e2.descripcion_preguntas : e1 === e2;
   }
 
   // sientre el cambio de zona y lo almacena en una variable
@@ -77,6 +103,12 @@ export class SignupPage implements OnInit {
     // console.log(this.personaData.sector_persona);
   }
 
+  // sientre el cambio de la pregunta y lo almacena en una variable
+  preguntaChange() {
+    // console.log(this.selectedSingleZone);
+    this.pregunta.tipo_preguntas = this.selectedPregunta.tipo_preguntas;
+    this.pregunta.descripcion_preguntas = this.selectedPregunta.descripcion_preguntas;
+  }
 
   // valida el registro tanto de la persona como la del usuario
   signup() {
@@ -87,6 +119,8 @@ export class SignupPage implements OnInit {
       this.personaData.nombre_persona = this.userData.name;
       this.personaData.correo_persona = this.userData.email;
       this.personaData.telefono_persona = this.userData.telefono;
+      this.personaData.tipo_pregunta = this.pregunta.tipo_preguntas;
+      this.personaData.respuesta_pregunta_persona = this.personaData.respuesta_pregunta_persona.toLocaleUpperCase();
 
         // Aqui registraremos el usuario
       this.authService.postData(JSON.stringify(this.userExiste), 'controlarusuariosrepetidos').then((res) => {
@@ -152,7 +186,9 @@ export class SignupPage implements OnInit {
       numero_contacto: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]{5,10}$/)]],
       password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
       ciudad: [''],
-      sector: ['', [Validators.required]]
+      sector: ['', [Validators.required]],
+      pregunta: ['', [Validators.required]],
+      respuesta: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(3)]]
     });
   }
 

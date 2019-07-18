@@ -3,6 +3,7 @@ import { Http, Headers } from '@angular/http';
 import { ToastController } from '@ionic/angular';
 
 const apiUrl = 'http://localhost/Tesis/Proyectos_de_la_Tesis/Back-End/UnidadFamiliar/public/api/';
+// const apiUrl = 'https://arieseffect.com/bryan/UnidadFamiliar/public/api/';
 const httpOptions = {  headers: new Headers({'Content-Type': 'application/json',
                             'Access-Control-Allow-Origin': '*',
                             'Access-Control-Allow-Headers':  'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
@@ -30,7 +31,7 @@ export class UserService {
       DataForm.append(key, formData[key]);
     }
     return new Promise((resolve, reject) => {
-      this.http.post( apiUrl + type, FormData, httpOptions).
+      this.http.post( apiUrl + type, FormData).
       subscribe(res => {
         resolve(res.json());
       }, (err) => {

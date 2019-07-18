@@ -21,8 +21,8 @@
             </ion-select> 
           </ion-item>
         </ion-list>
+        <br> <br>
         <form [formGroup]="formularioUsuario" (ngSubmit)="updateFriend()" novalidate>
-          <ion-icon name="clipboard" class="alinearIcono"></ion-icon>
                 <ion-list>
                   <ion-item>
                       <ion-icon name="mail" item-left></ion-icon>
@@ -71,7 +71,7 @@
                     </ion-item>
                 </ion-list>
                 <div class="padding">
-                    <ion-button block type="submit" class="alinearBoton" [disabled]="!formularioUsuario.valid">Actualizar Amigo</ion-button>
+                    <ion-button expand="full" type="submit" [disabled]="!formularioUsuario.valid">Actualizar Amigo</ion-button>
                 </div>
                 <div padding>
                     <ion-button expand="full" color="danger" (click)="cancelar()">Cancelar</ion-button>

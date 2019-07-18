@@ -3,8 +3,9 @@
         <ion-row justify-content-center>
             <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
                     <form [formGroup]="formularioUsuario" (ngSubmit)="login()" novalidate>
-                        <ion-list>
                         <ion-img src="assets/imgs/fis.jpg"></ion-img>
+                        <ion-list>
+                        
                         <ion-item>
                             <ion-icon name="at" item-left></ion-icon>
                             <ion-label stacked>Correo: </ion-label>
@@ -38,7 +39,7 @@
                         <div class="padding">
                             <p text-right (click)="goToResetPassword()"><b>Olvidate tu contraseña?</b></p>  
                                 <ion-button type="submit" expand="full" color="primary" [disabled]="!formularioUsuario.valid">Ingresar</ion-button>
-                            <p text-center>No tienes cuenta?</p>
+                                <br>
                                 <ion-button expand="full" color="danger" (click)="signup()">Registrarse</ion-button>
                         </div>
                     </form>

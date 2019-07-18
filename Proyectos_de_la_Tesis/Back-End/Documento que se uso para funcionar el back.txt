@@ -176,3 +176,33 @@ Create table person
 		PRIMARY KEY (id_persona)
 
 	) ENGINE = InnoDB; 
+
+ALTER TABLE `unidadfamiliar`.`app_persona` 
+	
+ADD COLUMN `tipo_pregunta` INT(11) NOT NULL AFTER `sector_persona`,
+
+	ADD COLUMN `respuesta_pregunta_persona` VARCHAR(50) NOT NULL AFTER `tipo_pregunta`;
+
+
+
+Create table preguntas by the signup
+	- CREATE TABLE IF NOT EXISTS unidadfamiliar.app_preguntas (
+		
+		id_preguntas	INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+		
+		tipo_preguntas INT NOT NULL,
+		
+		descripcion_preguntas VARCHAR(50) NOT NULL,
+		
+		created_preguntas	TIMESTAMP,
+		
+		status_preguntas CHAR(1)
+	
+) ENGINE = InnoDB;
+
+Insert of the table preguntas
+	- INSERT INTO unidadfamiliar.app_preguntas(tipo_preguntas, descripcion_preguntas, status_preguntas) VALUE (1,'Nombre de su primer mascota','1');
+
+	  INSERT INTO unidadfamiliar.app_preguntas(tipo_preguntas, descripcion_preguntas, status_preguntas) VALUE (2,'Animal favorito','1');
+
+	  INSERT INTO unidadfamiliar.app_preguntas(tipo_preguntas, descripcion_preguntas, status_preguntas) VALUE (3,'Color favorito','1');

@@ -2,28 +2,18 @@ ion-content {
     --background: linear-gradient(rgb(72, 117, 162), rgb(197, 126, 85)) no-repeat;
 }
 
-ion-grid {
-    width:100%;
-    background: linear-gradient(rgb(72, 117, 162), rgb(197, 126, 85)) no-repeat;
-}
 
-ion-col {
-    max-width: 380%;
-    max-height: auto;
-    --background: linear-gradient(rgb(72, 117, 162), rgb(197, 126, 85) ) no-repeat;
-}
+
+
 
 ion-button {
     font-weight: 300;
 }
 
 ion-img{
-  max-width: 100%;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 5px;
-  padding-bottom: 15px;
-}
+    position: relative;
+    padding-bottom: 5px;
+  }
 
 .error{
     white-space: normal;

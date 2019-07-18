@@ -13,7 +13,6 @@
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
         <div padding>
           <form [formGroup]="formularioUsuario" (ngSubmit)="addFriend()" novalidate>
-          <ion-icon name="clipboard" class="alinearIcono"></ion-icon>
                 <ion-list>
                     <ion-item>
                       <ion-icon name="mail" item-left></ion-icon>
@@ -62,7 +61,7 @@
                     </ion-item>
                   </ion-list>
                   <div class="padding">
-                    <ion-button block type="submit" class="alinearBoton" [disabled]="!formularioUsuario.valid">Agregar Amigo</ion-button>
+                    <ion-button expand="full" type="submit" [disabled]="!formularioUsuario.valid">Agregar Amigo</ion-button>
                   </div>
                   <div padding>
                     <ion-button expand="full" color="danger" (click)="cancelar()">Cancelar</ion-button>

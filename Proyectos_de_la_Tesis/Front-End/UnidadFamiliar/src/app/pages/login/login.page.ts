@@ -106,7 +106,8 @@ export class LoginPage implements OnInit {
   }
 
   goToResetPassword() {
-    this.authService.presentToast('Revise su correo porfavor.');
+    const inLogin = 'login';
+   // this.authService.presentToast('Revise su correo porfavor.');
+    this.router.navigate([ '/menu/recoverPassword', {inLogin} ]);
  }
-
 }

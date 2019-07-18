@@ -13,7 +13,6 @@
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
         <div padding>
           <form [formGroup]="formularioUsuario" novalidate>
-            <ion-icon name="contact" class="alinearIcono"></ion-icon>
             <ion-list>            
               <ion-item [hidden]=activeName>
                 <ion-icon name="person" item-left></ion-icon>
@@ -107,11 +106,10 @@
               </ion-item>
             </ion-list>
             <div class="padding">
-              <ion-button block type="submit" [hidden]=buttonUpdate class="alinearBoton">Actualizar</ion-button>
-              <ion-button block type="submit" [hidden]=buttonUpdatePassword [disabled]="!formularioPassword.valid" class="alinearBotonPassword">Actualizar Contraseña</ion-button>
+              <ion-button expand="full" type="submit" [hidden]=buttonUpdate>Actualizar</ion-button>
             </div>
             <div class="padding">
-              <ion-button block type="submit" class="alinearBotonPassword" >Cambiar Contraseña</ion-button>
+              <ion-button expand="full" type="submit">Cambiar Contraseña</ion-button>
             </div>
           </form>
         </div>

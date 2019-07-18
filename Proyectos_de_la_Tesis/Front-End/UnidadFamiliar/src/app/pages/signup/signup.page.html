@@ -10,15 +10,13 @@
   <ion-grid>
     <ion-row justify-content-center>
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-        <div padding>
-          <form [formGroup]="formularioUsuario" (ngSubmit)="signup()" novalidate>
-            <ion-icon name="clipboard" class="alinearIcono"></ion-icon>
-            <ion-list>            
-              <ion-item>
-                <ion-icon name="person" item-left></ion-icon>
-                <ion-label stacked>Nombres: </ion-label>
-                <ion-input formControlName="nombre" type="text" placeholder="Nombre" name="nombre" required maxlength="30" [(ngModel)]="userData.name"> </ion-input>
-              </ion-item>
+        <form [formGroup]="formularioUsuario" (ngSubmit)="signup()" novalidate>
+          <ion-list>            
+            <ion-item>
+              <ion-icon name="person" item-left></ion-icon>
+              <ion-label stacked>Nombres: </ion-label>
+              <ion-input formControlName="nombre" type="text" placeholder="Nombre" name="nombre" required maxlength="30" [(ngModel)]="userData.name"> </ion-input>
+           </ion-item>
               <ion-item *ngIf="formularioUsuario.get('nombre').errors && formularioUsuario.get('nombre').dirty">
                 <p *ngIf="formularioUsuario.get('nombre').hasError('required')" class="error">
                   El nombre es requerido.
@@ -42,7 +40,7 @@
               </ion-item>
               <ion-item>
                 <ion-icon name="call" item-left></ion-icon>
-                <ion-label stacked>Teléfono: </ion-label>
+                <ion-label stacked>Celular: </ion-label>
                 <ion-input formControlName="numero_contacto" type="text" placeholder="Numero de contacto" name="numero_contacto" required maxlength="10" [(ngModel)]="userData.telefono"></ion-input>
               </ion-item>
               <ion-item *ngIf="formularioUsuario.get('numero_contacto').errors && formularioUsuario.get('numero_contacto').dirty">
@@ -71,6 +69,28 @@
                     <ion-select-option *ngFor="let zone of zones" [value]="zone">{{zone.nombre_sector}}</ion-select-option>
                   </ion-select>
               </ion-item>
+
+              <ion-item>
+               <ion-icon name="help" item-left></ion-icon>
+                <ion-label>Pregunta: </ion-label>
+                  <ion-select formControlName="pregunta" name="pregunta" [(ngModel)]="selectedPregunta" [compareWith]="compareFnP" (ionChange)="preguntaChange()">
+                    <ion-select-option *ngFor="let pregunta of preguntas" [value]="pregunta">{{pregunta.descripcion_preguntas}}</ion-select-option>
+                  </ion-select>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="create" item-left></ion-icon>
+                <ion-label stacked>Respuesta: </ion-label>
+                <ion-input formControlName="respuesta" type="text" name="respuesta" required maxlength="30" [(ngModel)]="personaData.respuesta_pregunta_persona"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="formularioUsuario.get('respuesta').errors && formularioUsuario.get('respuesta').dirty">
+                <p *ngIf="formularioUsuario.get('respuesta').hasError('maxlength')" class="error">
+                  La respuesta no puede contener más de 30 caracteres
+                </p>
+                <p *ngIf="formularioUsuario.get('respuesta').hasError('minlength')" class="error">
+                  La respuesta no puede contener menos de 3 caracteres
+                </p>
+              </ion-item>
+
               <ion-item [hidden]=activePassword>
                 <ion-icon name="key" item-left></ion-icon>
                 <ion-label stacked>Contraseña:</ion-label>
@@ -89,13 +109,12 @@
               </ion-item>
             </ion-list>
             <div class="padding">
-              <ion-button block type="submit" [hidden]=buttonRegister [disabled]="!formularioUsuario.valid" class="alinearBoton">Registrar</ion-button>
+              <ion-button expand="full" type="submit" [hidden]=buttonRegister [disabled]="!formularioUsuario.valid" >Registrar</ion-button>
             </div>
             <div padding>
               <ion-button expand="full" color="danger" (click)="cancelar()">Cancelar</ion-button>
             </div>
-          </form>
-        </div>
+        </form>
       </ion-col>
     </ion-row>
   </ion-grid>
