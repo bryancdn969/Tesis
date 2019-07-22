@@ -72,46 +72,31 @@
                     <ion-select-option *ngFor="let zone of zones" [value]="zone">{{zone.nombre_sector}}</ion-select-option>
                   </ion-select>
               </ion-item>
-              <ion-item [hidden]=activePassword>
-                <ion-icon name="key" item-left></ion-icon>
-                <ion-label stacked>Contraseña antigua:</ion-label>
-                <ion-input formControlName="password" type="password" name="password" placeholder="Password" [(ngModel)]="userData.password" required maxlength="10"></ion-input>
+
+              <ion-item>
+               <ion-icon name="help" item-left></ion-icon>
+                  <ion-select formControlName="pregunta" name="pregunta" [(ngModel)]="userData.pregunta" [compareWith]="compareFnP" (ionChange)="preguntaChange()">
+                    <ion-select-option *ngFor="let pregunta of preguntas" [value]="pregunta">{{pregunta.descripcion_preguntas}}</ion-select-option>
+                  </ion-select>
+                <ion-input formControlName="respuesta" type="text" name="respuesta" required maxlength="30" [(ngModel)]="userData.respuesta"></ion-input>
               </ion-item>
-              <ion-item *ngIf="formularioUsuario.get('password').errors && formularioUsuario.get('password').dirty">
-                <p *ngIf="formularioUsuario.get('password').hasError('required')" class="error">
-                  La contraseña es requerida.
+              <ion-item *ngIf="formularioUsuario.get('respuesta').errors && formularioUsuario.get('respuesta').dirty">
+                <p *ngIf="formularioUsuario.get('respuesta').hasError('maxlength')" class="error">
+                  La respuesta no puede contener más de 30 caracteres
                 </p>
-                <p *ngIf="formularioUsuario.get('password').hasError('maxlength')" class="error">
-                  La contraseña no puede contener más de 10 caracteres
-                </p>
-                <p *ngIf="formularioUsuario.get('password').hasError('minlength')" class="error">
-                  La contraseña debe contener al menos 5 caracteres
-                </p>
-              </ion-item>
-              <ion-item [hidden]=activePassword>
-                <ion-icon name="key" item-left></ion-icon>
-                <ion-label stacked>Contraseña nueva:</ion-label>
-                <ion-input formControlName="password" type="password" name="password" placeholder="Password" [(ngModel)]="userData.password" required maxlength="10"></ion-input>
-              </ion-item>
-              <ion-item *ngIf="formularioUsuario.get('password').errors && formularioUsuario.get('password').dirty">
-                <p *ngIf="formularioUsuario.get('password').hasError('required')" class="error">
-                  La contraseña es requerida.
-                </p>
-                <p *ngIf="formularioUsuario.get('password').hasError('maxlength')" class="error">
-                  La contraseña no puede contener más de 10 caracteres
-                </p>
-                <p *ngIf="formularioUsuario.get('password').hasError('minlength')" class="error">
-                  La contraseña debe contener al menos 5 caracteres
+                <p *ngIf="formularioUsuario.get('respuesta').hasError('minlength')" class="error">
+                  La respuesta no puede contener menos de 3 caracteres
                 </p>
               </ion-item>
+
             </ion-list>
-            <div class="padding">
-              <ion-button expand="full" type="submit" [hidden]=buttonUpdate>Actualizar</ion-button>
-            </div>
-            <div class="padding">
-              <ion-button expand="full" type="submit">Cambiar Contraseña</ion-button>
-            </div>
           </form>
+          <div class="padding">
+            <ion-button expand="full" type="submit" (click)="actualizarDatos()">Actualizar</ion-button>
+          </div>
+          <div class="padding">
+            <ion-button expand="full" type="submit" (click)="cambiarPassword()">Cambiar Contraseña</ion-button>
+          </div>
         </div>
       </ion-col>
     </ion-row>

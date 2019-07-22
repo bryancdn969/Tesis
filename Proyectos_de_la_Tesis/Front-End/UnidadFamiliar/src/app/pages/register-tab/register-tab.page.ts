@@ -66,16 +66,17 @@ export class RegisterTabPage implements OnInit {
           console.log(this.responseDataFriend);
           if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
             localStorage.setItem('userDataFriend', JSON.stringify(this.responseData));
-            this.authService.presentToast('Friend saved successful.');
+            this.authService.presentToast('Amigo guardado exitosamente.');
+            this.cancelar();
           } else {
-            this.authService.presentToast('Error saving.');
+            this.authService.presentToast('Error al guardar.');
           }
         }, (err) => {
           console.log(err);
-          this.authService.presentToast('The service is failed.');
+          this.authService.presentToast('El servico fallo.');
         });
       } else {
-        this.authService.presentToast('The data is required.');
+        this.authService.presentToast('La información es requerida.');
       }
     }
   }
@@ -87,10 +88,7 @@ export class RegisterTabPage implements OnInit {
     this.formularioUsuario = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(30)]],
       correo: ['', [Validators.required, Validators.email]],
-      numero_contacto: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]{5,10}$/)]],
-      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
-      ciudad: [''],
-      sector: ['', [Validators.required]]
+      numero_contacto: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[0-9]{5,10}$/)]]
     });
   }
 

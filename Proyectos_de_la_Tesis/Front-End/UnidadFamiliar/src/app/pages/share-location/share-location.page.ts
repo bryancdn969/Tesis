@@ -100,7 +100,7 @@ export class ShareLocationPage implements OnInit {
         this.userData.direccion_position = this.address;
       })
       .catch((error: any) => {
-        this.userData.direccion_position = 'La Ferroviaria, no se puede probar en la web por ahora';
+        this.userData.direccion_position = 'No se puede probar en la web por ahora';
         this.address = 'Dirección no disponible!';
       });
   }
@@ -120,11 +120,11 @@ export class ShareLocationPage implements OnInit {
       // si no existe datos
       if (this.responseDataTesting.api_status === 1 &&
           this.responseDataTesting.api_http === 200 && this.responseDataTesting.data.length <= 0) {
-          this.authService.presentToast('You do not have friends added, add one please.');
+          this.authService.presentToast('No tiene amigos agregados, agregue uno porfavor.');
           this.router.navigate([ '/menu/addFriends' ]);
       } else if (this.responseDataTesting.api_status === 0 &&
         this.responseDataTesting.api_http === 401) {
-        this.authService.presentToast('You do not have friends added, add one please.');
+        this.authService.presentToast('No tiene amigos agregados, agregue uno porfavor.');
         this.router.navigate([ '/menu/addFriends' ]);
       } else {
         // Si si tiene amigos envie la poscion
@@ -142,21 +142,21 @@ export class ShareLocationPage implements OnInit {
             console.log(this.responseDataRegisterFriend);
             if (this.responseDataRegisterFriend.api_status === 1 && this.responseDataRegisterFriend.api_http === 200) {
                 localStorage.setItem('userDataAddress', JSON.stringify(this.responseDataRegisterFriend));
-                this.authService.presentToast('Send address successful.');
+                this.authService.presentToast('Dirección enviada correctamente.');
             } else  if (this.responseDataRegisterFriend.api_status === 0 && this.responseDataRegisterFriend.api_http === 200) {
-              this.authService.presentToast('Invalid to send address.');
+              this.authService.presentToast('Error al enviar dirección.');
             } else  if (this.responseDataRegisterFriend.api_status === 0 && this.responseDataRegisterFriend.api_http === 401) {
-              this.authService.presentToast('Invalid to send address.');
+              this.authService.presentToast('Error al enviar dirección.');
             }
         }, (err) => {
             console.log(err);
-            this.authService.presentToast('The service is failed.');
+            this.authService.presentToast('El servicio fallo.');
         });
         }
       }
   }, (err) => {
     console.log(err);
-    this.authService.presentToast('The service is failed.');
+    this.authService.presentToast('El servicio fallo.');
     });
 }
 
