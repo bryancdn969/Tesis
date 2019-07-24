@@ -15,9 +15,11 @@ export class RegisterTabPage implements OnInit {
   responseDataFriend: any;
   count = 0;
   aux: any;
+  verificarExistenciaResult: any;
   userData = { id_user : '' , name_user : '' ,  telefono_user : '' , telefono_friend : '', nombre_friend : '',
   email_friend : '' , count_friend : this.count, status_friend : 'A' };
   selectFriend = { id_user : 0 , status_friend : 'A' };
+  verificarExistencia = { email : '' , telefono : '', status : 'Active' };
   dataVerification = { id_user : 0};
   friends: any[] = [ ];
   formularioUsuario: FormGroup;
@@ -58,27 +60,49 @@ export class RegisterTabPage implements OnInit {
     if (this.count > 3) {
       this.authService.presentToast('Solo puede agregar 3 amigos.');
     } else {
-
-      if (this.userData.nombre_friend && this.userData.telefono_friend) {
-        this.userData.count_friend = this.count + 1;
-        this.authService.postData(JSON.stringify(this.userData), 'addfriend').then((result) => {
-          this.responseDataFriend = result;
-          console.log(this.responseDataFriend);
-          if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
-            localStorage.setItem('userDataFriend', JSON.stringify(this.responseData));
-            this.authService.presentToast('Amigo guardado exitosamente.');
-            this.cancelar();
-          } else {
-            this.authService.presentToast('Error al guardar.');
-          }
-        }, (err) => {
-          console.log(err);
-          this.authService.presentToast('El servico fallo.');
-        });
+      // probamos la existencia del usuario que desea registrar
+      if (this.userData.email_friend && this.userData.telefono_friend && this.userData.nombre_friend) {
+        this.verificarExistenciaUsuario();
       } else {
         this.authService.presentToast('La información es requerida.');
       }
     }
+  }
+
+  verificarExistenciaUsuario() {
+    this.verificarExistencia.email = this.userData.email_friend;
+    this.verificarExistencia.telefono = this.userData.telefono_friend;
+    this.authService.postData(JSON.stringify(this.verificarExistencia), 'existsuser').then((result) => {
+      this.verificarExistenciaResult = result;
+      if (this.verificarExistenciaResult.api_status === 1 && this.verificarExistenciaResult.api_http === 200) {
+        localStorage.setItem('verificarExistencia', JSON.stringify(this.verificarExistenciaResult));
+        this.registarAmigo();
+      } else {
+        this.authService.presentToast('No existe registros del amigo a agregar.');
+      }
+    }, (err) => {
+      console.log(err);
+      this.authService.presentToast('El servico fallo.');
+    });
+  }
+
+  registarAmigo() {
+      this.userData.count_friend = this.count + 1;
+      this.authService.postData(JSON.stringify(this.userData), 'addfriend').then((result) => {
+        this.responseDataFriend = result;
+        console.log(this.responseDataFriend);
+        if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
+          localStorage.setItem('userDataFriend', JSON.stringify(this.responseData));
+          this.authService.presentToast('Amigo guardado correctamente.');
+          this.cancelar();
+          this.router.navigate([ '/menu/shareLocation' ]);
+        } else {
+          this.authService.presentToast('Error al guardar.');
+        }
+      }, (err) => {
+        console.log(err);
+        this.authService.presentToast('El servico fallo.');
+      });
   }
 
   buildForm() {

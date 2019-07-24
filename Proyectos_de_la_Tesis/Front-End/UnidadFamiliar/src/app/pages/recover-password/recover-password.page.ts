@@ -118,7 +118,8 @@ export class RecoverPasswordPage implements OnInit {
       this.updateDataSave = result;
       if (this.updateDataSave.api_status === 1 && this.updateDataSave.api_http === 200 ) {
           localStorage.setItem('udSave', JSON.stringify(this.updateDataSave));
-          this.limpiarData();
+          this.cancelar();
+          this.authService.presentToast('Contraseña actualizada correctamente.');
           this.router.navigate([ '/menu/login' ]);
       } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 200) {
         this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
@@ -183,7 +184,7 @@ export class RecoverPasswordPage implements OnInit {
     });
   }
 
-  limpiarData() {
+  cancelar() {
     this.formularioUsuario = this.fb.group({
       password: '',
       correo: '',
@@ -192,5 +193,7 @@ export class RecoverPasswordPage implements OnInit {
     });
     this.activePassword = true;
     this.activeRespuesta = true;
+    this.emailAction = false;
+    this.celularAction = false;
   }
 }
