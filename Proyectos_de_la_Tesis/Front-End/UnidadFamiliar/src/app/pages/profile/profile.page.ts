@@ -11,8 +11,7 @@ import { MenuController } from '@ionic/angular';
 })
 export class ProfilePage implements OnInit {
 
-userData = { name : '', email : '', telefono : '' , password : '', status : 'Active', ciudad : 'Quito', sector : '', respuesta: '',
-              pregunta : '' };
+userData = { name : '', email : '', telefono : '' , password : '', status : 'Active', ciudad : 'Quito', sector : '', respuesta: ''};
   responseData: any;
   boolean: any;
   titleSignup: any;
@@ -27,21 +26,37 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
   sectorZone = { sector_zona : 0 , status_zona : 'A' };
   sectorEspecificas: any;
   sector: any[] = [ ];
+  preguntas: any[] = [ ];
   takePersona = {correo_persona : '', estado_persona : 'A', email : '', status : 'Active' };
   persona: any;
   buttonActivePassword = true;
   personData = { correo_persona : '', telefono_persona : '', estado_persona : 'A' };
   tipoPregunta = 0;
   getPreguntaData = { tipo_preguntas: 0, status_preguntas : 'A' };
-  pregunta: any;
+  preguntaShow: any;
+  selectedPreguntas = {};
+  comboPreguntas: any;
+  desactivarPregunta: any;
+  getTPRes: any;
+  updatePersona = {id : '', nombre_persona : '', correo_persona : '', telefono_persona : '',
+  sector_persona: '', tipo_pregunta : 0, respuesta_pregunta_persona : ''};
+  getIdPersona: any;
+  saveDataPersona: any;
+  dataUserUpdate = { id : '', name : '', email : '', telefono : ''};
+  resUser: any;
+  pregunta = { tipo_preguntas : 0 , descripcion_preguntas : '' , status_preguntas : 'A' };
   selectedPregunta: any;
-
+  responseDataFriend: any;
+  updateUserFriend = {id : '', id_user : '', name_user : '', telefono_user : ''};
   constructor(
       private authService: UserService,
       private router: Router,
       private fb: FormBuilder,
       public menu: MenuController,
   ) {
+  }
+
+  takeDataPersona() {
     this.responseData = JSON.parse(localStorage.getItem('userDataLogin'));
     this.takePersona.email = this.responseData.email;
     this.takePersona.correo_persona = this.responseData.email;
@@ -53,9 +68,9 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
     this.userData.telefono = this.persona.telefono_persona;
     this.personData.correo_persona = this.persona.correo_persona;
     this.personData.telefono_persona = this.persona.telefono_persona;
+    this.getTP(this.personData);
     this.userData.respuesta = this.persona.respuesta_pregunta_persona;
-    this.userData.pregunta = this.persona.tipo_pregunta;
-    // this.userData.password = this.responseData.password;
+
     if (this.persona.sector_persona === '1') {
       this.userData.sector = 'Sur';
     } else if (this.persona.sector_persona === '2') {
@@ -70,9 +85,44 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
   }
 
   preguntaChange() {
-    // console.log(this.selectedSingleZone);
-    this.pregunta.tipo_preguntas = this.selectedPregunta.tipo_preguntas;
-    this.pregunta.descripcion_preguntas = this.selectedPregunta.descripcion_preguntas;
+    this.updatePersona.tipo_pregunta = this.selectedPregunta.tipo_preguntas;
+    this.desactivarPregunta = true;
+    this.preguntaShow = '';
+  }
+
+  selectPreguntas(tp) {
+    this.authService.postData(JSON.stringify(this.selectedPreguntas), 'selectpreguntas').then((res) => {
+      this.comboPreguntas = res;
+      for (let i = 0; i <= this.comboPreguntas.data.length - 1; i++) {
+        this.preguntas = this.comboPreguntas.data;
+        console.log(this.comboPreguntas.data[i].id_preguntas + '===' + tp);
+        if (this.comboPreguntas.data[i].id_preguntas == tp) {
+          this.preguntaShow = this.comboPreguntas.data[i].descripcion_preguntas;
+          console.log(this.comboPreguntas.data[i].descripcion_preguntas);
+        }
+      }
+    });
+  }
+
+  getTP(data) {
+    console.log(data);
+    this.authService.postData(JSON.stringify(this.personData), 'gettipopreguntarespuesta').then((result) => {
+      this.getTPRes = result;
+      if (this.getTPRes.api_status === 1 && this.getTPRes.api_http === 200 ) {
+          localStorage.setItem('getTPR', JSON.stringify(this.getTPRes));
+          this.tipoPregunta = this.getTPRes.tipo_pregunta;
+          this.updatePersona.tipo_pregunta = this.tipoPregunta;
+          this.selectPreguntas(this.tipoPregunta);
+      } else  if (this.getTPRes.api_status === 0 && this.getTPRes.api_http === 200) {
+        this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
+      } else  if (this.getTPRes.api_status === 0 && this.getTPRes.api_http === 401) {
+        this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
+      } else  if (this.getTPRes.password === '123456' && this.getTPRes.status === 'Inactive') {
+        this.router.navigate([ '/menu/login' ]);
+      }
+    }, (err) => {
+        this.authService.presentToast('Falla del servicio.');
+    });
   }
 
   ngOnInit() {
@@ -85,6 +135,7 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
         this.zones = this.comboZones.data;
       }
     });
+    this.takeDataPersona();
   }
 
   // Compara la zona seleccionada y la cambia
@@ -93,11 +144,12 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
   }
 
   compareFnP(e1, e2): boolean {
-    return e1 && e2 ? e1.pregunta === e2.pregunta : e1 === e2;
+    return e1 && e2 ? e1.descripcion_preguntas === e2.descripcion_preguntas : e1 === e2;
   }
 
   // sientre el cambio de zona y lo almacena en una variable
   singleChange() {
+      this.updatePersona.sector_persona = this.selectedSingleZone.id_sector;
       console.log(this.selectedSingleZone);
       this.userData.sector = '';
   }
@@ -128,7 +180,73 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
   }
 
   actualizarDatos() {
+    this.updatePersona.nombre_persona = this.userData.name;
+    this.updatePersona.correo_persona = this.userData.email;
+    this.updatePersona.telefono_persona = this.userData.telefono;
+    this.updatePersona.respuesta_pregunta_persona = this.userData.respuesta;
+    this.getIdPersona = JSON.parse(localStorage.getItem('getIdPersona'));
+    this.updatePersona.id = this.getIdPersona.id;
+    if (this.userData.name && this.userData.email && this.userData.telefono &&
+      this.updatePersona.sector_persona && this.tipoPregunta > 0 && this.userData.respuesta) {
+      console.log(this.updatePersona);
+      this.authService.postData(JSON.stringify(this.updatePersona), 'updatdatauser').then((res) => {
+        this.saveDataPersona = res;
+        console.log(this.saveDataPersona);
+        if (this.saveDataPersona.api_status === 1 && this.saveDataPersona.api_http === 200 ) {
+          localStorage.setItem('persona', JSON.stringify(this.saveDataPersona));
+          this.updateDataUser();
+      } else  {
+        this.authService.presentToast('Datos necesarios.');
+      }
+      }, (err) => {
+        this.authService.presentToast('Falla del servicio.');
+    });
+    } else {
+      this.authService.presentToast('Toda la información es requerida');
+    }
+  }
 
+  updateDataUser() {
+    this.dataUserUpdate.id = this.responseData.id;
+    this.dataUserUpdate.name = this.updatePersona.nombre_persona;
+    this.dataUserUpdate.email = this.updatePersona.correo_persona;
+    this.dataUserUpdate.telefono = this.updatePersona.telefono_persona;
+    this.authService.postData(JSON.stringify(this.dataUserUpdate), 'updateuser').then((res) => {
+      this.resUser = res;
+      if (this.resUser.api_status === 1 && this.resUser.api_http === 200 ) {
+        localStorage.setItem('resUser', JSON.stringify(this.resUser));
+        console.log(this.resUser);
+        this.updateUserFriend.id_user = JSON.stringify(this.resUser.id_user);
+        this.updateUserFriend.id = JSON.stringify(this.resUser.id);
+        this.updtaFrienUser();
+    } else  {
+      this.authService.presentToast('Datos necesarios.');
+    }
+    }, (err) => {
+      this.authService.presentToast('Falla del servicio.');
+  });
+  }
+
+  updtaFrienUser() {
+    this.updateUserFriend.name_user = this.updatePersona.nombre_persona;
+    this.updateUserFriend.telefono_user = this.updatePersona.telefono_persona;
+    this.authService.postData(JSON.stringify(this.updateUserFriend), 'updateuserfriend').then((result) => {
+      this.responseDataFriend = result;
+      console.log(this.responseDataFriend);
+      if (this.responseDataFriend.api_status === 1 && this.responseDataFriend.api_http === 200) {
+            localStorage.setItem('userDataFriendUpdte', this.responseDataFriend);
+            this.authService.presentToast('Datos actualizados correctamente.');
+            this.router.navigate([ '/menu/login' ]);
+          } else {
+            this.authService.presentToast('Error al actualizar.');
+          }
+        }, (err) => {
+          this.authService.presentToast('El servicio falló.');
+        });
+  }
+
+  ionViewWillEnter() {
+    this.menu.enable(true);
   }
 
 }

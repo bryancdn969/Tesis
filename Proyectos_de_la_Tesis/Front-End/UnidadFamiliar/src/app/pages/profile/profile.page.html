@@ -12,7 +12,7 @@
     <ion-row justify-content-center>
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
         <div padding>
-          <form [formGroup]="formularioUsuario" novalidate>
+          <form [formGroup]="formularioUsuario" (ngSubmit)="actualizarDatos()" novalidate>
             <ion-list>            
               <ion-item [hidden]=activeName>
                 <ion-icon name="person" item-left></ion-icon>
@@ -75,7 +75,8 @@
 
               <ion-item>
                <ion-icon name="help" item-left></ion-icon>
-                  <ion-select formControlName="pregunta" name="pregunta" [(ngModel)]="userData.pregunta" [compareWith]="compareFnP" (ionChange)="preguntaChange()">
+               <ion-input formControlName="pregunta" type="text" name="pregunta" [hidden]=desactivarPregunta><span>{{preguntaShow}}:</span></ion-input>
+                  <ion-select formControlName="pregunta" name="pregunta" [(ngModel)]="selectedPregunta" [compareWith]="compareFnP" (ionChange)="preguntaChange()">
                     <ion-select-option *ngFor="let pregunta of preguntas" [value]="pregunta">{{pregunta.descripcion_preguntas}}</ion-select-option>
                   </ion-select>
                 <ion-input formControlName="respuesta" type="text" name="respuesta" required maxlength="30" [(ngModel)]="userData.respuesta"></ion-input>
@@ -90,10 +91,11 @@
               </ion-item>
 
             </ion-list>
-          </form>
           <div class="padding">
-            <ion-button expand="full" type="submit" (click)="actualizarDatos()">Actualizar</ion-button>
+            <ion-button expand="full" type="submit" >Actualizar</ion-button>
           </div>
+          </form>
+          
           <div class="padding">
             <ion-button expand="full" type="submit" (click)="cambiarPassword()">Cambiar Contraseña</ion-button>
           </div>

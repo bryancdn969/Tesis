@@ -5,11 +5,11 @@
 		use DB;
 		use CRUDBooster;
 
-		class ApiActualizaramigoController extends \crocodicstudio\crudbooster\controllers\ApiController {
+		class ApiUpdateuserController extends \crocodicstudio\crudbooster\controllers\ApiController {
 
 		    function __construct() {    
-				$this->table       = "app_friend";        
-				$this->permalink   = "actualizaramigo";    
+				$this->table       = "cms_users";        
+				$this->permalink   = "updateuser";    
 				$this->method_type = "post";    
 		    }
 		

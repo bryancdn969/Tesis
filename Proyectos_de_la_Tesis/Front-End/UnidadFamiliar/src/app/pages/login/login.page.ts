@@ -63,6 +63,7 @@ export class LoginPage implements OnInit {
   takeSectorPersona() {
     this.authService.postData(JSON.stringify(this.takeSector), 'takesectorxuser').then((res) => {
       this.sector = res;
+      localStorage.setItem('getIdPersona', JSON.stringify(this.sector));
       this.valuSector = this.sector.sector_persona;
       this.sectorXZona(this.valuSector);
     }, (err) => {

@@ -5,80 +5,43 @@ URL de acceso a CRUDBooster
 Código de la creación de la tabla amigos
 	- URL = https://www.troyfawkes.com/solved-mysql-error-1005-cant-create-table-errno-150/
 	- CREATE TABLE IF NOT EXISTS unidadfamiliar.app_friend (
-
-	id_friend	INT NOT NULL AUTO_INCREMENT,
-    
+	id	INT NOT NULL AUTO_INCREMENT,
 	id_user	INT UNSIGNED NOT NULL,
-    
-	name_user VARCHAR(30),
-    
-	telefono_user VARCHAR(15),
-    
-	telefono_friend VARCHAR(15),
-    
-	nombre_friend	VARCHAR(30),
-    
-	email_friend	VARCHAR(50),
-    
-	count_friend	INT,
-    
-	created_friend	DATETIME,
-    
+	name_user VARCHAR(30) NOT NULL,
+	telefono_user VARCHAR(15) NOT NULL,
+	telefono_friend VARCHAR(15) NOT NULL,
+	nombre_friend	VARCHAR(30) NOT NULL,
+	email_friend	VARCHAR(50) NOT NULL,
+	count_friend	INT NOT NULL,
+	created_friend	TIMESTAMP NULL,
+    updated_persona    TIMESTAMP NULL,
 	status_friend	CHAR(1),
-    
-	INDEX idx_user (id_user ASC),
-	
-	PRIMARY KEY (id_friend),
-    
+	PRIMARY KEY (id),
 	CONSTRAINT users_const
-    
 	FOREIGN KEY (id_user) 
     REFERENCES unidadfamiliar.cms_users (id)
-    
-	ON DELETE NO ACTION
-    
-	ON UPDATE NO ACTION
-
 ) ENGINE = InnoDB; 
 
-Código de la creacion de la tabla de posición
-	- CREATE TABLE IF NOT EXISTS unidadfamiliar.app_position (
-	
-	id_position	INT NOT NULL AUTO_INCREMENT,
-    
-	id_user	INT UNSIGNED NOT NULL,
-	
-	id_friend	INT NOT NULL,
-    
-	name_user VARCHAR(30) NOT NULL,
-    
-	latitud_position DECIMAL NOT NULL,
-    
-	longitud_position DECIMAL NOT NULL,
-    
-	direccion_position	VARCHAR(250) NOT NULL,
-    
-	nombre_friend	VARCHAR(30) NOT NULL,
-    
-	created_position	TIMESTAMP,
-    
-	updated_position    TIMESTAMP,
-    
-	status_position	CHAR(1),
-    
-	INDEX idx_friend (id_friend ASC),
-	
-	PRIMARY KEY (id_position),
-    
-	CONSTRAINT friend_const
-    
-	FOREIGN KEY (id_friend) 
-    REFERENCES unidadfamiliar.app_friend (id_friend)
-    
-	ON DELETE NO ACTION
-    
-	ON UPDATE NO ACTION
 
+Código de la creacion de la tabla de posición
+	- drop table unidadfamiliar.app_position;
+	- CREATE TABLE IF NOT EXISTS unidadfamiliar.app_position (
+	id	INT NOT NULL AUTO_INCREMENT,
+	id_user	INT UNSIGNED NOT NULL,
+	id_friend	INT NOT NULL,
+	name_user VARCHAR(30) NOT NULL,
+	latitud_position DECIMAL(10,6) NOT NULL,
+	longitud_position DECIMAL(10,6) NOT NULL,
+	direccion_position	VARCHAR(250) NOT NULL,
+	nombre_friend	VARCHAR(30) NOT NULL,
+	created_position	TIMESTAMP NULL,
+	updated_position    TIMESTAMP NULL,
+	status_position	VARCHAR(1),
+	INDEX idx_friend (id_friend ASC),
+	PRIMARY KEY (id),
+	CONSTRAINT friend_const
+	FOREIGN KEY (id_user) 
+    REFERENCES unidadfamiliar.cms_users (id)
 ) ENGINE = InnoDB;
 
 Modification del campo de latitud y longitud
@@ -154,34 +117,19 @@ VALUES ('Sur','Parque Metropolitano del Sur','Sector de El Troje, Av. Simón Bolí
 
 Create table person
 	- CREATE TABLE IF NOT EXISTS unidadfamiliar.app_persona (
-	
-		id_persona	INT NOT NULL AUTO_INCREMENT,
-	
-		nombre_persona	VARCHAR(250) NOT NULL,
-	
-		correo_persona VARCHAR(30) NOT NULL,
-	
+		id	INT NOT NULL AUTO_INCREMENT,
+		nombre_persona	VARCHAR(50) NOT NULL,
+		correo_persona VARCHAR(50) NOT NULL,
 		telefono_persona VARCHAR(15) NOT NULL,
-	
 		ciudad_persona CHAR(30) NOT NULL,
-	
 		sector_persona	CHAR(1) NOT NULL,
-	
-		fecha_creacion_persona	TIMESTAMP,
-	
+        tipo_pregunta CHAR(1) NOT NULL,
+        respuesta_pregunta_persona VARCHAR(50) NOT NULL,
+		created_persona	TIMESTAMP NULL,
+        updated_persona    TIMESTAMP NULL,
 		estado_persona	CHAR(1),
-	
-		INDEX idx_persona (id_persona ASC),
-	
-		PRIMARY KEY (id_persona)
-
-	) ENGINE = InnoDB; 
-
-ALTER TABLE `unidadfamiliar`.`app_persona` 
-	
-ADD COLUMN `tipo_pregunta` INT(11) NOT NULL AFTER `sector_persona`,
-
-	ADD COLUMN `respuesta_pregunta_persona` VARCHAR(50) NOT NULL AFTER `tipo_pregunta`;
+		PRIMARY KEY (id)
+	) ENGINE = InnoDB;
 
 
 

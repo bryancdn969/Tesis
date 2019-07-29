@@ -5,11 +5,11 @@
 		use DB;
 		use CRUDBooster;
 
-		class ApiTestController extends \crocodicstudio\crudbooster\controllers\ApiController {
+		class ApiUbicacionController extends \crocodicstudio\crudbooster\controllers\ApiController {
 
 		    function __construct() {    
-				$this->table       = "cms_privileges";        
-				$this->permalink   = "test";    
+				$this->table       = "app_position";        
+				$this->permalink   = "ubicacion";    
 				$this->method_type = "post";    
 		    }
 		

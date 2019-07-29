@@ -27,9 +27,9 @@ export class ShareLocationPage implements OnInit {
   lng: any;
   nameButton: any;
   estadoEnvioUbicacion: any;
-  userData = { id_user_position : '', id_friend_position : '', name_user : '', latitud_position : this.lat , longitud_position : this.lng,
+  userData = { id_user: '', id_friend : '', name_user : '', latitud_position : this.lat , longitud_position : this.lng,
                direccion_position : '', nombre_friend : '' , status_position : this.status };
-  verificarEstadoEnvioUbicacion = { id_user_position : '', status_position : 'A' };
+  verificarEstadoEnvioUbicacion = { id_user : '', status_position : 'A' };
   dataVerification = { id_user : ''};
 
   constructor(
@@ -54,10 +54,11 @@ export class ShareLocationPage implements OnInit {
     // tomo el id del usaurio logeuado
     this.aux = JSON.parse(this.responseData);
     this.dataVerification.id_user = this.aux.id;
-    this.verificarEstadoEnvioUbicacion.id_user_position = this.aux.id;
+    this.verificarEstadoEnvioUbicacion.id_user = this.aux.id;
     this.authService.postData(JSON.stringify(this.verificarEstadoEnvioUbicacion), 'estadoenvioubicacion').then((result) => {
       this.estadoEnvioUbicacion = result;
-      if (this.estadoEnvioUbicacion.api_status === 1 && this.estadoEnvioUbicacion.api_http === 200) {
+      if (this.estadoEnvioUbicacion.api_status === 1 && this.estadoEnvioUbicacion.api_http === 200
+      && this.estadoEnvioUbicacion.data.length > 0) {
         this.nameButton = 'Dejar de enviar ubicación';
       } else {
         this.nameButton = 'Enviar mi ubicación';
@@ -149,13 +150,16 @@ export class ShareLocationPage implements OnInit {
 }
 
 enviarDireccion() {
+  if (this.nameButton === 'Dejar de enviar ubicación') {
+
+  }
   // Si si tiene amigos envie la poscion
   let i: number;
 
   for (i = 0; i <= this.responseDataTesting.data.length - 1; i++) {
     // tomo los ids y nombres de mis amigos
-    this.userData.id_user_position = this.dataVerification.id_user;
-    this.userData.id_friend_position = JSON.parse(localStorage.getItem('verificarExistencia')).id;
+    this.userData.id_user = this.dataVerification.id_user;
+    this.userData.id_friend = JSON.parse(localStorage.getItem('verificarExistencia')).id;
     this.userData.name_user = this.aux.name;
     this.userData.nombre_friend = this.responseDataTesting.data[i].nombre_friend;
     // this.userData.telefono_friend = this.responseDataTesting.data[i].telefono_friend;
@@ -166,6 +170,7 @@ enviarDireccion() {
       if (this.responseDataRegisterFriend.api_status === 1 && this.responseDataRegisterFriend.api_http === 200) {
           localStorage.setItem('userDataAddress', JSON.stringify(this.responseDataRegisterFriend));
           this.authService.presentToast('Dirección enviada correctamente.');
+          this.router.navigate([ '/menu/shareLocation' ]);
       } else  if (this.responseDataRegisterFriend.api_status === 0 && this.responseDataRegisterFriend.api_http === 200) {
         this.authService.presentToast('Error al enviar dirección.');
       } else  if (this.responseDataRegisterFriend.api_status === 0 && this.responseDataRegisterFriend.api_http === 401) {
