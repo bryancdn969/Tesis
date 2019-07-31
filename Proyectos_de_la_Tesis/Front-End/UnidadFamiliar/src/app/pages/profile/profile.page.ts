@@ -48,6 +48,8 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
   selectedPregunta: any;
   responseDataFriend: any;
   updateUserFriend = {id : '', id_user : '', name_user : '', telefono_user : ''};
+  comprobarUserFriend = {telefono_user : '', status_friend : 'A'};
+  getIds: any;
   constructor(
       private authService: UserService,
       private router: Router,
@@ -66,6 +68,7 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
     this.userData.name = this.persona.nombre_persona;
     this.userData.email = this.persona.correo_persona;
     this.userData.telefono = this.persona.telefono_persona;
+    this.comprobarUserFriend.telefono_user = this.userData.telefono;
     this.personData.correo_persona = this.persona.correo_persona;
     this.personData.telefono_persona = this.persona.telefono_persona;
     this.getTP(this.personData);
@@ -84,6 +87,23 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
     });
   }
 
+  takeUserFriend() {
+    this.authService.postData(JSON.stringify(this.comprobarUserFriend), 'getids').then(res => {
+      this.getIds = res;
+      if (this.getIds.api_status === 1 && this.getIds.api_http === 200 ) {
+        for (let i = 0; i <= this.getIds.data.length - 1; i++) {
+          this.updateUserFriend.id = this.getIds.data[i].id;
+        }
+        console.log(this.updateUserFriend.id);
+        this.updateUserFriend.id_user = this.getIds.data.id_user;
+      } else {
+        this.authService.presentToast('Error al traer la información.');
+      }
+    }, (err) => {
+    console.log(err);
+    this.authService.presentToast('Falla de servicio.');
+    });
+  }
   preguntaChange() {
     this.updatePersona.tipo_pregunta = this.selectedPregunta.tipo_preguntas;
     this.desactivarPregunta = true;
@@ -215,9 +235,6 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
       this.resUser = res;
       if (this.resUser.api_status === 1 && this.resUser.api_http === 200 ) {
         localStorage.setItem('resUser', JSON.stringify(this.resUser));
-        console.log(this.resUser);
-        this.updateUserFriend.id_user = JSON.stringify(this.resUser.id_user);
-        this.updateUserFriend.id = JSON.stringify(this.resUser.id);
         this.updtaFrienUser();
     } else  {
       this.authService.presentToast('Datos necesarios.');
@@ -230,19 +247,39 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
   updtaFrienUser() {
     this.updateUserFriend.name_user = this.updatePersona.nombre_persona;
     this.updateUserFriend.telefono_user = this.updatePersona.telefono_persona;
-    this.authService.postData(JSON.stringify(this.updateUserFriend), 'updateuserfriend').then((result) => {
-      this.responseDataFriend = result;
-      console.log(this.responseDataFriend);
-      if (this.responseDataFriend.api_status === 1 && this.responseDataFriend.api_http === 200) {
-            localStorage.setItem('userDataFriendUpdte', this.responseDataFriend);
-            this.authService.presentToast('Datos actualizados correctamente.');
-            this.router.navigate([ '/menu/login' ]);
-          } else {
-            this.authService.presentToast('Error al actualizar.');
-          }
-        }, (err) => {
-          this.authService.presentToast('El servicio falló.');
-        });
+
+    this.authService.postData(JSON.stringify(this.comprobarUserFriend), 'getids').then(res => {
+      this.getIds = res;
+      if (this.getIds.api_status === 1 && this.getIds.api_http === 200 ) {
+        for (let i = 0; i <= this.getIds.data.length - 1; i++) {
+          this.updateUserFriend.id = this.getIds.data[i].id;
+          this.updateUserFriend.id_user = this.getIds.data[i].id_user;
+          console.log(this.updateUserFriend);
+
+          this.authService.postData(JSON.stringify(this.updateUserFriend), 'updateuserfriend').then((result) => {
+            this.responseDataFriend = result;
+            console.log(this.responseDataFriend);
+            if (this.responseDataFriend.api_status === 1 && this.responseDataFriend.api_http === 200) {
+                  localStorage.setItem('userDataFriendUpdte', this.responseDataFriend);
+                  this.authService.presentToast('Datos actualizados correctamente.');
+                  this.router.navigate([ '/menu/login' ]);
+                } else {
+                  this.authService.presentToast('Error al actualizar.');
+                }
+              }, (err) => {
+                this.authService.presentToast('El servicio falló.');
+              });
+
+
+
+        }
+      } else {
+        this.authService.presentToast('Error al traer la información.');
+      }
+    }, (err) => {
+    console.log(err);
+    this.authService.presentToast('Falla de servicio.');
+    });
   }
 
   ionViewWillEnter() {
