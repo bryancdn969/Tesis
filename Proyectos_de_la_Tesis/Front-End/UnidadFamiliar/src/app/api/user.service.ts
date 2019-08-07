@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { ToastController } from '@ionic/angular';
 
-const apiUrl = 'http://localhost/Tesis/Proyectos_de_la_Tesis/Back-End/UnidadFamiliar/public/api/';
-// const apiUrl = 'https://arieseffect.com/bryan/UnidadFamiliar/public/api/';
+// const apiUrl = 'http://localhost/Tesis/Proyectos_de_la_Tesis/Back-End/UnidadFamiliar/public/api/';
+const apiUrl = 'https://arieseffect.com/bryan/UnidadFamiliar/public/api/';
 const httpOptions = {  headers: new Headers({'Content-Type': 'application/json',
                             'Access-Control-Allow-Origin': '*',
                             'Access-Control-Allow-Headers':  'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',

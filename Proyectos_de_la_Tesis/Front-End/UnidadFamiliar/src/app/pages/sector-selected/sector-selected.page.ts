@@ -51,10 +51,8 @@ export class SectorSelectedPage implements OnInit {
   }
 
   loadMap(position: Geoposition) {
-    // this.responseData = JSON.parse(localStorage.getItem('sectorSelected'));
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-    // create a new map by passing HTMLElement
     const mapEle: HTMLElement = document.getElementById('map');
     const panelEle: HTMLElement = document.getElementById('panel');
 
@@ -72,7 +70,6 @@ export class SectorSelectedPage implements OnInit {
 
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
       mapEle.classList.add('show-map');
-      // this.calculateRoute();
       const dLatI = this.rad( +(this.responseData.latitud_zona) - this.myLatLng.lat);
       const dLonI = this.rad( +(this.responseData.longitud_zona) - this.myLatLng.lng);
       const aI = Math.sin(dLatI / 2) * Math.sin(dLatI / 2) +
@@ -98,7 +95,7 @@ export class SectorSelectedPage implements OnInit {
         if (status === google.maps.DirectionsStatus.OK) {
           this.directionsDisplay.setDirections(response);
         } else {
-          alert('Could not display directions due to: ' + status);
+          alert('No se puede desplegar los pasos a seguir: ' + status);
         }
       });
     });

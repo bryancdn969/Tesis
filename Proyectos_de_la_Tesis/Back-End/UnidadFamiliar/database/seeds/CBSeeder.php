@@ -19,7 +19,7 @@ class CBSeeder extends Seeder
         $this->call('Cms_privileges_rolesSeeder');
         $this->call('Cms_settingsSeeder');
         $this->call('CmsEmailTemplates');
-		$this->call('App_friendSeeder');
+		
 
         $this->command->info('Updating the data completed !');
     }
@@ -457,17 +457,3 @@ class Cms_usersSeeder extends Seeder
     }
 }
 
-class App_friendSeeder extends Seeder 
-{
-	public function run()
-    {
-
-        if (DB::table('app_friend')->count() == 0) {
-            $app_friend = DB::table('app_friend')->insert([
-				'name_user' => 'Super Admin',
-				'telefono_user' => '0987654321',
-                'status_friend' => 'A',
-            ]);
-        }
-    }
-}

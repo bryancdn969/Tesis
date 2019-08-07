@@ -42,8 +42,9 @@ export class RegisterTabPage implements OnInit {
     // servicio para ver desde cuadno agregar
     this.authService.postData(JSON.stringify(this.dataVerification), 'testing').then((result) => {
       this.responseData = result;
-      if (this.responseData.api_status === 1 && this.responseData.api_http === 200 &&
-          this.responseData.data.length <= 0) {
+      // Se quito la comprobación del http
+      // if (this.responseData.api_status === 1 && this.responseData.api_http === 200 &&
+      if (this.responseData.api_status === 1 && this.responseData.data.length <= 0) {
           this.count = 0;
       } else {
         this.count = this.responseData.data[0].count_friend;
@@ -74,7 +75,8 @@ export class RegisterTabPage implements OnInit {
     this.verificarExistencia.telefono = this.userData.telefono_friend;
     this.authService.postData(JSON.stringify(this.verificarExistencia), 'existsuser').then((result) => {
       this.verificarExistenciaResult = result;
-      if (this.verificarExistenciaResult.api_status === 1 && this.verificarExistenciaResult.api_http === 200) {
+      // if (this.verificarExistenciaResult.api_status === 1 && this.verificarExistenciaResult.api_http === 200) {
+      if (this.verificarExistenciaResult.api_status === 1 ) {
         localStorage.setItem('verificarExistencia', JSON.stringify(this.verificarExistenciaResult));
         this.registarAmigo();
       } else {
@@ -91,7 +93,8 @@ export class RegisterTabPage implements OnInit {
       this.authService.postData(JSON.stringify(this.userData), 'addfriend').then((result) => {
         this.responseDataFriend = result;
         console.log(this.responseDataFriend);
-        if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
+        // if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
+        if (this.responseData.api_status === 1 ) {
           localStorage.setItem('userDataFriend', JSON.stringify(this.responseData));
           this.authService.presentToast('Amigo guardado correctamente.');
           this.cancelar();

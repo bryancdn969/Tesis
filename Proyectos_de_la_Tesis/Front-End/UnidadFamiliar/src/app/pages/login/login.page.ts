@@ -40,14 +40,18 @@ export class LoginPage implements OnInit {
           (this.userData, 'login?email=' + this.userData.email + '&password=' + this.userData.password
                                          + '&status=' + this.userData.status).then((result) => { */
               this.responseData = result;
-              if (this.responseData.api_status === 1 && this.responseData.api_http === 200 && this.responseData.status === 'Active' &&
-                  this.userData.password !== '123456') {
+              // Se quito la comprobación del http
+              // if (this.responseData.api_status === 1 && this.responseData.api_http === 200 && this.responseData.status === 'Active' &&
+              if (this.responseData.api_status === 1 && this.responseData.status === 'Active' &&
+              this.userData.password !== '123456') {
                   localStorage.setItem('userDataLogin', JSON.stringify(this.responseData));
                   this.authService.isLoggedIn();
                   this.takeSectorPersona();
-              } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 200) {
-                this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-              } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 401) {
+              // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 200) {
+              } else  if (this.responseData.api_status === 0 ) {
+              this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
+            // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 401) {
+            } else  if (this.responseData.api_status === 0 ) {
                 this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
               } else  if (this.responseData.password === '123456' && this.responseData.status === 'Inactive') {
                 this.router.navigate([ '/menu/login' ]);

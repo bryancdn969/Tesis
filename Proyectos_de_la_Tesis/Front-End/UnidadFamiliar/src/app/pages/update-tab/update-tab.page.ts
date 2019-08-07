@@ -72,8 +72,8 @@ export class UpdateTabPage implements OnInit {
     if (this.userData.nombre_friend && this.userData.telefono_friend) {
           this.authService.postData(JSON.stringify(this.userData), 'updatefriend').then((result) => {
           this.responseDataFriend = result;
-          console.log(this.responseDataFriend);
-          if (this.responseDataFriend.api_status === 1 && this.responseDataFriend.api_http === 200) {
+          // if (this.responseDataFriend.api_status === 1 && this.responseDataFriend.api_http === 200) {
+          if (this.responseDataFriend.api_status === 1 ) {
             localStorage.setItem('userDataFriendUpdte', this.responseDataFriend);
             this.authService.presentToast('Amigo actualizado correctamente.');
             this.router.navigate([ '/menu/shareLocation' ]);

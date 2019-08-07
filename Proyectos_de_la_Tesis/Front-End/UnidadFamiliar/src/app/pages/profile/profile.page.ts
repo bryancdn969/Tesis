@@ -90,7 +90,9 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
   takeUserFriend() {
     this.authService.postData(JSON.stringify(this.comprobarUserFriend), 'getids').then(res => {
       this.getIds = res;
-      if (this.getIds.api_status === 1 && this.getIds.api_http === 200 ) {
+      // Se quito la comprobación del http
+      // if (this.getIds.api_status === 1 && this.getIds.api_http === 200 ) {
+      if (this.getIds.api_status === 1 ) {
         for (let i = 0; i <= this.getIds.data.length - 1; i++) {
           this.updateUserFriend.id = this.getIds.data[i].id;
         }
@@ -128,14 +130,17 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
     console.log(data);
     this.authService.postData(JSON.stringify(this.personData), 'gettipopreguntarespuesta').then((result) => {
       this.getTPRes = result;
-      if (this.getTPRes.api_status === 1 && this.getTPRes.api_http === 200 ) {
+      // if (this.getTPRes.api_status === 1 && this.getTPRes.api_http === 200 ) {
+      if (this.getTPRes.api_status === 1 ) {
           localStorage.setItem('getTPR', JSON.stringify(this.getTPRes));
           this.tipoPregunta = this.getTPRes.tipo_pregunta;
           this.updatePersona.tipo_pregunta = this.tipoPregunta;
           this.selectPreguntas(this.tipoPregunta);
-      } else  if (this.getTPRes.api_status === 0 && this.getTPRes.api_http === 200) {
+      // } else  if (this.getTPRes.api_status === 0 && this.getTPRes.api_http === 200) {
+      } else  if (this.getTPRes.api_status === 0 ) {
         this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-      } else  if (this.getTPRes.api_status === 0 && this.getTPRes.api_http === 401) {
+      // } else  if (this.getTPRes.api_status === 0 && this.getTPRes.api_http === 401) {
+      } else  if (this.getTPRes.api_status === 0 ) {
         this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
       } else  if (this.getTPRes.password === '123456' && this.getTPRes.status === 'Inactive') {
         this.router.navigate([ '/menu/login' ]);
@@ -212,7 +217,8 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
       this.authService.postData(JSON.stringify(this.updatePersona), 'updatdatauser').then((res) => {
         this.saveDataPersona = res;
         console.log(this.saveDataPersona);
-        if (this.saveDataPersona.api_status === 1 && this.saveDataPersona.api_http === 200 ) {
+        // if (this.saveDataPersona.api_status === 1 && this.saveDataPersona.api_http === 200 ) {
+        if (this.saveDataPersona.api_status === 1 ) {
           localStorage.setItem('persona', JSON.stringify(this.saveDataPersona));
           this.updateDataUser();
       } else  {
@@ -233,7 +239,8 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
     this.dataUserUpdate.telefono = this.updatePersona.telefono_persona;
     this.authService.postData(JSON.stringify(this.dataUserUpdate), 'updateuser').then((res) => {
       this.resUser = res;
-      if (this.resUser.api_status === 1 && this.resUser.api_http === 200 ) {
+      // if (this.resUser.api_status === 1 && this.resUser.api_http === 200 ) {
+      if (this.resUser.api_status === 1 ) {
         localStorage.setItem('resUser', JSON.stringify(this.resUser));
         this.updtaFrienUser();
     } else  {
@@ -250,16 +257,16 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
 
     this.authService.postData(JSON.stringify(this.comprobarUserFriend), 'getids').then(res => {
       this.getIds = res;
-      if (this.getIds.api_status === 1 && this.getIds.api_http === 200 ) {
+      // if (this.getIds.api_status === 1 && this.getIds.api_http === 200 ) {
+      if (this.getIds.api_status === 1 ) {
         for (let i = 0; i <= this.getIds.data.length - 1; i++) {
           this.updateUserFriend.id = this.getIds.data[i].id;
           this.updateUserFriend.id_user = this.getIds.data[i].id_user;
           console.log(this.updateUserFriend);
-
           this.authService.postData(JSON.stringify(this.updateUserFriend), 'updateuserfriend').then((result) => {
             this.responseDataFriend = result;
-            console.log(this.responseDataFriend);
-            if (this.responseDataFriend.api_status === 1 && this.responseDataFriend.api_http === 200) {
+            // if (this.responseDataFriend.api_status === 1 && this.responseDataFriend.api_http === 200) {
+            if (this.responseDataFriend.api_status === 1 ) {
                   localStorage.setItem('userDataFriendUpdte', this.responseDataFriend);
                   this.authService.presentToast('Datos actualizados correctamente.');
                   this.router.navigate([ '/menu/login' ]);
@@ -269,9 +276,6 @@ userData = { name : '', email : '', telefono : '' , password : '', status : 'Act
               }, (err) => {
                 this.authService.presentToast('El servicio falló.');
               });
-
-
-
         }
       } else {
         this.authService.presentToast('Error al traer la información.');

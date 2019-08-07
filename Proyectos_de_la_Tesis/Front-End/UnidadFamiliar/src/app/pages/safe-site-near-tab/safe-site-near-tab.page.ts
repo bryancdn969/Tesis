@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 declare var google;
 
@@ -30,22 +30,15 @@ export class SafeSiteNearTabPage implements OnInit {
   constructor(
     public geolocation: Geolocation,
     private router: Router,
-    private activatedRoute: ActivatedRoute
   ) {
     this.directionsService = new google.maps.DirectionsService();
     this.directionsDisplay = new google.maps.DirectionsRenderer();
     this.bounds = new google.maps.LatLngBounds();
     this.responseData = JSON.parse(localStorage.getItem('zonaUser'));
-
     this.waypoints = this.responseData;
-    // console.log(this.waypoints);
-    // this.getPosition();
   }
 
   ngOnInit() {
-    /* console.log(JSON.parse(this.activatedRoute.snapshot.params.zonaUser));
-    this.responseData = JSON.parse(this.activatedRoute.snapshot.params.zonaUser);
-    this.waypoints = this.responseData; */
     this.getPosition();
   }
 
@@ -88,12 +81,6 @@ export class SafeSiteNearTabPage implements OnInit {
     };
 
     this.map = new google.maps.Map(mapEle, mapOptions);
-    // create map
-    /* this.map = new google.maps.Map(mapEle, {
-      center: this.myLatLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    }); */
 
     this.directionsDisplay.setMap(this.map);
     this.directionsDisplay.setPanel(panelEle);
@@ -127,7 +114,6 @@ export class SafeSiteNearTabPage implements OnInit {
     this.bounds.extend(point);
 
     this.map.fitBounds(this.bounds);
-    // console.log(latitud, longitud);
     this.directionsService.route({
         origin: new google.maps.LatLng(this.myLatLng.lat, this.myLatLng.lng),
         destination: new google.maps.LatLng(latitud, longitud),
@@ -136,13 +122,11 @@ export class SafeSiteNearTabPage implements OnInit {
         avoidTolls: true
       }, (response, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
-          // console.log(response);
           this.directionsDisplay.setDirections(response);
         } else {
-          alert('Could not display directions due to: ' + status);
+          alert('No se pueden desplegar los pasos a seguir: ' + status);
         }
       });
-
   }
 
   mejorSector(dInicio) {

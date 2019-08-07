@@ -45,22 +45,18 @@ export class ViewPositionFriendsPage implements OnInit {
 
     this.responseData = JSON.parse(localStorage.getItem('userDataLogin'));
     this.sectorFriend.id_user = this.responseData.id;
-    console.log(this.sectorFriend.id_user);
     this.authService.postData(JSON.stringify(this.sectorFriend), 'viewpositionfriendmap').then((res) => {
       this.sectorFriendEspecificas = res;
-      console.log(this.sectorFriendEspecificas);
       for (let i = 0; i <= this.sectorFriendEspecificas.data.length - 1; i++) {
         this.amigo = this.sectorFriendEspecificas.data;
       }
     }, (err) => {
-      console.log(err);
       this.authService.presentToast('El servico fallo.');
     });
   }
 
   optionsFn(auxFriend) {
     this.aux = auxFriend;
-    console.log(this.aux);
     this.lat = +(this.aux.latitud_position);
     this.lng = +(this.aux.longitud_position);
     this.myLatLng = {lat: this.lat, lng: this.lng};
@@ -71,7 +67,6 @@ export class ViewPositionFriendsPage implements OnInit {
 
   loadMap() {
     this.geolocation.getCurrentPosition().then((resp) => {
-      console.log(this.myLatLng);
       const mapOptions = {
         center: this.myLatLng,
         zoom: 15,
@@ -87,7 +82,7 @@ export class ViewPositionFriendsPage implements OnInit {
       });
 
     }).catch((error) => {
-      console.log('Error getting location', error);
+      this.authService.presentToast('Error al obtener la posición.');
     });
   }
 

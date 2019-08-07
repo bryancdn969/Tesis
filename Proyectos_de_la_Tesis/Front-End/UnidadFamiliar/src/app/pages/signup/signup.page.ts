@@ -125,13 +125,15 @@ export class SignupPage implements OnInit {
         // Aqui registraremos el usuario
       this.authService.postData(JSON.stringify(this.userExiste), 'controlarusuariosrepetidos').then((res) => {
           this.existeUsuario = res;
-          if (this.existeUsuario.api_status === 1 && this.existeUsuario.api_http === 200) {
+          // if (this.existeUsuario.api_status === 1 && this.existeUsuario.api_http === 200) {
+          if (this.existeUsuario.api_status === 1 ) {
             this.authService.presentToast('El número de teléfono ingresado ya existe.');
           } else {
             this.authService.postData(JSON.stringify(this.userData), 'signup').then((result) => {
               this.responseData = result;
               // console.log(this.responseData);
-              if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
+              // if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
+              if (this.responseData.api_status === 1) {
                 localStorage.setItem('userData', JSON.stringify(this.responseData));
                 // Crearemos primero persona
                 this.authService.postData(JSON.stringify(this.personaData), 'createperson').then((resPerson) => {
