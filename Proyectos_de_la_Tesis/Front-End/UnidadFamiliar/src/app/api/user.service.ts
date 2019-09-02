@@ -43,7 +43,7 @@ export class UserService {
 
   postData(credentials, type) {
     return new Promise((resolve, reject) => {
-      this.http.post(apiUrl + type, JSON.parse(credentials), httpOptions)
+      this.http.post(apiUrl + type, JSON.parse(credentials))
           .subscribe(res => {
             resolve(res.json());
           }, (err) => {

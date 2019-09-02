@@ -44,10 +44,11 @@ export class RegisterTabPage implements OnInit {
       this.responseData = result;
       // Se quito la comprobación del http
       // if (this.responseData.api_status === 1 && this.responseData.api_http === 200 &&
+      console.log(result);
       if (this.responseData.api_status === 1 && this.responseData.data.length <= 0) {
           this.count = 0;
       } else {
-        this.count = this.responseData.data[0].count_friend;
+        this.count = this.responseData.data.length;
         console.log(this.count);
       }
     });
@@ -58,7 +59,7 @@ export class RegisterTabPage implements OnInit {
   }
 
   addFriend() {
-    if (this.count > 3) {
+    if (this.count > this.responseData.data.length) {
       this.authService.presentToast('Solo puede agregar 3 amigos.');
     } else {
       // probamos la existencia del usuario que desea registrar

@@ -99,6 +99,7 @@ export class SectorSelectedPage implements OnInit {
         }
       });
     });
+    this.router.navigate([ '/menu/safeSite']);
   }
 
   rad(x) {
