@@ -45,10 +45,12 @@ export class ViewPositionFriendsPage implements OnInit {
 
     this.responseData = JSON.parse(localStorage.getItem('userDataLogin'));
     this.sectorFriend.id_user = this.responseData.id;
+    console.log(this.responseData);
     this.authService.postData(JSON.stringify(this.sectorFriend), 'viewpositionfriendmap').then((res) => {
       this.sectorFriendEspecificas = res;
       for (let i = 0; i <= this.sectorFriendEspecificas.data.length - 1; i++) {
         this.amigo = this.sectorFriendEspecificas.data;
+        console.log(this.amigo);
       }
     }, (err) => {
       this.authService.presentToast('El servico fallo.');
@@ -60,12 +62,14 @@ export class ViewPositionFriendsPage implements OnInit {
     this.lat = +(this.aux.latitud_position);
     this.lng = +(this.aux.longitud_position);
     this.myLatLng = {lat: this.lat, lng: this.lng};
+    console.log(this.myLatLng);
     this.loadMap();
     this.viewMapa = false;
   }
 
 
   loadMap() {
+    console.log(this.myLatLng);
     this.geolocation.getCurrentPosition().then((resp) => {
       const mapOptions = {
         center: this.myLatLng,
