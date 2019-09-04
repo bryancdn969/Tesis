@@ -42,8 +42,7 @@ export class LoginPage implements OnInit {
               this.responseData = result;
               // Se quito la comprobación del http
               // if (this.responseData.api_status === 1 && this.responseData.api_http === 200 && this.responseData.status === 'Active' &&
-              if (this.responseData.api_status === 1 && this.responseData.status === 'Active' &&
-              this.userData.password !== '123456') {
+              if (this.responseData.api_status === 1 && this.responseData.status === 'Active' ) {
                   localStorage.setItem('userDataLogin', JSON.stringify(this.responseData));
                   this.authService.isLoggedIn();
                   this.takeSectorPersona();

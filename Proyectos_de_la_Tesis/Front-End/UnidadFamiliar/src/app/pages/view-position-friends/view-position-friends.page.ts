@@ -19,7 +19,10 @@ export class ViewPositionFriendsPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild(IonVirtualScroll) virtualScroll: IonVirtualScroll;
   sectorFriendEspecificas: any;
-  sectorFriend = { id_user : '' , status_position : 'A' };
+  idFriend = { id_user : '' , status_friend : 'A' };
+  validationIdFriend = { id_user : '' , status_friend : 'A' };
+  sectorFriend = { id_user : '' , email_friend : '', status_position : 'A' };
+  emailFriend = { email : '' , status : 'Active' };
   responseData: any;
   aux: any;
   directionsService: any = null;
@@ -32,6 +35,12 @@ export class ViewPositionFriendsPage implements OnInit {
   myLatLng: any;
   @ViewChild('map') mapElement: ElementRef;
   address: string;
+  friendEmail: any;
+  idComprobationData: any;
+  idComprobation: any;
+  validationIdData: any;
+  traerCoordsId: any;
+  existCoordsData: any;
 
   constructor(
     private authService: UserService,
@@ -44,13 +53,68 @@ export class ViewPositionFriendsPage implements OnInit {
     this.bounds = new google.maps.LatLngBounds();
 
     this.responseData = JSON.parse(localStorage.getItem('userDataLogin'));
-    this.sectorFriend.id_user = this.responseData.id;
-    console.log(this.responseData);
-    this.authService.postData(JSON.stringify(this.sectorFriend), 'viewpositionfriendmap').then((res) => {
+    this.idFriend.id_user = this.responseData.id;
+    this.sectorFriend.email_friend = this.responseData.email;
+    console.log(JSON.stringify(this.idFriend));
+    this.traerEmail();
+  }
+
+  traerEmail() {
+    this.authService.postData(JSON.stringify(this.idFriend), 'selectidfriend').then((res) => {
       this.sectorFriendEspecificas = res;
-      for (let i = 0; i <= this.sectorFriendEspecificas.data.length - 1; i++) {
-        this.amigo = this.sectorFriendEspecificas.data;
-        console.log(this.amigo);
+      if (this.sectorFriendEspecificas.api_status === 1 && this.sectorFriendEspecificas.data.length > 0) {
+        for (let i = 0; i <= this.sectorFriendEspecificas.data.length - 1; i++) {
+          this.friendEmail = this.sectorFriendEspecificas.data[i].email_friend;
+          this.comprobarEmail(this.friendEmail);
+        }
+      } else {
+        this.authService.presentToast('No existe información compartida.');
+      }
+    }, (err) => {
+      this.authService.presentToast('El servico fallo.');
+    });
+  }
+
+  comprobarEmail(email) {
+    this.emailFriend.email = email;
+    this.authService.postData(JSON.stringify(this.emailFriend), 'testuser').then((res) => {
+      this.idComprobationData = res;
+
+      if (this.idComprobationData.api_status === 1 && this.idComprobationData.data.length > 0) {
+        this.idComprobation = this.idComprobationData.data[0].id;
+        console.log(this.idComprobationData);
+        this.traerIdForValidation(this.idComprobation);
+      }
+    }, (err) => {
+      this.authService.presentToast('El servico fallo.');
+    });
+  }
+
+  traerIdForValidation(id) {
+    this.validationIdFriend.id_user = id;
+    console.log(this.validationIdFriend);
+    this.authService.postData(JSON.stringify(this.validationIdFriend), 'validationidfriend').then((res) => {
+      this.validationIdData = res;
+      if (this.validationIdData.api_status === 1 && this.validationIdData.data.length > 0) {
+        for (let i = 0; i <= this.validationIdData.data.length - 1; i++) {
+          this.traerCoordsId = this.validationIdData.data[i].id;
+          this.traerCoordsFriend(this.traerCoordsId);
+        }
+      }
+    }, (err) => {
+      this.authService.presentToast('El servico fallo.');
+    });
+  }
+
+  traerCoordsFriend(id) {
+    this.sectorFriend.id_user = id;
+    this.authService.postData(JSON.stringify(this.sectorFriend), 'viewpositionfriendmap').then((res) => {
+      this.existCoordsData = res;
+      if (this.existCoordsData.api_status === 1 && this.existCoordsData.data.length > 0) {
+        for (let i = 0; i <= this.sectorFriendEspecificas.data.length - 1; i++) {
+          this.amigo = this.sectorFriendEspecificas.data;
+          console.log(this.amigo);
+        }
       }
     }, (err) => {
       this.authService.presentToast('El servico fallo.');
