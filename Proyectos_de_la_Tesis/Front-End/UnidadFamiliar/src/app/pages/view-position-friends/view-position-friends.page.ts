@@ -20,8 +20,8 @@ export class ViewPositionFriendsPage implements OnInit {
   @ViewChild(IonVirtualScroll) virtualScroll: IonVirtualScroll;
   sectorFriendEspecificas: any;
   idFriend = { id_user : '' , status_friend : 'A' };
-  validationIdFriend = { id_user : '' , status_friend : 'A' };
-  sectorFriend = { id_user : '' , email_friend : '', status_position : 'A' };
+  validationIdFriend = { id_user : '' , email_friend : '', status_friend : 'A' };
+  sectorFriend = { id_friend : '' , status_position : 'A' };
   emailFriend = { email : '' , status : 'Active' };
   responseData: any;
   aux: any;
@@ -54,8 +54,7 @@ export class ViewPositionFriendsPage implements OnInit {
 
     this.responseData = JSON.parse(localStorage.getItem('userDataLogin'));
     this.idFriend.id_user = this.responseData.id;
-    this.sectorFriend.email_friend = this.responseData.email;
-    console.log(JSON.stringify(this.idFriend));
+    this.validationIdFriend.email_friend = this.responseData.email;
     this.traerEmail();
   }
 
@@ -82,7 +81,6 @@ export class ViewPositionFriendsPage implements OnInit {
 
       if (this.idComprobationData.api_status === 1 && this.idComprobationData.data.length > 0) {
         this.idComprobation = this.idComprobationData.data[0].id;
-        console.log(this.idComprobationData);
         this.traerIdForValidation(this.idComprobation);
       }
     }, (err) => {
@@ -92,7 +90,6 @@ export class ViewPositionFriendsPage implements OnInit {
 
   traerIdForValidation(id) {
     this.validationIdFriend.id_user = id;
-    console.log(this.validationIdFriend);
     this.authService.postData(JSON.stringify(this.validationIdFriend), 'validationidfriend').then((res) => {
       this.validationIdData = res;
       if (this.validationIdData.api_status === 1 && this.validationIdData.data.length > 0) {
@@ -107,13 +104,12 @@ export class ViewPositionFriendsPage implements OnInit {
   }
 
   traerCoordsFriend(id) {
-    this.sectorFriend.id_user = id;
+    this.sectorFriend.id_friend = id;
     this.authService.postData(JSON.stringify(this.sectorFriend), 'viewpositionfriendmap').then((res) => {
       this.existCoordsData = res;
       if (this.existCoordsData.api_status === 1 && this.existCoordsData.data.length > 0) {
-        for (let i = 0; i <= this.sectorFriendEspecificas.data.length - 1; i++) {
-          this.amigo = this.sectorFriendEspecificas.data;
-          console.log(this.amigo);
+        for (let i = 0; i <= this.existCoordsData.data.length - 1; i++) {
+          this.amigo = this.existCoordsData.data;
         }
       }
     }, (err) => {
@@ -126,14 +122,12 @@ export class ViewPositionFriendsPage implements OnInit {
     this.lat = +(this.aux.latitud_position);
     this.lng = +(this.aux.longitud_position);
     this.myLatLng = {lat: this.lat, lng: this.lng};
-    console.log(this.myLatLng);
     this.loadMap();
     this.viewMapa = false;
   }
 
 
   loadMap() {
-    console.log(this.myLatLng);
     this.geolocation.getCurrentPosition().then((resp) => {
       const mapOptions = {
         center: this.myLatLng,
@@ -155,7 +149,6 @@ export class ViewPositionFriendsPage implements OnInit {
   }
 
   getAddressFromCoords(lattitude, longitude) {
-    console.log('getAddressFromCoords ' + lattitude + ' ' + longitude);
     const options: NativeGeocoderOptions = {
       useLocale: true,
       maxResults: 5
@@ -175,7 +168,6 @@ export class ViewPositionFriendsPage implements OnInit {
           this.address += value + ', ';
         }
         this.address = this.address.slice(0, -2);
-        console.log(this.address);
       })
       .catch((error: any) => {
         this.address = 'Address Not Available!';

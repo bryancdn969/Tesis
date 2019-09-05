@@ -103,17 +103,19 @@ export class RecoverPasswordPage implements OnInit {
                   this.emailAction = true;
                   this.celularAction = true;
               // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 200) {
-              } else  if (this.responseData.api_status === 0 ) {
-                this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
+              // } else  if (this.responseData.api_status === 0 ) {
+              //  this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
               // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 401) {
-              } else  if (this.responseData.api_status === 0 ) {
+              // } else  if (this.responseData.api_status === 0 ) {
+              //  this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
+              } else {
                 this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-              } else  if (this.responseData.password === '123456' && this.responseData.status === 'Inactive') {
-                this.router.navigate([ '/menu/login' ]);
               }
           }, (err) => {
               this.authService.presentToast('Falla del servicio.');
           });
+    } else {
+      this.authService.presentToast('Toda la información es requerida.');
     }
   }
 
