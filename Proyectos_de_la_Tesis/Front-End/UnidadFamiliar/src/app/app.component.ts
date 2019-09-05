@@ -44,14 +44,14 @@ export class AppComponent implements OnInit {
 
   checkLoginStatus() {
     this.responseData = (localStorage.getItem('HAS_LOGGED_IN'));
-    /* if (this.responseData === 'hasLoggedIn') {
+     if (this.responseData === 'hasLoggedIn') {
        this.router.navigate([ '/menu/shareLocation' ]);
-    } else { */
+    } else { 
     this.initializeApp();
-    // }
-    /* return this.authService.isLoggedIn().then(loggedIn => {
+     }
+     return this.authService.isLoggedIn().then(loggedIn => {
       return this.updateLoggedInStatus(loggedIn);
-    }); */
+    }); 
   }
 
   /* listenForLoginEvents() {
