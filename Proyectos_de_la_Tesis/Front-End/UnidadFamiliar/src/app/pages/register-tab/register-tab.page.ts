@@ -16,10 +16,12 @@ export class RegisterTabPage implements OnInit {
   count = 0;
   aux: any;
   verificarExistenciaResult: any;
+  verificarExistenciaFriendResult: any;
   userData = { id_user : '' , name_user : '' ,  telefono_user : '' , telefono_friend : '', nombre_friend : '',
   email_friend : '' , count_friend : this.count, status_friend : 'A' };
   selectFriend = { id_user : 0 , status_friend : 'A' };
   verificarExistencia = { email : '' , telefono : '', status : 'Active' };
+  verificarExistenciaFriendData = { id_user : 0, email_friend : '' , telefono_friend : '', status_friend : 'A' };
   dataVerification = { id_user : 0};
   friends: any[] = [ ];
   formularioUsuario: FormGroup;
@@ -39,6 +41,7 @@ export class RegisterTabPage implements OnInit {
     // tomo el id del usaurio logeuado
     this.dataVerification.id_user = JSON.parse(this.responseDataid).id;
     this.selectFriend.id_user = this.dataVerification.id_user;
+    this.verificarExistenciaFriendData.id_user = this.dataVerification.id_user;
     // servicio para ver desde cuadno agregar
     this.authService.postData(JSON.stringify(this.dataVerification), 'testing').then((result) => {
       this.responseData = result;
@@ -79,9 +82,26 @@ export class RegisterTabPage implements OnInit {
       // if (this.verificarExistenciaResult.api_status === 1 && this.verificarExistenciaResult.api_http === 200) {
       if (this.verificarExistenciaResult.api_status === 1 ) {
         localStorage.setItem('verificarExistencia', JSON.stringify(this.verificarExistenciaResult));
-        this.registarAmigo();
+        this.verificarExistenciaFriend();
+        // this.registarAmigo();
       } else {
         this.authService.presentToast('No existe registros del amigo a agregar.');
+      }
+    }, (err) => {
+      console.log(err);
+      this.authService.presentToast('El servico fallo.');
+    });
+  }
+
+  verificarExistenciaFriend() {
+    this.verificarExistenciaFriendData.email_friend = this.userData.email_friend;
+    this.verificarExistenciaFriendData.telefono_friend = this.userData.telefono_friend;
+    this.authService.postData(JSON.stringify(this.verificarExistenciaFriendData), 'existfriend').then((result) => {
+      this.verificarExistenciaFriendResult = result;
+      if (this.verificarExistenciaFriendResult.api_status === 1 && this.verificarExistenciaFriendResult.data.length > 0) {
+        this.authService.presentToast('Este amigo ya se encuentra registrado, Ingrese otro por favor.');
+      } else {
+        this.registarAmigo();
       }
     }, (err) => {
       console.log(err);

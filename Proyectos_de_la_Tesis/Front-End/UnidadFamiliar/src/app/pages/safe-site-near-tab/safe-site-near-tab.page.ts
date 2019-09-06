@@ -36,6 +36,7 @@ export class SafeSiteNearTabPage implements OnInit {
     this.bounds = new google.maps.LatLngBounds();
     this.responseData = JSON.parse(localStorage.getItem('zonaUser'));
     this.waypoints = this.responseData;
+    this.getPosition();
   }
 
   ngOnInit() {
@@ -62,6 +63,11 @@ export class SafeSiteNearTabPage implements OnInit {
     .catch(error => {
       alert('Error de servicio de google maps');
     });
+  }
+
+  ionViewWillEnter() {
+    // this.loadMap();
+    this.getPosition();
   }
 
   loadMap(position: Geoposition) {

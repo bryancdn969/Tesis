@@ -1,5 +1,5 @@
 import { Component, OnInit,  ViewChild, ElementRef } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { UserService } from '../../api/user.service';
 import { Router } from '@angular/router';
@@ -33,6 +33,10 @@ export class ShareLocationPage implements OnInit {
   id: any;
   updatStatePosition = {id: '', id_user: '', status_position: 'I' };
   updatePosition: any;
+  myLatLng: any;
+  directionsService: any = null;
+  directionsDisplay: any = null;
+  bounds: any = null;
 
   constructor(
     private geolocation: Geolocation,
@@ -40,10 +44,15 @@ export class ShareLocationPage implements OnInit {
     private authService: UserService,
     private router: Router,
     public menu: MenuController,
-  ) { }
+  ) {
+    this.directionsService = new google.maps.DirectionsService();
+    this.directionsDisplay = new google.maps.DirectionsRenderer();
+    this.bounds = new google.maps.LatLngBounds();
+   }
 
   ngOnInit() {
-    this.loadMap();
+    // this.loadMap();
+    this.getPosition();
     this.verificarEstadoUbicacion();
     console.log((localStorage.getItem('verificarExistencia')));
   }
@@ -71,7 +80,7 @@ export class ShareLocationPage implements OnInit {
     });
   }
 
-  loadMap() {
+ /* loadMap() {
     this.geolocation.getCurrentPosition().then((resp) => {
       const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
       const mapOptions = {
@@ -93,6 +102,49 @@ export class ShareLocationPage implements OnInit {
 
     }).catch((error) => {
       this.authService.presentToast('Error al obtener las ubicación.');
+    });
+  }*/
+
+  getPosition(): any {
+    this.geolocation.getCurrentPosition()
+    .then(response => {
+      this.loadMap(response);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+  loadMap(position: Geoposition) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    const mapEle: HTMLElement = document.getElementById('map');
+
+    // create LatLng object
+    this.myLatLng = {lat: latitude, lng: longitude};
+
+    // create map
+    this.map = new google.maps.Map(mapEle, {
+      center: this.myLatLng,
+      zoom: 15,
+    });
+
+    this.getAddressFromCoords(position.coords.latitude, position.coords.longitude);
+    this.lat = position.coords.latitude; this.lng = position.coords.longitude;
+    this.userData.latitud_position = this.lat;
+    this.userData.longitud_position = this.lng;
+
+    this.directionsDisplay.setMap(this.map);
+
+    google.maps.event.addListenerOnce(this.map, 'idle', () => {
+      mapEle.classList.add('show-map');
+
+      this.lat = +(this.responseData.latitud_zona);
+      this.lng = +(this.responseData.longitud_zona);
+    });
+
+    this.map.addListener('tilesloaded', () => {
+      this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng());
     });
   }
 
@@ -202,9 +254,10 @@ export class ShareLocationPage implements OnInit {
     });
 }
 
-ionViewWillEnter() {
-  this.loadMap();
-  this.menu.enable(true);
-}
+  ionViewWillEnter() {
+    // this.loadMap();
+    this.getPosition();
+    this.menu.enable(true);
+  }
 
 }

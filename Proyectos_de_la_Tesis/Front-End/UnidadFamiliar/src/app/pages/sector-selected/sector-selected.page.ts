@@ -12,17 +12,17 @@ declare var google;
 export class SectorSelectedPage implements OnInit {
 
   map: any;
-    directionsService: any = null;
-    directionsDisplay: any = null;
-    bounds: any = null;
-    myLatLng: any;
-    responseData: any;
-    distanciaInicio: number;
-    distanciaFin: number;
-    R = 6371; // km
-    distancaiTomada: number;
-    lat: number;
-    lng: number;
+  directionsService: any = null;
+  directionsDisplay: any = null;
+  bounds: any = null;
+  myLatLng: any;
+  responseData: any;
+  distanciaInicio: number;
+  distanciaFin: number;
+  R = 6371; // km
+  distancaiTomada: number;
+  lat: number;
+  lng: number;
 
   constructor(
     public geolocation: Geolocation,
@@ -33,6 +33,7 @@ export class SectorSelectedPage implements OnInit {
     this.directionsDisplay = new google.maps.DirectionsRenderer();
     this.bounds = new google.maps.LatLngBounds();
     // this.getPosition();
+    this.getPosition();
    }
 
   ngOnInit() {
@@ -48,6 +49,11 @@ export class SectorSelectedPage implements OnInit {
     .catch(error => {
       console.log(error);
     });
+  }
+
+  ionViewWillEnter() {
+    // this.loadMap();
+    this.getPosition();
   }
 
   loadMap(position: Geoposition) {

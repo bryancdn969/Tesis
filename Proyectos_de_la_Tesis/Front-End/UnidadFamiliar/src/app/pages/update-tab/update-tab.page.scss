@@ -1,5 +1,5 @@
 ion-toolbar {
-    background: linear-gradient(rgb(156, 159, 161), rgb(243, 195, 168)) no-repeat;
+    --background: linear-gradient(rgb(156, 159, 161), rgb(243, 195, 168)) no-repeat;
 }
 
 ion-grid {
@@ -15,7 +15,7 @@ ion-row {
 ion-col {
     height: 100%;
     width: 400%;
-    background: linear-gradient(rgb(72, 117, 162), rgb(197, 126, 85)) no-repeat;
+    --background: linear-gradient(rgb(72, 117, 162), rgb(197, 126, 85)) no-repeat;
 }
 
 ion-button {
@@ -37,7 +37,7 @@ ion-list {
 }
 
 ion-toolbar {
-    background: linear-gradient(rgb(156, 159, 161), rgb(243, 195, 168)) no-repeat;
+    --background: linear-gradient(rgb(156, 159, 161), rgb(243, 195, 168)) no-repeat;
 }
 
 .alinearIcono {
