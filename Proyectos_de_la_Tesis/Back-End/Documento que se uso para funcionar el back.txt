@@ -14,7 +14,7 @@ Código de la creación de la tabla amigos
 	email_friend	VARCHAR(50) NOT NULL,
 	count_friend	INT NOT NULL,
 	created_friend	TIMESTAMP NULL,
-    updated_persona    TIMESTAMP NULL,
+    	updated_persona    TIMESTAMP NULL,
 	status_friend	CHAR(1),
 	PRIMARY KEY (id),
 	CONSTRAINT users_const

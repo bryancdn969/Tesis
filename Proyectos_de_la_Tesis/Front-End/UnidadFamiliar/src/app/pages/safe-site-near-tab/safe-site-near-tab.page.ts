@@ -1,6 +1,7 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit,  ViewChild, ElementRef } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { Router } from '@angular/router';
+import { UserService } from '../../api/user.service';
 
 declare var google;
 
@@ -11,41 +12,42 @@ declare var google;
 })
 export class SafeSiteNearTabPage implements OnInit {
 
-    map: any;
-    directionsService: any = null;
-    directionsDisplay: any = null;
-    bounds: any = null;
-    myLatLng: any;
-    waypoints: any;
-    responseData: any;
-    distanciaInicio: number;
-    distanciaFin: number;
-    R = 6371; // km
-    distancaiTomada: number;
-    lat: number;
-    lng: number;
-    latAux: number;
-    lngAux: number;
+  @ViewChild('map') mapElement: ElementRef;
+  map: any;
+  directionsService: any = null;
+  directionsDisplay: any = null;
+  bounds: any = null;
+  myLatLng: any;
+  waypoints: any;
+  responseData: any;
+  distanciaInicio: number;
+  distanciaFin: number;
+  R = 6371; // km
+  distancaiTomada: number;
+  lat: number;
+  lng: number;
+  latAux: number;
+  lngAux: number;
+  latitude: number;
+  longitude: number;
+  mapEle: HTMLElement;
+  panelEle: HTMLElement;
 
   constructor(
-    public geolocation: Geolocation,
+    private geolocation: Geolocation,
     private router: Router,
+    private authService: UserService,
   ) {
     this.directionsService = new google.maps.DirectionsService();
     this.directionsDisplay = new google.maps.DirectionsRenderer();
     this.bounds = new google.maps.LatLngBounds();
     this.responseData = JSON.parse(localStorage.getItem('zonaUser'));
     this.waypoints = this.responseData;
-    this.getPosition();
   }
 
   ngOnInit() {
-    this.getPosition();
+    this.loadMap();
   }
-
-  /* ionViewWillEnter() {
-    this.getPosition();
-  } */
 
 /*   doRefresh(event) {
     console.log('Begin async operation');
@@ -55,47 +57,37 @@ export class SafeSiteNearTabPage implements OnInit {
     }, 2000);
   } */
 
-  getPosition(): any {
-    this.geolocation.getCurrentPosition()
-    .then(response => {
-      this.loadMap(response);
-    })
-    .catch(error => {
-      alert('Error de servicio de google maps');
-    });
-  }
+  loadMap() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
+      this.myLatLng = {lat: this.latitude, lng: this.longitude};
 
-  ionViewWillEnter() {
-    // this.loadMap();
-    this.getPosition();
-  }
+      const mapOptions = {
+        center: this.myLatLng,
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
 
-  loadMap(position: Geoposition) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    // create a new map by passing HTMLElement
-    const mapEle: HTMLElement = document.getElementById('map');
-    const panelEle: HTMLElement = document.getElementById('panel');
+      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-    // create LatLng object
-    this.myLatLng = {lat: latitude, lng: longitude};
-
-    const mapOptions = {
-      center: this.myLatLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    this.map = new google.maps.Map(mapEle, mapOptions);
-
-    this.directionsDisplay.setMap(this.map);
-    this.directionsDisplay.setPanel(panelEle);
-
-    google.maps.event.addListenerOnce(this.map, 'idle', () => {
       this.map.addListener('tilesloaded', () => {
-        mapEle.classList.add('show-map');
+        console.log('accuracy', this.map);
+      });
+
+    // create a new map by passing HTMLElement
+      this.mapEle = document.getElementById('map');
+      this.panelEle = document.getElementById('panel');
+
+      this.directionsDisplay.setMap(this.map);
+      this.directionsDisplay.setPanel(this.panelEle);
+
+      google.maps.event.addListenerOnce(this.map, 'idle', () => {
+        this.mapEle.classList.add('show-map');
       });
       this.calculateRoute();
+    }).catch((error) => {
+      this.authService.presentToast('Error al obtener la posición.');
     });
   }
 

@@ -21,6 +21,9 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [SafeSiteNearTabPage]
+  declarations: [SafeSiteNearTabPage],
+  exports: [
+    SafeSiteNearTabPage
+  ],
 })
 export class SafeSiteNearTabPageModule {}

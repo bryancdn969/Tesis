@@ -5,11 +5,23 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
-  <div id="map"></div>
-<div padding-horizontal id="panel" claas="letra"></div>
-
+ <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col align-self-center size-md="3" size-lg="6" size-xs="13">
+        <div padding>
+          <form novalidate>  
+            <ion-list> 
+              <div class="map-wrapper">
+                  <div id="map_center"></div>
+                  <div #map id="map"></div>
+              </div>
+            </ion-list>
+          </form>
+        </div>
+        <div padding-horizontal id="panel" claas="letra"></div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
-

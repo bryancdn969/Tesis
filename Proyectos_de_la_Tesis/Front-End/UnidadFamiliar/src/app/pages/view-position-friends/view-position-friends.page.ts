@@ -3,7 +3,6 @@ import { UserService } from '../../api/user.service';
 import { IonInfiniteScroll, IonVirtualScroll } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { AnimationFrameScheduler } from 'rxjs/internal/scheduler/AnimationFrameScheduler';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 
 declare var google;

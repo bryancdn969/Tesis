@@ -85,8 +85,8 @@ export class LoginPage implements OnInit {
     this.authService.postData(JSON.stringify(this.sectorUser), 'sectorxzona').then((res) => {
       zonaUser = JSON.stringify(res);
       this.authService.presentToast('Login exitoso.');
-      this.router.navigate([ '/menu/shareLocation', {zonaUser} ]);
       localStorage.setItem('zonaUser', zonaUser);
+      this.router.navigate([ '/menu/shareLocation']);
     }, (err) => {
       this.authService.presentToast('Falla del servicio.');
   });
