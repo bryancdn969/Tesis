@@ -47,9 +47,9 @@ export class LoginPage implements OnInit {
                   this.authService.isLoggedIn();
                   this.takeSectorPersona();
               // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 200) {
-              } else  
-				  //if (this.responseData.api_status === 0 ) 
-				  {
+              } else
+				  // if (this.responseData.api_status === 0 ) 
+				      {
               this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
             // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 401) {
            // } else  if (this.responseData.api_status === 0 ) {

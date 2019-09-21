@@ -114,3 +114,6 @@ Calcular distancia entre coordenadas geograficas
 
 Obtener un item selecionado 
 	- https://stackoverflow.com/questions/39503876/how-to-get-the-value-from-ion-select-option
+
+Desplegar en un android mayor  a 9
+	- https://forum.ionicframework.com/t/ionic-4-android-9-app-crash-on-permission-requests/160107/3

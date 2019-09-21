@@ -49,13 +49,6 @@ export class SafeSiteNearTabPage implements OnInit {
     this.loadMap();
   }
 
-/*   doRefresh(event) {
-    console.log('Begin async operation');
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      event.target.complete();
-    }, 2000);
-  } */
 
   loadMap() {
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -92,18 +85,18 @@ export class SafeSiteNearTabPage implements OnInit {
   }
 
   private calculateRoute() {
-      const dLatI = this.rad( +(this.waypoints.data[0].latitud_zona) - this.myLatLng.lat);
-      const dLonI = this.rad( +(this.waypoints.data[0].longitud_zona) - this.myLatLng.lng);
-      const aI = Math.sin(dLatI / 2) * Math.sin(dLatI / 2) +
-      Math.cos(this.myLatLng.lat) * Math.cos(+(this.waypoints.data[0].latitud_zona)) *
-      Math.sin(dLonI / 2) * Math.sin(dLonI / 2);
-      const cI = 2 * Math.atan2(Math.sqrt(aI), Math.sqrt(1 - aI));
-      const dI = this.R * cI;
-      this.distanciaInicio = dI;
-      this.lat = +(this.waypoints.data[0].latitud_zona);
-      this.lng = +(this.waypoints.data[0].longitud_zona);
+    const dLatI = this.rad( +(this.waypoints.data[0].latitud_zona) - this.myLatLng.lat);
+    const dLonI = this.rad( +(this.waypoints.data[0].longitud_zona) - this.myLatLng.lng);
+    const aI = Math.sin(dLatI / 2) * Math.sin(dLatI / 2) +
+    Math.cos(this.myLatLng.lat) * Math.cos(+(this.waypoints.data[0].latitud_zona)) *
+    Math.sin(dLonI / 2) * Math.sin(dLonI / 2);
+    const cI = 2 * Math.atan2(Math.sqrt(aI), Math.sqrt(1 - aI));
+    const dI = this.R * cI;
+    this.distanciaInicio = dI;
+    this.lat = +(this.waypoints.data[0].latitud_zona);
+    this.lng = +(this.waypoints.data[0].longitud_zona);
 
-      this.mejorSector(this.distanciaInicio);
+    this.mejorSector(this.distanciaInicio);
   }
 
   mejorRuta(latitud, longitud) {
