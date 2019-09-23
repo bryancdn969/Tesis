@@ -17,7 +17,7 @@ export class LoginPage implements OnInit {
     takeSector = { correo_persona : '', estado_persona : 'A', email : '', status : 'Active' };
     sector: any;
     valuSector: any;
-    sectorUser = { sector_zona : '', status_zona : 'A', sector_persona : '', estado_persona : 'A'};
+    sectorUser = { sector_zona : 0, status_zona : 'A', sector_persona : 0, estado_persona : 'A'};
 
     constructor(
       private authService: UserService,
@@ -36,26 +36,13 @@ export class LoginPage implements OnInit {
         this.takeSector.correo_persona = this.userData.email;
         this.takeSector.email = this.userData.email;
         this.authService.postData(JSON.stringify(this.userData), 'login').then((result) => {
-        /* this.authService.postFormData
-          (this.userData, 'login?email=' + this.userData.email + '&password=' + this.userData.password
-                                         + '&status=' + this.userData.status).then((result) => { */
-              this.responseData = result;
-              // Se quito la comprobación del http
-              // if (this.responseData.api_status === 1 && this.responseData.api_http === 200 && this.responseData.status === 'Active' &&
-              if (this.responseData.api_status === 1 && this.responseData.status === 'Active' ) {
-                  localStorage.setItem('userDataLogin', JSON.stringify(this.responseData));
-                  this.authService.isLoggedIn();
-                  this.takeSectorPersona();
-              // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 200) {
-              } else
-				  // if (this.responseData.api_status === 0 ) 
-				      {
+          this.responseData = result;
+          if (this.responseData.api_status === 1 && this.responseData.status === 'Active' ) {
+              localStorage.setItem('userDataLogin', JSON.stringify(this.responseData));
+              this.authService.isLoggedIn();
+              this.takeSectorPersona();
+            } else {
               this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-            // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 401) {
-           // } else  if (this.responseData.api_status === 0 ) {
-             //   this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-             // } else  if (this.responseData.password === '123456' && this.responseData.status === 'Inactive') {
-              //  this.router.navigate([ '/menu/login' ]);
               }
           }, (err) => {
               this.authService.presentToast('Falla del servicio.');
@@ -77,11 +64,11 @@ export class LoginPage implements OnInit {
 
   }
 
-  sectorXZona(sector) {
+  /*sectorXZona(sector) {
     this.sectorUser.sector_persona = sector;
     this.sectorUser.sector_zona = sector;
     let zonaUser: any;
-
+    console.log(this.sectorUser);
     this.authService.postData(JSON.stringify(this.sectorUser), 'sectorxzona').then((res) => {
       zonaUser = JSON.stringify(res);
       this.authService.presentToast('Login exitoso.');
@@ -91,6 +78,23 @@ export class LoginPage implements OnInit {
       this.authService.presentToast('Falla del servicio.');
   });
 
+  }*/
+  sectorXZona(sector) {
+    // let zonaUser: any;
+    // let i: number;
+    // for (i = 1; i <= 3; i++) {
+    // this.sectorUser.sector_persona = i;
+    // this.sectorUser.sector_zona = i;
+    console.log(this.sectorUser);
+     // this.authService.postData(JSON.stringify(this.sectorUser), 'sectorxzona').then((res) => {
+       // zonaUser = JSON.stringify(res);
+       // localStorage.setItem('zonaUser', zonaUser);
+    this.router.navigate([ '/menu/shareLocation']);
+    this.authService.presentToast('Login exitoso.');
+      // }, (err) => {
+       // this.authService.presentToast('Falla del servicio.');
+     //  });
+    // }
   }
 
   signup() {

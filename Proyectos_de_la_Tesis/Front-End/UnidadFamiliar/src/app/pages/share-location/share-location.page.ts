@@ -54,7 +54,6 @@ export class ShareLocationPage implements OnInit {
     // this.loadMap();
     this.getPosition();
     this.verificarEstadoUbicacion();
-    console.log((localStorage.getItem('verificarExistencia')));
   }
 
   verificarEstadoUbicacion() {

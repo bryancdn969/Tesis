@@ -41,19 +41,20 @@ export class SectorSelectedPage implements OnInit {
     public events: Events,
     private zone: NgZone
   ) {
-    this.zone.run(() => {
+    /*this.zone.run(() => {
       console.log('force update the screen');
       this.loadMap();
-    });
+    });*/
     this.directionsService = new google.maps.DirectionsService();
     this.directionsDisplay = new google.maps.DirectionsRenderer();
     this.bounds = new google.maps.LatLngBounds();
+    this.loadMap();
     this.responseData = JSON.parse(this.activatedRoute.snapshot.params.sectorSelect);
     this.waypoints = this.responseData;
   }
 
   ngOnInit() {
-    this.loadMap();
+    // this.loadMap();
   }
 
   loadMap() {
