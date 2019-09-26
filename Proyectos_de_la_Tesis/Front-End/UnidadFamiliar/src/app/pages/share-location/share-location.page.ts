@@ -51,7 +51,6 @@ export class ShareLocationPage implements OnInit {
    }
 
   ngOnInit() {
-    // this.loadMap();
     this.getPosition();
     this.verificarEstadoUbicacion();
   }
@@ -65,7 +64,6 @@ export class ShareLocationPage implements OnInit {
     this.authService.postData(JSON.stringify(this.verificarEstadoEnvioUbicacion), 'estadoenvioubicacion').then((result) => {
       this.estadoEnvioUbicacion = result;
       console.log(this.estadoEnvioUbicacion);
-      // if (this.estadoEnvioUbicacion.api_status === 1 && this.estadoEnvioUbicacion.api_http === 200
       if (this.estadoEnvioUbicacion.api_status === 1 && this.estadoEnvioUbicacion.data.length > 0) {
         this.nameButton = 'Dejar de enviar ubicación';
         this.updatStatePosition.id = this.estadoEnvioUbicacion.data[0].id;
@@ -78,31 +76,6 @@ export class ShareLocationPage implements OnInit {
       this.authService.presentToast('El servico fallo.');
     });
   }
-
- /* loadMap() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
-      const mapOptions = {
-        center: latLng,
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-
-      this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
-      this.lat = resp.coords.latitude; this.lng = resp.coords.longitude;
-      this.userData.latitud_position = this.lat;
-      this.userData.longitud_position = this.lng;
-
-      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-
-      this.map.addListener('tilesloaded', () => {
-        this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng());
-      });
-
-    }).catch((error) => {
-      this.authService.presentToast('Error al obtener las ubicación.');
-    });
-  }*/
 
   getPosition(): any {
     this.geolocation.getCurrentPosition()
@@ -122,10 +95,16 @@ export class ShareLocationPage implements OnInit {
     // create LatLng object
     this.myLatLng = {lat: latitude, lng: longitude};
 
-    // create map
-    this.map = new google.maps.Map(mapEle, {
+    const mapOptions = {
       center: this.myLatLng,
-      zoom: 15,
+      zoom: 18,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    // create map
+    this.map = new google.maps.Map(mapEle, mapOptions);
+
+    this.map.addListener('tilesloaded', () => {
+      console.log('accuracy', this.map);
     });
 
     this.getAddressFromCoords(position.coords.latitude, position.coords.longitude);
@@ -135,7 +114,7 @@ export class ShareLocationPage implements OnInit {
 
     this.directionsDisplay.setMap(this.map);
 
-    google.maps.event.addListenerOnce(this.map, 'idle', () => {
+    google.maps.event.addListener(this.map, 'tilesloaded', () => {
       mapEle.classList.add('show-map');
 
       this.lat = +(this.responseData.latitud_zona);
@@ -203,6 +182,7 @@ export class ShareLocationPage implements OnInit {
         if (this.updatePosition.api_status === 1) {
           this.authService.presentToast('Se dejó de compartir ubicación.');
           this.router.navigate([ '/menu/shareLocation' ]);
+          this.nameButton = 'Enviar mi ubicación';
         }
       }, (err) => {
         console.log(err);
@@ -231,16 +211,14 @@ export class ShareLocationPage implements OnInit {
         this.userData.id_friend = this.id.data[0].id;
         this.authService.postData(JSON.stringify(this.userData), 'sendaddress').then((res) => {
           this.responseDataRegisterFriend = res;
-          // if (this.responseDataRegisterFriend.api_status === 1 && this.responseDataRegisterFriend.api_http === 200) {
           if (this.responseDataRegisterFriend.api_status === 1 ) {
               localStorage.setItem('userDataAddress', JSON.stringify(this.responseDataRegisterFriend));
               this.authService.presentToast('Dirección enviada correctamente.');
               this.router.navigate([ '/menu/shareLocation' ]);
-            // } else  if (this.responseDataRegisterFriend.api_status === 0 && this.responseDataRegisterFriend.api_http === 200) {
+              this.nameButton = 'Dejar de enviar ubicación';
             } else  if (this.responseDataRegisterFriend.api_status === 0 ) {
             this.authService.presentToast('Error al enviar dirección.');
-          // } else  if (this.responseDataRegisterFriend.api_status === 0 && this.responseDataRegisterFriend.api_http === 401) {
-          } else  if (this.responseDataRegisterFriend.api_status === 0 ) {
+         } else  if (this.responseDataRegisterFriend.api_status === 0 ) {
             this.authService.presentToast('Error al enviar dirección.');
           }
       }, (err) => {
@@ -254,8 +232,6 @@ export class ShareLocationPage implements OnInit {
 }
 
   ionViewWillEnter() {
-    // this.loadMap();
-    this.getPosition();
     this.menu.enable(true);
   }
 

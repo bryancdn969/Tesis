@@ -46,7 +46,6 @@ export class SignupPage implements OnInit {
       public menu: MenuController,
   ) {
     localStorage.getItem('update');
-    // console.log('update', localStorage.getItem('update') + '==' + null);
     if (localStorage.getItem('update') == null) {
       this.boolean        = true;
       this.activePassword = false;
@@ -68,7 +67,6 @@ export class SignupPage implements OnInit {
   selectSector() {
     this.authService.postData(JSON.stringify(this.selectZone), 'selectzones').then((res) => {
       this.comboZones = res;
-      // console.log(this.comboZones);
       for (let i = 0; i <= this.comboZones.data.length - 1; i++) {
         this.zones = this.comboZones.data;
       }
@@ -78,7 +76,6 @@ export class SignupPage implements OnInit {
   selectPreguntas() {
     this.authService.postData(JSON.stringify(this.selectedPreguntas), 'selectpreguntas').then((res) => {
       this.comboPreguntas = res;
-      // console.log(this.comboZones);
       for (let i = 0; i <= this.comboPreguntas.data.length - 1; i++) {
         this.preguntas = this.comboPreguntas.data;
       }
@@ -97,15 +94,12 @@ export class SignupPage implements OnInit {
 
   // sientre el cambio de zona y lo almacena en una variable
   singleChange() {
-    // console.log(this.selectedSingleZone);
     this.sectorZone.sector_zona = this.selectedSingleZone.id_sector;
     this.personaData.sector_persona = this.sectorZone.sector_zona.toString();
-    // console.log(this.personaData.sector_persona);
   }
 
   // sientre el cambio de la pregunta y lo almacena en una variable
   preguntaChange() {
-    // console.log(this.selectedSingleZone);
     this.pregunta.tipo_preguntas = this.selectedPregunta.tipo_preguntas;
     this.pregunta.descripcion_preguntas = this.selectedPregunta.descripcion_preguntas;
   }
@@ -190,7 +184,7 @@ export class SignupPage implements OnInit {
       ciudad: [''],
       sector: ['', [Validators.required]],
       pregunta: ['', [Validators.required]],
-      respuesta: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(3)]]
+      respuesta: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(4)]]
     });
   }
 

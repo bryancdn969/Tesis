@@ -46,7 +46,6 @@ export class RegisterTabPage implements OnInit {
     this.authService.postData(JSON.stringify(this.dataVerification), 'testing').then((result) => {
       this.responseData = result;
       // Se quito la comprobación del http
-      // if (this.responseData.api_status === 1 && this.responseData.api_http === 200 &&
       console.log(result);
       if (this.responseData.api_status === 1 && this.responseData.data.length <= 0) {
           this.count = 0;
@@ -79,11 +78,9 @@ export class RegisterTabPage implements OnInit {
     this.verificarExistencia.telefono = this.userData.telefono_friend;
     this.authService.postData(JSON.stringify(this.verificarExistencia), 'existsuser').then((result) => {
       this.verificarExistenciaResult = result;
-      // if (this.verificarExistenciaResult.api_status === 1 && this.verificarExistenciaResult.api_http === 200) {
       if (this.verificarExistenciaResult.api_status === 1 ) {
         localStorage.setItem('verificarExistencia', JSON.stringify(this.verificarExistenciaResult));
         this.verificarExistenciaFriend();
-        // this.registarAmigo();
       } else {
         this.authService.presentToast('No existe registros del amigo a agregar.');
       }
@@ -113,8 +110,6 @@ export class RegisterTabPage implements OnInit {
       this.userData.count_friend = this.count + 1;
       this.authService.postData(JSON.stringify(this.userData), 'addfriend').then((result) => {
         this.responseDataFriend = result;
-        console.log(this.responseDataFriend);
-        // if (this.responseData.api_status === 1 && this.responseData.api_http === 200) {
         if (this.responseData.api_status === 1 ) {
           localStorage.setItem('userDataFriend', JSON.stringify(this.responseData));
           this.authService.presentToast('Amigo guardado correctamente.');

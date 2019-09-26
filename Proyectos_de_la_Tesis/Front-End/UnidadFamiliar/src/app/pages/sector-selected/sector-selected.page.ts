@@ -29,9 +29,9 @@ export class SectorSelectedPage implements OnInit {
   latitude: number;
   longitude: number;
   mapEle: HTMLElement;
-  panelEle: HTMLElement;
+  // panelEle: HTMLElement;
   waypoints: any;
-  point: any;
+  // point: any;
 
   constructor(
     public geolocation: Geolocation,
@@ -39,33 +39,36 @@ export class SectorSelectedPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: UserService,
     public events: Events,
-    private zone: NgZone
   ) {
-    /*this.zone.run(() => {
-      console.log('force update the screen');
-      this.loadMap();
-    });*/
     this.directionsService = new google.maps.DirectionsService();
     this.directionsDisplay = new google.maps.DirectionsRenderer();
     this.bounds = new google.maps.LatLngBounds();
-    this.loadMap();
+  }
+
+  ngOnInit() {
+    this.getPosition();
     this.responseData = JSON.parse(this.activatedRoute.snapshot.params.sectorSelect);
     this.waypoints = this.responseData;
   }
 
-  ngOnInit() {
-    // this.loadMap();
+  getPosition(): any {
+    this.geolocation.getCurrentPosition()
+    .then(response => {
+      this.loadMap(response);
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
-  loadMap() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-    this.latitude = resp.coords.latitude;
-    this.longitude = resp.coords.longitude;
+  loadMap(position: Geoposition) {
+    this.latitude = position.coords.latitude;
+    this.longitude = position.coords.longitude;
     this.myLatLng = {lat: this.latitude, lng: this.longitude};
 
     const mapOptions = {
       center: this.myLatLng,
-      zoom: 15,
+      zoom: 19,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
@@ -75,19 +78,45 @@ export class SectorSelectedPage implements OnInit {
       console.log('accuracy', this.map);
     });
 
-    this.mapEle = document.getElementById('map');
-    this.panelEle = document.getElementById('panel');
-
-    this.directionsDisplay.setMap(this.map);
-    this.directionsDisplay.setPanel(this.panelEle);
-
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
       this.mapEle.classList.add('show-map');
     });
-    this.calcularRuta();
-    }).catch((error) => {
-      this.authService.presentToast('Error al obtener la posición.');
+    // this.calcularRuta();
+    const dLatI = this.rad( +(this.responseData.latitud_zona) - this.myLatLng.lat);
+    const dLonI = this.rad( +(this.responseData.longitud_zona) - this.myLatLng.lng);
+    const aI = Math.sin(dLatI / 2) * Math.sin(dLatI / 2) +
+    Math.cos(this.myLatLng.lat) * Math.cos(+(this.responseData.latitud_zona)) *
+    Math.sin(dLonI / 2) * Math.sin(dLonI / 2);
+    const cI = 2 * Math.atan2(Math.sqrt(aI), Math.sqrt(1 - aI));
+    const dI = this.R * cI;
+    this.distanciaInicio = dI;
+    this.lat = +(this.responseData.latitud_zona);
+    this.lng = +(this.responseData.longitud_zona);
+
+    // this.mejorRuta();
+    this.bounds.extend(this.myLatLng);
+    const point = new google.maps.LatLng(this.lat, this.lng);
+    this.bounds.extend(point);
+
+    this.map.fitBounds(this.bounds);
+    this.directionsService.route({
+        origin: new google.maps.LatLng(this.myLatLng.lat, this.myLatLng.lng),
+        destination: new google.maps.LatLng(this.lat, this.lng),
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.DRIVING,
+        avoidTolls: true
+      }, (response, status) => {
+        if (status === google.maps.DirectionsStatus.OK) {
+          this.directionsDisplay.setDirections(response);
+        } else {
+          alert('No se puede desplegar los pasos a seguir: ' + status);
+        }
     });
+    this.mapEle = document.getElementById('map');
+    const panelEle: HTMLElement = document.getElementById('panel');
+
+    this.directionsDisplay.setMap(this.map);
+    this.directionsDisplay.setPanel(panelEle);
   }
 
   private calcularRuta() {
@@ -101,21 +130,19 @@ export class SectorSelectedPage implements OnInit {
     this.distanciaInicio = dI;
     this.lat = +(this.responseData.latitud_zona);
     this.lng = +(this.responseData.longitud_zona);
-
-    this.mejorRuta(this.lat, this.lng);
   }
 
-  mejorRuta(latitud, longitud) {
+  mejorRuta() {
     this.bounds.extend(this.myLatLng);
-    this.point = new google.maps.LatLng(latitud, longitud);
-    this.bounds.extend(this.point);
+    const point = new google.maps.LatLng(this.lat, this.lng);
+    this.bounds.extend(point);
 
     this.map.fitBounds(this.bounds);
     this.directionsService.route({
         origin: new google.maps.LatLng(this.myLatLng.lat, this.myLatLng.lng),
-        destination: new google.maps.LatLng(latitud, longitud),
+        destination: new google.maps.LatLng(this.lat, this.lng),
         optimizeWaypoints: true,
-        travelMode: google.maps.TravelMode.WALKING,
+        travelMode: google.maps.TravelMode.DRIVING,
         avoidTolls: true
       }, (response, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
@@ -132,10 +159,6 @@ export class SectorSelectedPage implements OnInit {
 
   regresar() {
     this.router.navigate([ '/menu/safeSite/tabsSite/searchSite' ]);
-  }
-
-  ionViewDidLoad() {
-    this.loadMap();
   }
 
 }

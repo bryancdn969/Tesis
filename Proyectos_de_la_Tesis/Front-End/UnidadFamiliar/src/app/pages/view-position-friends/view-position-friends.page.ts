@@ -81,6 +81,8 @@ export class ViewPositionFriendsPage implements OnInit {
       if (this.idComprobationData.api_status === 1 && this.idComprobationData.data.length > 0) {
         this.idComprobation = this.idComprobationData.data[0].id;
         this.traerIdForValidation(this.idComprobation);
+      } else {
+        this.authService.presentToast('No existe información compartida.');
       }
     }, (err) => {
       this.authService.presentToast('El servico fallo.');
@@ -96,6 +98,8 @@ export class ViewPositionFriendsPage implements OnInit {
           this.traerCoordsId = this.validationIdData.data[i].id;
           this.traerCoordsFriend(this.traerCoordsId);
         }
+      } else {
+        this.authService.presentToast('No existe información compartida.');
       }
     }, (err) => {
       this.authService.presentToast('El servico fallo.');
@@ -130,7 +134,7 @@ export class ViewPositionFriendsPage implements OnInit {
     this.geolocation.getCurrentPosition().then((resp) => {
       const mapOptions = {
         center: this.myLatLng,
-        zoom: 15,
+        zoom: 18,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
 
