@@ -80,21 +80,9 @@ export class LoginPage implements OnInit {
 
   }*/
   sectorXZona(sector) {
-    // let zonaUser: any;
-    // let i: number;
-    // for (i = 1; i <= 3; i++) {
-    // this.sectorUser.sector_persona = i;
-    // this.sectorUser.sector_zona = i;
     console.log(this.sectorUser);
-     // this.authService.postData(JSON.stringify(this.sectorUser), 'sectorxzona').then((res) => {
-       // zonaUser = JSON.stringify(res);
-       // localStorage.setItem('zonaUser', zonaUser);
     this.router.navigate([ '/menu/shareLocation']);
     this.authService.presentToast('Login exitoso.');
-      // }, (err) => {
-       // this.authService.presentToast('Falla del servicio.');
-     //  });
-    // }
   }
 
   signup() {
@@ -106,9 +94,6 @@ export class LoginPage implements OnInit {
   }
 
   buildForm() {
-    /**
-     * @description Asignamos a la propiedad "formularioUsuario" los campos que se van a controlar de la vista
-     */
     this.formularioUsuario = this.fb.group({
       correo: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]]

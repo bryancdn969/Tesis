@@ -37,6 +37,8 @@ export class ShareLocationPage implements OnInit {
   directionsService: any = null;
   directionsDisplay: any = null;
   bounds: any = null;
+  test = {};
+  todasLasZonas: any;
 
   constructor(
     private geolocation: Geolocation,
@@ -53,6 +55,16 @@ export class ShareLocationPage implements OnInit {
   ngOnInit() {
     this.getPosition();
     this.verificarEstadoUbicacion();
+    this.traerTodasLasZonas();
+  }
+
+  async traerTodasLasZonas() {
+    this.authService.postData(JSON.stringify(this.test), 'allzone').then((res) => {
+      this.todasLasZonas = res;
+      localStorage.setItem('todasLasZonas', JSON.stringify(this.todasLasZonas));
+      }, (err) => {
+        this.authService.presentToast('Falla del servicio.');
+    });
   }
 
   verificarEstadoUbicacion() {
@@ -63,7 +75,6 @@ export class ShareLocationPage implements OnInit {
     this.verificarEstadoEnvioUbicacion.id_user = this.aux.id;
     this.authService.postData(JSON.stringify(this.verificarEstadoEnvioUbicacion), 'estadoenvioubicacion').then((result) => {
       this.estadoEnvioUbicacion = result;
-      console.log(this.estadoEnvioUbicacion);
       if (this.estadoEnvioUbicacion.api_status === 1 && this.estadoEnvioUbicacion.data.length > 0) {
         this.nameButton = 'Dejar de enviar ubicación';
         this.updatStatePosition.id = this.estadoEnvioUbicacion.data[0].id;
@@ -72,7 +83,6 @@ export class ShareLocationPage implements OnInit {
         this.nameButton = 'Enviar mi ubicación';
       }
     }, (err) => {
-      console.log(err);
       this.authService.presentToast('El servico fallo.');
     });
   }
@@ -83,7 +93,7 @@ export class ShareLocationPage implements OnInit {
       this.loadMap(response);
     })
     .catch(error => {
-      console.log(error);
+      this.authService.presentToast('No se puede tomar tú posición actual.');
     });
   }
 
@@ -160,13 +170,8 @@ export class ShareLocationPage implements OnInit {
       this.responseDataTesting = result;
       // si no existe datos
       if (this.responseDataTesting.api_status === 1 && this.responseDataTesting.data.length <= 0) {
-        // this.responseDataTesting.api_http === 200 && this.responseDataTesting.data.length <= 0) {
           this.authService.presentToast('No tiene amigos agregados, agregue uno porfavor.');
           this.router.navigate([ '/menu/addFriends' ]);
-      } else if (this.responseDataTesting.api_status === 0 &&
-        this.responseDataTesting.api_http === 401) {
-        this.authService.presentToast('No tiene amigos agregados, agregue uno porfavor.');
-        this.router.navigate([ '/menu/addFriends' ]);
       } else {
         this.enviarDireccion();
       }
@@ -178,49 +183,71 @@ export class ShareLocationPage implements OnInit {
   enviarDireccion() {
     if (this.nameButton === 'Dejar de enviar ubicación') {
       this.authService.postData(JSON.stringify(this.updatStatePosition), 'dejarenviarubicacion').then((res) => {
-        this.updatePosition = res;
-        if (this.updatePosition.api_status === 1) {
-          this.authService.presentToast('Se dejó de compartir ubicación.');
-          this.router.navigate([ '/menu/shareLocation' ]);
-          this.nameButton = 'Enviar mi ubicación';
-        }
+      this.updatePosition = res;
+      if (this.updatePosition.api_status === 1) {
+        this.authService.presentToast('Se dejó de compartir ubicación.');
+        this.nameButton = 'Enviar mi ubicación';
+      }
       }, (err) => {
-        console.log(err);
         this.authService.presentToast('El servicio fallo.');
     });
     } else if (this.nameButton === 'Enviar mi ubicación') {
       // Si si tiene amigos envie la poscion
-      let i: number;
-
-      for (i = 0; i <= this.responseDataTesting.data.length - 1; i++) {
+      for (let i = 0; i <= this.responseDataTesting.data.length - 1; i++) {
         // tomo los ids y nombres de mis amigos
         this.userData.id_user = this.dataVerification.id_user;
         this.userData.name_user = this.aux.name;
         this.userData.nombre_friend = this.responseDataTesting.data[i].nombre_friend;
-        this.traerId(this.dataVerification);
+        console.log(this.userData);
+        // this.traerId(this.dataVerification);
+        this.authService.postData(JSON.stringify(this.dataVerification), 'verificaridfriend').then((result) => {
+          this.id = result;
+          console.log(this.id);
+          if (this.id.api_status === 1 ) {
+            console.log(this.userData.id_friend + ' ' + this.id.data[0].id);
+            this.userData.id_friend = this.id.data[0].id;
+            this.authService.postData(JSON.stringify(this.userData), 'sendaddress').then((res) => {
+              this.responseDataRegisterFriend = res;
+              console.log(this.responseDataRegisterFriend);
+              if (this.responseDataRegisterFriend.api_status === 1 ) {
+                  localStorage.setItem('userDataAddress', JSON.stringify(this.responseDataRegisterFriend));
+                  this.authService.presentToast('Dirección enviada correctamente.');
+                  this.nameButton = 'Dejar de enviar ubicación';
+              } else  if (this.responseDataRegisterFriend.api_status === 0 ) {
+                this.authService.presentToast('Error al enviar dirección.');
+             }
+          }, (err) => {
+              this.authService.presentToast('El servicio fallo.');
+          });
+          }
+        }, (err) => {
+            console.log(err);
+            this.authService.presentToast('El servicio fallo.');
+        });
       }
     } else {
       this.authService.presentToast('El servicio fallo.');
     }
   }
 
-  traerId(id) {
-    this.authService.postData(JSON.stringify(id), 'verificaridfriend').then((result) => {
+  traerId(ids) {
+    console.log(ids);
+    this.authService.postData(JSON.stringify(ids), 'verificaridfriend').then((result) => {
       this.id = result;
+      console.log(this.id);
       if (this.id.api_status === 1 ) {
+        console.log(this.userData.id_friend + ' ' + this.id.data[0].id);
         this.userData.id_friend = this.id.data[0].id;
         this.authService.postData(JSON.stringify(this.userData), 'sendaddress').then((res) => {
           this.responseDataRegisterFriend = res;
+          console.log(this.responseDataRegisterFriend);
           if (this.responseDataRegisterFriend.api_status === 1 ) {
               localStorage.setItem('userDataAddress', JSON.stringify(this.responseDataRegisterFriend));
               this.authService.presentToast('Dirección enviada correctamente.');
-              this.router.navigate([ '/menu/shareLocation' ]);
               this.nameButton = 'Dejar de enviar ubicación';
-            } else  if (this.responseDataRegisterFriend.api_status === 0 ) {
+          } else  if (this.responseDataRegisterFriend.api_status === 0 ) {
             this.authService.presentToast('Error al enviar dirección.');
-         } else  if (this.responseDataRegisterFriend.api_status === 0 ) {
-            this.authService.presentToast('Error al enviar dirección.');
-          }
+         }
       }, (err) => {
           this.authService.presentToast('El servicio fallo.');
       });

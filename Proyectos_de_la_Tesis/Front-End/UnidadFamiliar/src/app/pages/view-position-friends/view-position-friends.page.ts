@@ -40,7 +40,16 @@ export class ViewPositionFriendsPage implements OnInit {
   validationIdData: any;
   traerCoordsId: any;
   existCoordsData: any;
-
+  idUser = { id_user : '' , status_position : 'A' };
+  amigosAgregados = { telefono_user : '' , status_friend : 'A' };
+  traeridsamigos = { email : '' , status : 'Active' };
+  prueba11 = {id_user : '', cms_users_id : 0, status_position : 'A', app_friend_telefono_user : ''};
+  amigos1: any[] = [ ];
+  idAmigosResult: any[] = [ ];
+  coordsAmigosResult: any[] = [ ];
+  infoAmigos: any;
+  infoAmigosid: any;
+  idsAmigos: any[] = [ ];
   constructor(
     private authService: UserService,
     private router: Router,
@@ -52,74 +61,75 @@ export class ViewPositionFriendsPage implements OnInit {
     this.bounds = new google.maps.LatLngBounds();
 
     this.responseData = JSON.parse(localStorage.getItem('userDataLogin'));
+    this.amigosAgregados.telefono_user = this.responseData.telefono;
+    this.prueba11.app_friend_telefono_user = this.amigosAgregados.telefono_user;
+    this.traerAmigos();
     this.idFriend.id_user = this.responseData.id;
+    this.idUser.id_user = this.responseData.id;
     this.validationIdFriend.email_friend = this.responseData.email;
-    this.traerEmail();
+   // this.traerEmail();
+   // this.traerCoordsFriend();
   }
 
-  traerEmail() {
-    this.authService.postData(JSON.stringify(this.idFriend), 'selectidfriend').then((res) => {
-      this.sectorFriendEspecificas = res;
-      if (this.sectorFriendEspecificas.api_status === 1 && this.sectorFriendEspecificas.data.length > 0) {
-        for (let i = 0; i <= this.sectorFriendEspecificas.data.length - 1; i++) {
-          this.friendEmail = this.sectorFriendEspecificas.data[i].email_friend;
-          this.comprobarEmail(this.friendEmail);
+  traerAmigos() {
+    this.authService.postData(JSON.stringify(this.amigosAgregados), 'retornaramigosagregados').then((res) => {
+      this.infoAmigos = res;
+      if (this.infoAmigos.api_status === 1 && this.infoAmigos.data.length > 0) {
+      //  for (let i = 0; i <= this.infoAmigos.data.length - 1; i++) {
+          this.amigos1 = this.infoAmigos.data;
+          console.log(this.amigos1);
+      //  }
+          this.traeridporcorreo(this.amigos1);
+      }
+    }, (err) => {
+      this.authService.presentToast('El servico fallo.');
+    });
+  }
+
+
+  traeridporcorreo(idsAmigos) {
+    for (let i = 0; i <= idsAmigos.length - 1; i++) {
+      this.traeridsamigos.email = idsAmigos[i].email_friend;
+      this.authService.postData(JSON.stringify(this.traeridsamigos), 'traeridsamigos').then((res) => {
+        this.infoAmigosid = res;
+        if (this.infoAmigosid.api_status === 1 && this.infoAmigosid.data.length > 0) {
+        //  for (let i = 0; i <= this.infoAmigos.data.length - 1; i++) {
+            this.idAmigosResult = this.infoAmigosid.data;
+            this.idsAmigos = this.idsAmigos.concat(this.idAmigosResult);
+            if (this.idsAmigos.length === idsAmigos.length) {
+              console.log(this.idsAmigos);
+              this.traercoordenadas(this.idsAmigos);
+            }
+        //  }
         }
-      } else {
-        this.authService.presentToast('No existe información compartida.');
-      }
-    }, (err) => {
-      this.authService.presentToast('El servico fallo.');
-    });
+      }, (err) => {
+        this.authService.presentToast('El servico fallo.');
+      });
+    }
   }
 
-  comprobarEmail(email) {
-    this.emailFriend.email = email;
-    this.authService.postData(JSON.stringify(this.emailFriend), 'testuser').then((res) => {
-      this.idComprobationData = res;
-
-      if (this.idComprobationData.api_status === 1 && this.idComprobationData.data.length > 0) {
-        this.idComprobation = this.idComprobationData.data[0].id;
-        this.traerIdForValidation(this.idComprobation);
-      } else {
-        this.authService.presentToast('No existe información compartida.');
-      }
-    }, (err) => {
-      this.authService.presentToast('El servico fallo.');
-    });
-  }
-
-  traerIdForValidation(id) {
-    this.validationIdFriend.id_user = id;
-    this.authService.postData(JSON.stringify(this.validationIdFriend), 'validationidfriend').then((res) => {
-      this.validationIdData = res;
-      if (this.validationIdData.api_status === 1 && this.validationIdData.data.length > 0) {
-        for (let i = 0; i <= this.validationIdData.data.length - 1; i++) {
-          this.traerCoordsId = this.validationIdData.data[i].id;
-          this.traerCoordsFriend(this.traerCoordsId);
+  traercoordenadas(aux1) {
+    let aux: any[] = [ ];
+    for (let i = 0; i <= aux1.length - 1; i++) {
+      this.prueba11.id_user = aux1[i].id;
+      this.prueba11.cms_users_id = aux1[i].id;
+      this.authService.postData(JSON.stringify(this.prueba11), 'prueba1').then((res) => {
+        this.existCoordsData = res;
+        if (this.existCoordsData.api_status === 1 && this.existCoordsData.data.length > 0) {
+        //  for (let j = 0; j <= this.existCoordsData.data.length - 1; j++) {
+            this.coordsAmigosResult = this.existCoordsData.data;
+            aux = aux.concat(this.coordsAmigosResult);
+            if (aux.length === aux1.length) {
+              console.log(aux);
+              this.amigo = aux;
+            }
+        //  }
         }
-      } else {
-        this.authService.presentToast('No existe información compartida.');
-      }
-    }, (err) => {
-      this.authService.presentToast('El servico fallo.');
-    });
+      }, (err) => {
+        this.authService.presentToast('El servico fallo.');
+      });
+    }
   }
-
-  traerCoordsFriend(id) {
-    this.sectorFriend.id_friend = id;
-    this.authService.postData(JSON.stringify(this.sectorFriend), 'viewpositionfriendmap').then((res) => {
-      this.existCoordsData = res;
-      if (this.existCoordsData.api_status === 1 && this.existCoordsData.data.length > 0) {
-        for (let i = 0; i <= this.existCoordsData.data.length - 1; i++) {
-          this.amigo = this.existCoordsData.data;
-        }
-      }
-    }, (err) => {
-      this.authService.presentToast('El servico fallo.');
-    });
-  }
-
   optionsFn(auxFriend) {
     this.aux = auxFriend;
     this.lat = +(this.aux.latitud_position);
@@ -189,7 +199,7 @@ export class ViewPositionFriendsPage implements OnInit {
       this.virtualScroll.checkEnd();
       // App logic to determine if all data is loaded
       // and disable the infinite scroll
-      if (this.amigo.length <= this.sectorFriendEspecificas.data.length) {
+      if (this.amigo.length <= this.infoAmigosid.data.length) {
         event.target.disabled = true;
       }
     }, 500);

@@ -12,7 +12,7 @@ export class MenuPage implements OnInit {
 
   pages = [
     {
-      title: 'Compartir Posiciòn Actual',
+      title: 'Compartir tú Posición Actual',
       url: '/menu/shareLocation'
     },
     {
@@ -20,15 +20,15 @@ export class MenuPage implements OnInit {
       url: '/menu/safeSite'
     },
     {
-      title: 'Amigos',
+      title: 'Ver Amigos',
       url: '/menu/addFriends'
     },
     {
-      title: 'Ver la ubicaciòn de mis Amigos',
+      title: 'Ver la ubicación de mis Amigos',
       url: '/menu/viewPositionFriends'
     },
     {
-      title: 'Perfil',
+      title: 'Mi Perfil',
       url: '/menu/profile'
     }
   ];

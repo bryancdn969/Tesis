@@ -1,7 +1,18 @@
-
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start"> <ion-menu-button></ion-menu-button> </ion-buttons>
+    <ion-buttons slot="start"> 
+      <ion-menu-button></ion-menu-button> 
+    </ion-buttons>
+    <ion-row>
+    <ion-col text-start padding-top>
+    </ion-col>
+    <ion-col text-end>
+      <ion-button (click)="getPosition()" shape="round" fill="outline">
+        <ion-icon slot="start" name="locate"></ion-icon>
+        Actualizar?
+      </ion-button>
+    </ion-col>
+  </ion-row>
   </ion-toolbar>
 </ion-header>
 

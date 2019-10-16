@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild  } from '@angular/core';
 import { UserService } from '../../api/user.service';
 import { Router } from '@angular/router';
 import { IonInfiniteScroll, IonVirtualScroll } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-safe-site-search-tab',
@@ -25,12 +26,13 @@ export class SafeSiteSearchTabPage implements OnInit {
   constructor(
     private authService: UserService,
     private router: Router,
+    public menu: MenuController,
   ) { }
 
   ngOnInit() {
     this.authService.postData(JSON.stringify(this.selectZone), 'selectzones').then((res) => {
       this.comboZones = res;
-      // console.log(this.comboZones);
+      console.log(this.comboZones);
       for (let i = 0; i <= this.comboZones.data.length - 1; i++) {
         this.zones = this.comboZones.data;
       }
@@ -45,6 +47,7 @@ export class SafeSiteSearchTabPage implements OnInit {
     this.sectorZone.sector_zona = this.selectedSingleZone.id_sector;
     this.authService.postData(JSON.stringify(this.sectorZone), 'selectzonesespecificas').then((res) => {
       this.sectorEspecificas = res;
+      console.log(this.sectorEspecificas);
       for (let i = 0; i <= this.sectorEspecificas.data.length - 1; i++) {
         this.sector = this.sectorEspecificas.data;
         this.habilitarLista = false;
@@ -53,7 +56,6 @@ export class SafeSiteSearchTabPage implements OnInit {
   }
 
   optionsFn(aux) {
-    // console.log(aux);
     const sectorSelect = JSON.stringify(aux);
     localStorage.setItem('sectorSelected', JSON.stringify(aux));
     this.router.navigate([ '/menu/sectorSelected', {sectorSelect}]);
@@ -61,12 +63,8 @@ export class SafeSiteSearchTabPage implements OnInit {
 
   loadData(event) {
     setTimeout(() => {
-      // Hide Infinite List Loader on Complete
       event.target.complete();
-      // Rerender Virtual Scroll List After Adding New Data
       this.virtualScroll.checkEnd();
-      // App logic to determine if all data is loaded
-      // and disable the infinite scroll
       if (this.sector.length <= this.sectorEspecificas.data.length) {
         event.target.disabled = true;
       }
@@ -77,4 +75,7 @@ export class SafeSiteSearchTabPage implements OnInit {
     this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
   }
 
+    ionViewWillEnter() {
+    this.menu.enable(true);
+  }
 }

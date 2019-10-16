@@ -31,6 +31,7 @@ export class RecoverPasswordPage implements OnInit {
   activeRespuesta = true;
   tipoPregunta = 0;
   pregunta: any;
+  nameButton: any;
 
   constructor(
     private router: Router,
@@ -41,6 +42,7 @@ export class RecoverPasswordPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.nameButton = 'Verificar';
     this.buildFormValidacion();
     this.buildFormRespuesta();
     this.buildFormPassword();
@@ -82,7 +84,6 @@ export class RecoverPasswordPage implements OnInit {
   }
 
   verificar() {
-    console.log(this.comprobar.respuesta_pregunta_persona);
     if (this.userData.email && this.userData.telefono && this.comprobar.respuesta_pregunta_persona &&
     this.comprobar.password) {
       this.updatePassword.email  = this.userData.email;
@@ -94,20 +95,12 @@ export class RecoverPasswordPage implements OnInit {
     } else if (this.userData.email && this.userData.telefono) {
       this.authService.postData(JSON.stringify(this.userData), 'recoverpasswordlogin').then((result) => {
               this.personDataSave = result;
-              // Se quito la comprobación del http
-              // if (this.personDataSave.api_status === 1 && this.personDataSave.api_http === 200 ) {
               if (this.personDataSave.api_status === 1 ) {
                   localStorage.setItem('recoverPasswordLogin', JSON.stringify(this.personDataSave));
                   this.getTipoPreguntaRespuesta();
                   this.activeRespuesta = false;
                   this.emailAction = true;
                   this.celularAction = true;
-              // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 200) {
-              // } else  if (this.responseData.api_status === 0 ) {
-              //  this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-              // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 401) {
-              // } else  if (this.responseData.api_status === 0 ) {
-              //  this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
               } else {
                 this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
               }
@@ -143,10 +136,10 @@ export class RecoverPasswordPage implements OnInit {
   }
 
   verificarRespuesta() {
-    console.log(this.getTPRes.respuesta_pregunta_persona + '===' + this.comprobar.respuesta_pregunta_persona.toUpperCase());
     if (this.getTPRes.respuesta_pregunta_persona === this.comprobar.respuesta_pregunta_persona.toUpperCase()) {
       this.activePassword = false;
       this.respuestaAction = true;
+      this.nameButton = 'Actualizar Contaseña';
     } else {
       this.authService.presentToast('La respuesta es incorrecta.');
     }

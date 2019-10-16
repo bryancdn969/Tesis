@@ -18,7 +18,6 @@ export class SafeSiteNearTabPage implements OnInit {
   directionsDisplay: any = null;
   bounds: any = null;
   myLatLng: any;
-  waypoints: any;
   responseData: any;
   distanciaInicio: number;
   distanciaFin: number;
@@ -33,7 +32,6 @@ export class SafeSiteNearTabPage implements OnInit {
   mapEle: HTMLElement;
   panelEle: HTMLElement;
   sectorUser = { sector_zona : 0, status_zona : 'A', sector_persona : 0, estado_persona : 'A'};
-  test = {};
   zonaUser: any;
   point: any;
 
@@ -45,55 +43,51 @@ export class SafeSiteNearTabPage implements OnInit {
     this.directionsService = new google.maps.DirectionsService();
     this.directionsDisplay = new google.maps.DirectionsRenderer();
     this.bounds = new google.maps.LatLngBounds();
+    this.responseData = JSON.parse(localStorage.getItem('todasLasZonas'));
   }
 
   ngOnInit() {
     this.getPosition();
-    this.authService.postData(JSON.stringify(this.test), 'allzone').then((res) => {
-      this.responseData = res;
-      this.calculateRoute();
-      }, (err) => {
-        this.authService.presentToast('Falla del servicio.');
-      });
   }
 
-  getPosition(): any {
+  async getPosition() {
     this.geolocation.getCurrentPosition()
     .then(response => {
       this.loadMap(response);
     })
     .catch(error => {
-      console.log(error);
+      this.authService.presentToast('No se pudo tomar tú posición');
     });
   }
 
   loadMap(position: Geoposition) {
-      this.latitude = position.coords.latitude;
-      this.longitude = position.coords.longitude;
-      this.myLatLng = {lat: this.latitude, lng: this.longitude};
+    this.latitude = position.coords.latitude;
+    this.longitude = position.coords.longitude;
+    this.myLatLng = {lat: this.latitude, lng: this.longitude};
 
-      const mapOptions = {
-        center: this.myLatLng,
-        zoom: 19,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
+    const mapOptions = {
+      center: this.myLatLng,
+      zoom: 19,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
 
-      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-      this.map.addListener('tilesloaded', () => {
-        console.log('accuracy', this.map);
-      });
+    this.map.addListener('tilesloaded', () => {
+      console.log('accuracy', this.map);
+    });
 
     // create a new map by passing HTMLElement
-      this.mapEle = document.getElementById('map');
-      this.panelEle = document.getElementById('panel');
+    this.mapEle = document.getElementById('map');
+    this.panelEle = document.getElementById('panel');
 
-      this.directionsDisplay.setMap(this.map);
-      this.directionsDisplay.setPanel(this.panelEle);
+    this.directionsDisplay.setMap(this.map);
+    this.directionsDisplay.setPanel(this.panelEle);
 
-      google.maps.event.addListenerOnce(this.map, 'idle', () => {
-        this.mapEle.classList.add('show-map');
-      });
+    google.maps.event.addListenerOnce(this.map, 'idle', () => {
+      this.mapEle.classList.add('show-map');
+    });
+    this.calculateRoute();
   }
 
   calculateRoute() {
@@ -109,27 +103,6 @@ export class SafeSiteNearTabPage implements OnInit {
     this.lng = +(this.responseData.data[0].longitud_zona);
 
     this.mejorSector(this.distanciaInicio);
-  }
-
-  mejorRuta(latitud, longitud) {
-    this.bounds.extend(this.myLatLng);
-    this.point = new google.maps.LatLng(latitud, longitud);
-    this.bounds.extend(this.point);
-
-    this.map.fitBounds(this.bounds);
-    this.directionsService.route({
-        origin: new google.maps.LatLng(this.myLatLng.lat, this.myLatLng.lng),
-        destination: new google.maps.LatLng(latitud, longitud),
-        optimizeWaypoints: true,
-        travelMode: google.maps.TravelMode.WALKING,
-        avoidTolls: true
-      }, (response, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {
-          this.directionsDisplay.setDirections(response);
-        } else {
-          alert('No se pueden desplegar los pasos a seguir: ' + status);
-        }
-      });
   }
 
   mejorSector(dInicio) {
@@ -155,6 +128,27 @@ export class SafeSiteNearTabPage implements OnInit {
         this.mejorRuta(this.lat, this.lng);
       }
     }
+  }
+
+  mejorRuta(latitud, longitud) {
+    this.bounds.extend(this.myLatLng);
+    this.point = new google.maps.LatLng(latitud, longitud);
+    this.bounds.extend(this.point);
+
+    this.map.fitBounds(this.bounds);
+    this.directionsService.route({
+        origin: new google.maps.LatLng(this.myLatLng.lat, this.myLatLng.lng),
+        destination: new google.maps.LatLng(latitud, longitud),
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.WALKING,
+        avoidTolls: true
+      }, (response, status) => {
+        if (status === google.maps.DirectionsStatus.OK) {
+          this.directionsDisplay.setDirections(response);
+        } else {
+          this.authService.presentToast('No se puede desplegar los pasos a seguir');
+        }
+      });
   }
 
   rad(x) {

@@ -1,15 +1,24 @@
 <ion-header>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
   <ion-toolbar>
-    <ion-buttons left>
+    <ion-buttons slot="start">
       <ion-icon name="arrow-round-back" (click)="regresar()"></ion-icon>
     </ion-buttons>
+    <ion-row>
+    <ion-col text-start padding-top>
+    </ion-col>
+    <ion-col text-end>
+      <ion-button (click)="getPosition()" shape="round" fill="outline">
+        <ion-icon slot="start" name="locate"></ion-icon>
+        Actualizar?
+      </ion-button>
+    </ion-col>
+  </ion-row>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
-
- <ion-grid>
+   <ion-grid>
     <ion-row justify-content-center>
       <ion-col align-self-center size-md="3" size-lg="12" size-xs="13">
         <div padding>
@@ -22,9 +31,15 @@
             </ion-list>
           </form>
         </div>
-        <div padding-horizontal id="panel" claas="letra"></div>
+        <div padding-horizontal id="panelq"></div>
       </ion-col>
     </ion-row>
+    <script>
+      $(document).ready(function() {
+            var refreshId =  setInterval( function(){
+          $('#panelq').load('/menu/sectorSelected');//actualizas el div
+        }, 10 );
+      });
+    </script>
   </ion-grid>
-
 </ion-content>

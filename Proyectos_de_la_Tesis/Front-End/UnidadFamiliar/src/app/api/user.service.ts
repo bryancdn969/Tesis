@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 
 // const apiUrl = 'http://localhost/Tesis/Proyectos_de_la_Tesis/Back-End/UnidadFamiliar/public/api/';
 const apiUrl = 'https://arieseffect.com/bryan/UnidadFamiliar/public/api/';
@@ -21,6 +21,7 @@ export class UserService {
   constructor(
     public http: Http,
     private toastController: ToastController,
+    private platform: Platform,
   ) {
     this.http = http;
   }
@@ -56,9 +57,6 @@ export class UserService {
   isLoggedIn() {
     console.log((this.HAS_LOGGED_IN));
     localStorage.setItem('HAS_LOGGED_IN', (this.HAS_LOGGED_IN));
-    /* return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
-      return value === true;
-    }); */
   }
 
   async presentToast( message: string ) {

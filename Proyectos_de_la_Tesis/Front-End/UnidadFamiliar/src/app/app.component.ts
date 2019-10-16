@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
     private authService: UserService,
     private router: Router,
   ) {
-    // this.initializeApp();
   }
 
   async presentToast( message: string ) {
@@ -38,7 +37,6 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.checkLoginStatus();
-    // his.listenForLoginEvents();
   }
 
   checkLoginStatus() {
@@ -48,24 +46,7 @@ export class AppComponent implements OnInit {
     } else {
     this.initializeApp();
     }
-    // return this.authService.isLoggedIn().then(loggedIn => {
-      // return this.updateLoggedInStatus(loggedIn);
-    // });
   }
-
-  /* listenForLoginEvents() {
-    this.events.subscribe('user:login', () => {
-      this.updateLoggedInStatus(true);
-    });
-
-    this.events.subscribe('user:signup', () => {
-      this.updateLoggedInStatus(true);
-    });
-
-    this.events.subscribe('user:logout', () => {
-      this.updateLoggedInStatus(false);
-    });
-  } */
 
   initializeApp() {
     this.platform.ready().then(() => {
