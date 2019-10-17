@@ -118,6 +118,11 @@ export class ViewPositionFriendsPage implements OnInit {
         if (this.existCoordsData.api_status === 1 && this.existCoordsData.data.length > 0) {
         //  for (let j = 0; j <= this.existCoordsData.data.length - 1; j++) {
             this.coordsAmigosResult = this.existCoordsData.data;
+            if (this.coordsAmigosResult.length > 1) {
+              aux = aux.concat(this.coordsAmigosResult[0]);
+              console.log(aux);
+              this.amigo = aux;
+            }
             aux = aux.concat(this.coordsAmigosResult);
             if (aux.length === aux1.length) {
               console.log(aux);
