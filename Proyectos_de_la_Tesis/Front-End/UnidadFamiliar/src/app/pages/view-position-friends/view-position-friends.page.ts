@@ -122,12 +122,13 @@ export class ViewPositionFriendsPage implements OnInit {
               aux = aux.concat(this.coordsAmigosResult[0]);
               console.log(aux);
               this.amigo = aux;
-            }
-            aux = aux.concat(this.coordsAmigosResult);
-            if (aux.length === aux1.length) {
-              console.log(aux);
+            } else {
+              aux = aux.concat(this.coordsAmigosResult);
               this.amigo = aux;
             }
+         //   if (aux.length === aux1.length) {
+           //   console.log(aux);
+           // }
         //  }
         }
       }, (err) => {

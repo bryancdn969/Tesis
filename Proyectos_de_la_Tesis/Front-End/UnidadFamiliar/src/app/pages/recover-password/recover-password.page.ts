@@ -42,6 +42,7 @@ export class RecoverPasswordPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.cancelar();
     this.nameButton = 'Verificar';
     this.buildFormValidacion();
     this.buildFormRespuesta();
@@ -115,20 +116,14 @@ export class RecoverPasswordPage implements OnInit {
   actualizarPassword() {
     this.authService.postData(JSON.stringify(this.updatePassword), 'updatpasswordlogin').then((result) => {
       this.updateDataSave = result;
-      // if (this.updateDataSave.api_status === 1 && this.updateDataSave.api_http === 200 ) {
       if (this.updateDataSave.api_status === 1 ) {
           localStorage.setItem('udSave', JSON.stringify(this.updateDataSave));
           this.cancelar();
           this.authService.presentToast('Contraseña actualizada correctamente.');
+          this.nameButton = 'Verificar';
           this.router.navigate([ '/menu/login' ]);
-       // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 200) {
       } else  if (this.responseData.api_status === 0 ) {
         this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-      // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 401) {
-      } else  if (this.responseData.api_status === 0 ) {
-        this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-      } else  if (this.responseData.password === '123456' && this.responseData.status === 'Inactive') {
-        this.router.navigate([ '/menu/login' ]);
       }
   }, (err) => {
       this.authService.presentToast('Falla del servicio.');
@@ -150,19 +145,12 @@ export class RecoverPasswordPage implements OnInit {
     this.personData.telefono_persona  = this.userData.telefono;
     this.authService.postData(JSON.stringify(this.personData), 'gettipopreguntarespuesta').then((result) => {
       this.getTPRes = result;
-      // if (this.getTPRes.api_status === 1 && this.getTPRes.api_http === 200 ) {
       if (this.getTPRes.api_status === 1  ) {
           localStorage.setItem('getTPR', JSON.stringify(this.getTPRes));
           this.tipoPregunta = this.getTPRes.tipo_pregunta;
           this.getPregunta(this.tipoPregunta);
-        // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 200) {
       } else  if (this.responseData.api_status === 0 ) {
         this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-      // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 401) {
-      } else  if (this.responseData.api_status === 0 ) {
-        this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-      } else  if (this.responseData.password === '123456' && this.responseData.status === 'Inactive') {
-        this.router.navigate([ '/menu/login' ]);
       }
     }, (err) => {
         this.authService.presentToast('Falla del servicio.');
@@ -173,18 +161,11 @@ export class RecoverPasswordPage implements OnInit {
     this.getPreguntaData.tipo_preguntas = tp;
     this.authService.postData(JSON.stringify(this.getPreguntaData), 'getpregunta').then((result) => {
       this.setDescripcionPregunta = result;
-      // if (this.setDescripcionPregunta.api_status === 1 && this.setDescripcionPregunta.api_http === 200 ) {
       if (this.setDescripcionPregunta.api_status === 1  ) {
           localStorage.setItem('setDP', JSON.stringify(this.setDescripcionPregunta));
           this.pregunta = this.setDescripcionPregunta.descripcion_preguntas;
-        // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 200) {
       } else  if (this.responseData.api_status === 0 ) {
         this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-      // } else  if (this.responseData.api_status === 0 && this.responseData.api_http === 401) {
-      } else  if (this.responseData.api_status === 0 ) {
-        this.authService.presentToast('Credenciales incorrectas. Revisa tu correo y contraseña.');
-      } else  if (this.responseData.password === '123456' && this.responseData.status === 'Inactive') {
-        this.router.navigate([ '/menu/login' ]);
       }
     }, (err) => {
         this.authService.presentToast('Falla del servicio.');
